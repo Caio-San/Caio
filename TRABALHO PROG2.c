@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 //altera
+//altera
 
 typedef struct TipoFederação{
     char nomeFederação[50];
