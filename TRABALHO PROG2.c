@@ -2,8 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-//altera
-//altera
 
 typedef struct TipoFederação{
     char nomeFederação[50];
@@ -33,12 +31,25 @@ typedef struct TipoPartido{
 
 
 
+void CadastraPartidos(TipoPartido *ptr , int posição){
+    // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTDO' E UMA POISÇÃO 
+    printf("Digite o nome do partido: \n");
+    scanf("%s", ptr[posição].nomePartido);
+    printf("Digite a sigla do seu partido(máximo de 5 letras): \n");
+    scanf("%s", ptr[i].sigla);
+    
+    }
+
+
+
+
+
 int main(){
     int opção,Npartidos,i=0;
     TipoPartido *partidos = NULL;
     
     // DECLARA VARIAVEIS DE INTEIROS : opção(opção inserida pelo usuario), Npartidos(Quantidade total de partidos),i(variavel contadora)
-    // DECLARA UM PONTEIRO DO TIPOPARTIDOS  PARA ARMAZENAR CADA PARTIDO BEM COMO SEUS RESPECTIVOS CANDIDATOS
+    // DECLARA UM PONTEIRO DO 'TIPOPARTIDOS'  PARA ARMAZENAR CADA PARTIDO BEM COMO SEUS RESPECTIVOS CANDIDATOS
 
     printf("Digite a quantidade de partidos:");
     scanf("%d", &Npartidos);
@@ -68,10 +79,12 @@ int main(){
 
 
         if (opção == 1){
-            CadastraPartidos(vet, i);
+            
             // NESTA OPÇÃO SERÁ CHAMADA UMA FUNÇÃO QUE VAI RECEBER AS INFORMAÇÕES DO PARTIDO E ARMAZENAR EM UMA POSIÇÃO DO VETOR
             // CADA PARTIDO TERÁ UMA POSIÇÃO DO VETOR
-
+            Npartidos = Npartidos - 1;
+            CadastraPartidos(vet, i);
+            i++;
         }
         if (opção == 2){
             CadastraCandidatos(vet , i);
