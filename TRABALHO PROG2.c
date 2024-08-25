@@ -32,7 +32,7 @@ typedef struct TipoPartido{
 
 
 void CadastraPartidos(TipoPartido *ptr , int posição){
-    // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTDO' E UMA POISÇÃO 
+    // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTIDO' E UMA POSIÇÃO 
     printf("Digite o nome do partido: \n");
     scanf("%s", ptr[posição].nomePartido);
     printf("Digite a sigla do seu partido(máximo de 5 letras): \n");
@@ -53,8 +53,8 @@ int main(){
 
     printf("Digite a quantidade de partidos:");
     scanf("%d", &Npartidos);
-    partidos = (TipoPartidos *)malloc(Npartidos * sizeof(TipoPartidos));
-    // ALOCA UM VETOR DO TIPOPARTIDOS DE TAMANHO INSERIDO PELO USUARIO(ESSA ETAPA DO CODIGO É PROVISÓRIA)
+    partidos = (TipoPartido *)malloc(Npartidos * sizeof(TipoPartido));
+    // ALOCA UM VETOR DO TIPOPARTIDO DE TAMANHO INSERIDO PELO USUARIO(ESSA ETAPA DO CODIGO É PROVISÓRIA)
 
     if (partidos == NULL) {
         printf("Erro ao alocar memória.\n");
