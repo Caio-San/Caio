@@ -38,7 +38,7 @@ void imprimeMenuCadastro(){
     /* Função responsável por imprimir o menu de cadastros
     */
 
-    printf("* ------------------------------------- *\n");
+    printf("\n* ------------------------------------- *\n");
     printf("*                                       *\n");
     printf("* | c | a | d | a | s | t | r | o | s | *\n");
     printf("*                                       *\n");
@@ -69,7 +69,8 @@ void imprimeMenuCadastro(){
 
 
 int main(){
-//     int opcao,Npartidos,i=0, flag=1;
+    int opcao, flag =1;
+    // int opcao,Npartidos,i=0, flag=1;
 //     TipoPartido *partidos = NULL;
     
 //     // DECLARA VARIAVEIS DE INTEIROS : opção(opção inserida pelo usuario), Npartidos(Quantidade total de partidos),i(variavel contadora)
@@ -87,30 +88,42 @@ int main(){
 
 //     //CADASTROS
 
-//     while (flag)
+    while (flag){
 //     //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
         imprimeMenuCadastro(); //FUNÇÃO QUE IMPRIME O MENU
-        printf("Selecione uma opcao: ");
+        printf("\nSelecione uma opcao: \n");
+        if ((scanf("%d", &opcao)) > 0){
+            switch (opcao){
+                case 1:
+                    printf("1");
+                    // cadastraPartido();
+                    break;
+                case 2:
+                    printf("2");
+                    // cadastraCandidato();
+                    break;
+                case 3:
+                    printf("3");
+                    // registraFederacao();
+                    break;
+                case 4:
+                    printf("4");
+                    flag = 0;
+                    break;
+                default:
+                    printf("\nOpcao invalida. Tente novamente!\n");
+                    //MENSAGEM DE ERRO
+                    //SOLICITAR A OPÇÃO NOVAMENTE
+                    //CASO NECESSÁRIO, AJEITAR LOOP PARA ISSO SER POSSIVEL
+                    break;
+            }
+        }else{
+            printf("\nOpcao invalida. Tente novamente!\n");
+            getchar();
+        }
 
-//         switch (opcao){
-//         case 1:
-//             cadastraPartido();
-//             break;
-//         case 2:
-//             cadastraCandidato();
-//             break;
-//         case 3:
-//             registraFederacao();
-//             break;
-//         case 4:
-//             flag = 0;
-//             break;
-//         default:
-//             //MENSAGEM DE ERRO
-//             //SOLICITAR A OPÇÃO NOVAMENTE
-//             //CASO NECESSÁRIO, AJEITAR LOOP PARA ISSO SER POSSIVEL
-//             break;
-//         }
+        
+    }
 
 // //VOTAÇÃO
 //     flag = 1;    
