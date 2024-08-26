@@ -55,6 +55,26 @@ void imprimeMenuCadastro(){
     printf("* ------------------------------------- *\n");
 }
 
+
+void imprimeMenuVotacao(){
+    /* Função responsável por imprimir o menu de votação
+    */
+    
+    printf("+-----------------------------------+\n");
+    printf("|          Menu de votacao          |\n");
+    printf("+-----------------------------------+\n");
+    printf("|                                   |\n");
+    printf("|(1) Registrar novo voto            |\n");
+    printf("|                                   |\n");
+    printf("|-----------------------------------|\n");
+    printf("|                                   |\n");
+    printf("|(2) Encerrar votacao               |\n");
+    printf("|                                   |\n");
+    printf("+-----------------------------------+\n");
+}
+
+
+
 // void CadastraPartidos(TipoPartido *ptr , int posicao){
 //     // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTIDO' E UMA POSIÇÃO 
 //     printf("Digite o nome do partido: \n");
