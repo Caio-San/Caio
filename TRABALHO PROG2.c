@@ -17,6 +17,8 @@ typedef struct TipoCandidato{
     char nomeCandidato[50];
     int idade;
     int digitos;
+    //PEDIR PARTIDO?
+    //char partido[]; //DECIDIR: NOME OU SIGLA
 
 } TipoCandidato;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMÇOES DE CADA CANDIDATO
@@ -24,6 +26,8 @@ typedef struct TipoCandidato{
 typedef struct TipoPartido{
     char nomePartido[50];
     char sigla[5];
+    //PEDIR FEDERAÇÃO?
+    //char federacao[]; //DECIDIR: NOME OU SIGLA
     TipoCandidato candidato;
     TipoFederacao federação;
 } TipoPartido;
@@ -46,7 +50,7 @@ void CadastraPartidos(TipoPartido *ptr , int posição){
 
 
 int main(){
-    int opção,Npartidos,i=0;
+    int opcao,Npartidos,i=0, flag=1;
     TipoPartido *partidos = NULL;
     
     // DECLARA VARIAVEIS DE INTEIROS : opção(opção inserida pelo usuario), Npartidos(Quantidade total de partidos),i(variavel contadora)
@@ -62,66 +66,61 @@ int main(){
         return 1;
     }
 
+    //CADASTROS
 
-    while (1){
-        // O LOOPING SÓ IRA SE ENCERRAR QUANDO A OPÇÃO 'ENCERRAR VOTAÇÃO' FOR SELECIONADA
+    while (flag)
+    //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
+        imprimeMenuCadastros(); //FUNÇÃO QUE IMPRIME O MENU
+        //SOLICITAR OPÇÃO, ANALISAR E REALIZAR A RESPECTIVA AÇÃO
 
+        switch (opcao){
+        case 1:
+            cadastraPartido();
+            break;
+        case 2:
+            cadastraCandidato();
+            break;
+        case 3:
+            registraFederacao();
+            break;
+        case 4:
+            flag = 0;
+            break;
+        default:
+            //MENSAGEM DE ERRO
+            //SOLICITAR A OPÇÃO NOVAMENTE
+            //CASO NECESSÁRIO, AJEITAR LOOP PARA ISSO SER POSSIVEL
+            break;
+        }
 
-        printf("Menu de Cadastros\n");
-        printf("Cadastro de Partidos - 1\n");
-        printf("Cadastro de Candidatos - 2\n");
-        printf("Registro de Federações - 3\n");
-        printf("Avançar para Votação - 4\n");
+//VOTAÇÃO
+    flag = 1;    
+    while (flag){
+        imprimeMenuVotacao();
+
         printf("Selecione uma opção: ");
-        // MENU DE CADASTROS INICIAL
+        scanf("%d", &opcao);
 
-        scanf("%d", &opção);
-        // USUARIO SELECIONA OPÇÃO
-
-
-        if (opção == 1){
-            
-            // NESTA OPÇÃO SERÁ CHAMADA UMA FUNÇÃO QUE VAI RECEBER AS INFORMAÇÕES DO PARTIDO E ARMAZENAR EM UMA POSIÇÃO DO VETOR
-            // CADA PARTIDO TERÁ UMA POSIÇÃO DO VETOR
-            Npartidos = Npartidos - 1;
-            CadastraPartidos(vet, i);
-            i++;
-        }
-        if (opção == 2){
-            CadastraCandidatos(vet , i);
-            // NESTA OPÇÃO SERÁ CHAMADA UMA FUNÇÃO QUE VAI RECEBER AS INFORMAÇÕES DO CANDIDATO
-            // EM SEGUIDA SERÁ VERIFICADO QUAL SEU PARTIDO E SE ESTE PARTIDO EXISTE
-            // POR FIM ARMAZENA AS INFORMAÇÕES DO CANDIDATO NA POSIÇÃO DO VETOR CORRESPONDENTE AO PARTIDO 
-        }
-        if (opção == 3){
-            RegistraFederação(vet , i);
-            // NESTA OPÇAO SERÁ CHAMADA UMA FUNÇÃO QUE REGISTRA UMA FEDERAÇÃO
-            // A FEDERÇÃO DE MAIS DE UM PARTIDO SERÁ CONSIDERADA COMO UM UNICO PARTIDO POLITICO 
-
-        }
-
-
-        if ( opção == 4){
-            // NESTA OPÇÃO O USUÁRIO VAI PODER INSERIR O VOTO E ENCERRAR A VOTAÇÃO
-            while (1){
-                printf("Menu de Votação:\n");
-                printf("Registrar um novo voto - 1\n");
-                printf("Encerrar votação - 2\n");
-                printf("Selecione uma opção: ");
-                scanf("%d", &opção);
-
-                if  ( opção == 1){
-                    RegistrarVoto();
-                }
-                if (opção == 2){
-                    EncerrarVotação();
-
-                }
-            }  
+        switch (opcao){
+        case 1:
+            registraNovoVoto();
+            break;
+        case 2:
+            flag = 0;
+            break;
+        default:
+            //MENSAGEM DE ERRO
+            //SOLICITAR A OPÇÃO NOVAMENTE
+            //CASO NECESSÁRIO, AJEITAR LOOP PARA ISSO SER POSSÍVEL
         }
         
     }
-        
+
+// RELATORIO
+    //ADICIONAR PASSOS ANTERIORES NECESSÁRIOS
+    imprimeRelatorio();
+    //CONTÉM FUNÇÕES DESCRITAS NA PLANILHA
+
     free(partidos);
     return 0;
 }
