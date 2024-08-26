@@ -3,12 +3,13 @@
 #include <stdlib.h>
 
 
-typedef struct TipoFederação{
-    char nomeFederação[50];
-    char siglaFederação[5];
+typedef struct TipoFederacao{
+    char nomeFederacao[50];
+    char siglaFederacao[5];
+    // char partidosFederados[?][5] SIGLA
 
 
-} TipoFederação;
+} TipoFederacao;
 
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇOES DAS FEDERAÇÕES
 
@@ -24,7 +25,7 @@ typedef struct TipoPartido{
     char nomePartido[50];
     char sigla[5];
     TipoCandidato candidato;
-    TipoFederação federação;
+    TipoFederacao federação;
 } TipoPartido;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇÕES DOS PARTIDOS
 // OS OUTROS DOIS TIPOS A SEGUR SÃO SUB-TIPOS DESTE
