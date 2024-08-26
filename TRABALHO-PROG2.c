@@ -125,7 +125,7 @@ int main(){
         
     }
 
-// //VOTAÇÃO
+//VOTAÇÃO
 //     flag = 1;    
 //     while (flag){
 //         imprimeMenuVotacao();
