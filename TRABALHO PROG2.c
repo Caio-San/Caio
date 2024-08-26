@@ -27,19 +27,31 @@ typedef struct TipoPartido{
     char nomePartido[50];
     char sigla[5];
     //PEDIR FEDERAÇÃO?
-    //char federacao[]; //DECIDIR: NOME OU SIGLA
     TipoCandidato candidato;
-    TipoFederacao federação;
+    TipoFederacao federacao;
 } TipoPartido;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇÕES DOS PARTIDOS
 // OS OUTROS DOIS TIPOS A SEGUR SÃO SUB-TIPOS DESTE
 
 
+void imprimeMenuCadastro(){
+    /* Função responsável por imprimir o menu de cadastros
+    */
 
-void CadastraPartidos(TipoPartido *ptr , int posição){
+    printf("* +-++-++-++-++-++-++-++-++-+-+-+ *");
+    printf("*   |c||a||d||a||s||t||r||o||s|   *");
+    printf("* +-++-++-++-++-++-++-++-++-+-+-+ *");
+    printf("\n* (1) Cadastrar novo partido      *");
+    printf("* (2) Cadastrar novo candidato    *");
+    printf("* (3) Registrar nova Federação    *");
+    printf("* (4) Encerrar etapa de cadastros *");
+    printf("\n* +-++-++-++-++-++-++-++-++-+-+-+ *");
+}
+
+void CadastraPartidos(TipoPartido *ptr , int posicao){
     // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTIDO' E UMA POSIÇÃO 
     printf("Digite o nome do partido: \n");
-    scanf("%s", ptr[posição].nomePartido);
+    scanf("%s", ptr[posicao].nomePartido);
     printf("Digite a sigla do seu partido(máximo de 5 letras): \n");
     scanf("%s", ptr[i].sigla);
     
@@ -71,7 +83,7 @@ int main(){
     while (flag)
     //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
         imprimeMenuCadastros(); //FUNÇÃO QUE IMPRIME O MENU
-        //SOLICITAR OPÇÃO, ANALISAR E REALIZAR A RESPECTIVA AÇÃO
+        printf("Selecione uma opção: ");
 
         switch (opcao){
         case 1:
