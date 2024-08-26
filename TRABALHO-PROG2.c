@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-typedef struct TipoFederacao{
+typedef struct{
     char nomeFederacao[50];
     char siglaFederacao[5];
     // char partidosFederados[?][5] SIGLA
@@ -13,21 +13,19 @@ typedef struct TipoFederacao{
 
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇOES DAS FEDERAÇÕES
 
-typedef struct TipoCandidato{
+typedef struct{
     char nomeCandidato[50];
     int idade;
     int digitos;
     //PEDIR PARTIDO?
-    //char partido[]; //DECIDIR: NOME OU SIGLA
+    TipoPartido partido;
 
 } TipoCandidato;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMÇOES DE CADA CANDIDATO
  
-typedef struct TipoPartido{
+typedef struct{
     char nomePartido[50];
     char sigla[5];
-    //PEDIR FEDERAÇÃO?
-    TipoCandidato candidato;
     TipoFederacao federacao;
 } TipoPartido;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇÕES DOS PARTIDOS
@@ -55,14 +53,17 @@ void imprimeMenuCadastro(){
     printf("* ------------------------------------- *\n");
 }
 
-// void CadastraPartidos(TipoPartido *ptr , int posicao){
-//     // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTIDO' E UMA POSIÇÃO 
-//     printf("Digite o nome do partido: \n");
-//     scanf("%s", ptr[posicao].nomePartido);
-//     printf("Digite a sigla do seu partido(máximo de 5 letras): \n");
-//     scanf("%s", ptr[i].sigla);
+void cadastraPartido(TipoPartido *ptr , int posicao, int nPartidos){
+    // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTIDO' E UMA POSIÇÃO 
+    if (nPartidos == 0){
+
+    }
+    printf("Digite o nome do partido: \n");
+    scanf("%s", ptr[posicao].nomePartido);
+    printf("Digite a sigla do seu partido(máximo de 5 letras): \n");
+    scanf("%s", ptr[i].sigla);
     
-// }
+}
 
 
 
@@ -70,8 +71,8 @@ void imprimeMenuCadastro(){
 
 int main(){
     int opcao, flag =1;
-    // int opcao,Npartidos,i=0, flag=1;
-//     TipoPartido *partidos = NULL;
+    int opcao, nPartidos=0, nCandidatos=0, flag=1;
+    TipoPartido *partidos = NULL;
     
 //     // DECLARA VARIAVEIS DE INTEIROS : opção(opção inserida pelo usuario), Npartidos(Quantidade total de partidos),i(variavel contadora)
 //     // DECLARA UM PONTEIRO DO 'TIPOPARTIDOS'  PARA ARMAZENAR CADA PARTIDO BEM COMO SEUS RESPECTIVOS CANDIDATOS
@@ -96,7 +97,7 @@ int main(){
             switch (opcao){
                 case 1:
                     printf("1");
-                    // cadastraPartido();
+                    cadastraPartido();
                     break;
                 case 2:
                     printf("2");
@@ -125,7 +126,7 @@ int main(){
         
     }
 
-//VOTAÇÃO
+// //VOTAÇÃO
 //     flag = 1;    
 //     while (flag){
 //         imprimeMenuVotacao();
