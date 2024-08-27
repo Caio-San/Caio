@@ -10,14 +10,12 @@ typedef struct{
 
 
 } TipoFederacao;
-
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇOES DAS FEDERAÇÕES
 
 typedef struct{
     char nomeCandidato[50];
     int idade;
-    int digitos;
-    //PEDIR PARTIDO?
+    int digitos[5];
     TipoPartido partido;
 
 } TipoCandidato;
@@ -25,11 +23,10 @@ typedef struct{
  
 typedef struct{
     char nomePartido[50];
-    char sigla[5];
+    char siglaPartido[5];
     TipoFederacao federacao;
 } TipoPartido;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇÕES DOS PARTIDOS
-// OS OUTROS DOIS TIPOS A SEGUR SÃO SUB-TIPOS DESTE
 
 
 void imprimeMenuCadastro(){
@@ -92,6 +89,8 @@ int main(){
     int opcao, flag =1;
     int opcao, nPartidos=0, nCandidatos=0, flag=1;
     TipoPartido *partidos = NULL;
+    TipoFederacao *federacoes = NULL;
+    TipoCandidato *candidatos = NULL;
     
 //     // DECLARA VARIAVEIS DE INTEIROS : opção(opção inserida pelo usuario), Npartidos(Quantidade total de partidos),i(variavel contadora)
 //     // DECLARA UM PONTEIRO DO 'TIPOPARTIDOS'  PARA ARMAZENAR CADA PARTIDO BEM COMO SEUS RESPECTIVOS CANDIDATOS
