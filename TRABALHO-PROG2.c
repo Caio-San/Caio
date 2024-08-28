@@ -6,11 +6,17 @@
 typedef struct{
     char nomeFederacao[50];
     char siglaFederacao[5];
-    // char partidosFederados[?][5] SIGLA
+    char siglaAfiliados[50][5];
 
 
 } TipoFederacao;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇOES DAS FEDERAÇÕES
+
+typedef struct{
+    char nomePartido[50];
+    char siglaPartido[5];
+} TipoPartido;
+// CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇÕES DOS PARTIDOS
 
 typedef struct{
     char nomeCandidato[50];
@@ -21,12 +27,8 @@ typedef struct{
 } TipoCandidato;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMÇOES DE CADA CANDIDATO
  
-typedef struct{
-    char nomePartido[50];
-    char siglaPartido[5];
-    TipoFederacao federacao;
-} TipoPartido;
-// CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇÕES DOS PARTIDOS
+
+
 
 
 void imprimeMenuCadastro(){
@@ -69,53 +71,119 @@ void imprimeMenuVotacao(){
 }
 
 
-void cadastraPartido(TipoPartido *ptr , int posicao, int nPartidos){
-    // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTIDO' E UMA POSIÇÃO 
-    if (nPartidos == 0){
+int caracteresValidos(char aux[]){
+    /* A função verifica se a string inserida possui caracteres inválidos.
+    Caracteres válidos são letras maiúsculas e minúsculas.
 
+    Parâmetros:
+        char aux[]: String;
+    Retorno (int):
+        1: Há caracteres inválidos;
+        0: Não há caracteres inválidos;
+    */
+    int i;
+    for (i=0; i < (int)(strlen(aux)); i++){
+        //ENTRA NO IF SE O CARACTERE NÃO CORRESPONDER A UMA LETRA DE ACORDO COM A TABELA ASCII
+        if (((int)(aux[i]) < 65 && (int)(aux[i]) > 90) || ((int)(aux[i]) < 97 && (int)(aux[i]) > 122)){
+            return 1; 
+        }       
     }
-    printf("Digite o nome do partido: \n");
-    scanf("%s", ptr[posicao].nomePartido);
-    printf("Digite a sigla do seu partido(máximo de 5 letras): \n");
-    scanf("%s", ptr[i].sigla);
-    
+    return 0;
 }
 
+int jaExistePartido(int* n, char aux[], TipoPartido* ptr, char tipo[]){
+    int i;
+    for(i=0; i<*n; i++){   //VERIFICA SE O PARTIDO JÁ EXISTE
+        if((strcmp(tipo, "nome")) == 0){
+            if((strcmp(aux, ptr[i].nomePartido)) == 0){   //ENTRA SE O PARTIDO JÁ EXISTIR
+                return 1;
+            }
+        }else{
+            if((strcmp(aux, ptr[i].siglaPartido)) == 0){   //ENTRA SE A SIGLA JÁ EXISTIR
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
 
+int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
+    // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTIDO' E UMA POSIÇÃO 
+    int flag=1;
+    char partidoAux[50], siglaAux[5];
+    if (nPartidos >= tam){
+        *tam = (*tam)*2;
+        ptr = (TipoPartido *) realloc(ptr,(*tam)*sizeof(TipoPartido));
+    }
+    while(flag){
+        printf("\nDigite o nome do partido: ");
+        //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
+        if((scanf("%s", partidoAux)) > 0){
+            if (caracteresValidos(partidoAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
+                if (jaExistePartido(nPartidos, partidoAux, ptr, "nome") == 1){   //VERIFICA SE O PARTIDO JÁ EXISTE
+                    printf("\nPartido já existente.\n");
+                    return 1;
+                }else{
+                    flag = 0;
+                }
+            }else{
+                printf("\nCaracteres invalidos. Tente novamente!");
+            }
+        }else{
+            printf("\nEntrada inálida. Tente novamente!");
+        }
+    }
+    flag =1;
+    while(flag){
+        printf("\nDigite a sigla do partido (máximo 5 caracteres): ");
+        if(scanf("%s", siglaAux) > 0){
+            if (caracteresValidos(siglaAux) == 0){
+                if (jaExistePartido(nPartidos, siglaAux, ptr, "sigla") == 1){
+                    printf("\nSigla já existente. Tente novamente!");
+                }else{
+                    flag = 0;
+                }
+            }else{
+                printf("\nCaracteres invalidos. Tente novamente!");
+            }
+        }else{
+            printf("\nEntrada inálida. Tente novamente!");
+        }                  
+    }
+
+    strcpy(ptr[*nPartidos].nomePartido, partidoAux);
+    strcpy(ptr[*nPartidos].siglaPartido, siglaAux);
+    *nPartidos = *nPartidos +1;
+    return 0;   
+   
+}    
 
 
 
 int main(){
-    int opcao, flag =1;
-    int opcao, nPartidos=0, nCandidatos=0, flag=1;
+
+    int opcao, nPartidos=0, flag=1, tam = 50;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
     TipoCandidato *candidatos = NULL;
-    
-//     // DECLARA VARIAVEIS DE INTEIROS : opção(opção inserida pelo usuario), Npartidos(Quantidade total de partidos),i(variavel contadora)
-//     // DECLARA UM PONTEIRO DO 'TIPOPARTIDOS'  PARA ARMAZENAR CADA PARTIDO BEM COMO SEUS RESPECTIVOS CANDIDATOS
-
-//     printf("Digite a quantidade de partidos:");
-//     scanf("%d", &Npartidos);
-//     partidos = (TipoPartido *)malloc(Npartidos * sizeof(TipoPartido));
-//     // ALOCA UM VETOR DO TIPOPARTIDO DE TAMANHO INSERIDO PELO USUARIO(ESSA ETAPA DO CODIGO É PROVISÓRIA)
-
-//     if (partidos == NULL) {
-//         printf("Erro ao alocar memória.\n");
-//         return 1;
-//     }
+    candidatos = (TipoCandidato *) malloc(tam*sizeof(TipoCandidato));
+    partidos = (TipoPartido *) malloc(tam*sizeof(TipoPartido));
+    federacoes = (TipoFederacao *) malloc(tam*sizeof(TipoFederacao));
 
 //     //CADASTROS
 
     while (flag){
 //     //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
         imprimeMenuCadastro(); //FUNÇÃO QUE IMPRIME O MENU
-        printf("\nSelecione uma opcao: \n");
+        printf("\nSelecione uma opcao: ");
         if ((scanf("%d", &opcao)) > 0){
             switch (opcao){
                 case 1:
-                    printf("1");
-                    cadastraPartido();
+                    if((cadastraPartido(partidos, &nPartidos, &tam)) == 0){
+                        printf("\nPartido cadastrado com sucesso!\n");
+                    }else{
+                        printf("\nO procedimento falhou.\n");
+                    }
                     break;
                 case 2:
                     printf("2");
@@ -172,6 +240,8 @@ int main(){
 //     imprimeRelatorio();
 //     //CONTÉM FUNÇÕES DESCRITAS NA PLANILHA
 
-//     free(partidos);
+    free(candidatos);
+    free(partidos);
+    free(federacoes);
     return 0;
 }
