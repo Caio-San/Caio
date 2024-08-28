@@ -65,9 +65,30 @@ void imprimeMenuVotacao(){
     printf("*                                       *\n");
     printf("* (1) Registrar novo voto               *\n");
     printf("*                                       *\n");
-    printf("* (2) encerrar votacao                  *\n");
+    printf("* (2) Encerrar votacao                  *\n");
     printf("*                                       *\n");
     printf("* ------------------------------------- *\n");
+}
+
+
+void imprimeMenuConfirmacao(){
+    /* Função responsável por imprimir o menu de confirmação do 
+    */
+
+    printf("* ------------------------------------- *\n");
+    printf("*                                       *\n");
+    printf("* | c | o | n | f | i | r | m | a | r | *\n");
+    printf("*                                       *\n");
+    printf("* ------------------------------------- *\n");
+    printf("*                                       *\n");
+    printf("* (1) Confirmar voto                    *\n");
+    printf("*                                       *\n");
+    printf("* (2) Retornar                          *\n");
+    printf("*                                       *\n");
+    printf("* (3) Votar em branco                   *\n");
+    printf("*                                       *\n");
+    printf("* ------------------------------------- *\n");
+
 }
 
 
@@ -185,7 +206,7 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
 
 
 void registrarVoto(int * qtvotosVal,int * qtvotosBran,int * qtvotosNul);
-
+    // função responsavel por registrar o voto, e contabilizar o voto, mesmo sendo valido, nulo ou em branco.
 
 int main(){
 
@@ -242,6 +263,7 @@ int main(){
     imprimeMenuVotacao();
     printf("escolha uma das opcoes acima: ");
     do{
+        // do while deve encerrar quando a variavel opcao ser igual a 2.
         scanf("%d",opcao);
         if (opcao == 1){
             registrarVoto(&qtvotosVal,&qtvotosBran,&qtvotosNul);
