@@ -52,7 +52,6 @@ void imprimeMenuCadastro(){
     printf("* ------------------------------------- *\n");
 }
 
-
 void imprimeMenuVotacao(){
     /* Função responsável por imprimir o menu de votação
     */
@@ -69,7 +68,6 @@ void imprimeMenuVotacao(){
     printf("*                                       *\n");
     printf("* ------------------------------------- *\n");
 }
-
 
 void imprimeMenuConfirmacao(){
     /* Função responsável por imprimir o menu de confirmação do 
@@ -90,7 +88,6 @@ void imprimeMenuConfirmacao(){
     printf("* ------------------------------------- *\n");
 
 }
-
 
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
@@ -204,9 +201,10 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
    
 }   
 
-
-void registrarVoto(int * qtvotosVal,int * qtvotosBran,int * qtvotosNul);
+void registrarVoto(int * qtvotosVal, int * qtvotosBran, int * qtvotosNul){
     // função responsavel por registrar o voto, e contabilizar o voto, mesmo sendo valido, nulo ou em branco.
+}
+    
 
 int main(){
 
@@ -218,10 +216,10 @@ int main(){
     partidos = (TipoPartido *) malloc(tam*sizeof(TipoPartido));
     federacoes = (TipoFederacao *) malloc(tam*sizeof(TipoFederacao));
 
-//     //CADASTROS
+    //CADASTROS
 
     while (flag){
-//     //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
+    //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
         imprimeMenuCadastro(); //FUNÇÃO QUE IMPRIME O MENU
         printf("\nSelecione uma opcao: ");
         if ((scanf("%d", &opcao)) > 0){
@@ -260,37 +258,41 @@ int main(){
         
     }
     
-    imprimeMenuVotacao();
-    printf("escolha uma das opcoes acima: ");
-    do{
-        // do while deve encerrar quando a variavel opcao ser igual a 2.
-        scanf("%d",opcao);
-        if (opcao == 1){
-            registrarVoto(&qtvotosVal,&qtvotosBran,&qtvotosNul);
+    // imprimeMenuVotacao();
+    // printf("escolha uma das opcoes acima: ");
+    // do{
+    //     // do while deve encerrar quando a variavel opcao ser igual a 2.
+    //     scanf("%d",opcao);
+    //     if (opcao == 1){
+    //         registrarVoto(&qtvotosVal,&qtvotosBran,&qtvotosNul);
+    //     }
+    // }while(opcao != 2);
+
+    //VOTAÇÃO
+    flag = 1;    
+    while (flag){
+        imprimeMenuVotacao();
+
+        printf("Selecione uma opcao: ");
+        if ((scanf("%d", &opcao)) > 0){
+            switch (opcao){
+                case 1:
+                    registrarVoto(&qtvotosVal,&qtvotosBran,&qtvotosNul);
+                    break;
+                case 2:
+                    flag = 0;
+                    break;
+                default:
+                //MENSAGEM DE ERRO
+                //SOLICITAR A OPÇÃO NOVAMENTE
+                //CASO NECESSÁRIO, AJEITAR LOOP PARA ISSO SER POSSÍVEL
+            }
+        }else{
+            printf("\nOpcao invalida. Tente novamente!\n");
+            getchar();
         }
-    }while(opcao != 2);
-// //VOTAÇÃO
-//     flag = 1;    
-//     while (flag){
-//         imprimeMenuVotacao();
-
-//         printf("Selecione uma opção: ");
-//         scanf("%d", &opcao);
-
-//         switch (opcao){
-//         case 1:
-//             registraNovoVoto();
-//             break;
-//         case 2:
-//             flag = 0;
-//             break;
-//         default:
-//             //MENSAGEM DE ERRO
-//             //SOLICITAR A OPÇÃO NOVAMENTE
-//             //CASO NECESSÁRIO, AJEITAR LOOP PARA ISSO SER POSSÍVEL
-//         }
+    }
         
-//     }
 
 // // RELATORIO
 //     //ADICIONAR PASSOS ANTERIORES NECESSÁRIOS
