@@ -181,11 +181,10 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
     *nPartidos = *nPartidos +1;
     return 0;   
    
-}    
+}   
 
 
 void registrarVoto(int * qtvotosVal,int * qtvotosBran,int * qtvotosNul);
-
 
 
 int main(){
@@ -239,7 +238,7 @@ int main(){
 
         
     }
-
+    
     imprimeMenuVotacao();
     printf("escolha uma das opcoes acima: ");
     do{
