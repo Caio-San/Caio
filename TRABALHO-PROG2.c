@@ -76,7 +76,7 @@ int caracteresValidos(char aux[]){
     Caracteres válidos são letras maiúsculas e minúsculas.
 
     Parâmetros:
-        char aux[]: String;
+        char aux[]: String a ser verificada;
     Retorno (int):
         1: Há caracteres inválidos;
         0: Não há caracteres inválidos;
@@ -92,6 +92,19 @@ int caracteresValidos(char aux[]){
 }
 
 int jaExistePartido(int* n, char aux[], TipoPartido* ptr, char tipo[]){
+    /* Função responsável por verificar o nome/sigla do partido já existe.
+    
+    Parâmetros:
+        int* n: número de partidos cadastrados;
+        char aux[]: nome/sigla a ser verificada;
+        TipoPartido* ptr: ponteiro para vetor que armazena os dados dos partidos cadastrados;
+        char tipo[]: identificador de operação ("nome"/"sigla").
+
+    Retorno:
+        int 0: não existe;
+        int 1: existe.
+    */
+
     int i;
     for(i=0; i<*n; i++){   //VERIFICA SE O PARTIDO JÁ EXISTE
         if((strcmp(tipo, "nome")) == 0){
@@ -108,7 +121,19 @@ int jaExistePartido(int* n, char aux[], TipoPartido* ptr, char tipo[]){
 }
 
 int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
-    // FUNÇÃO RESPONSÁVEL POR CADASTRAR PARTIDOS, VAI RECEBER O VETOR DO ´'TIPOPARTIDO' E UMA POSIÇÃO 
+    /* A função tem o objetivo de cadastrar novos partidos.
+    Caso o partido inserido não exista e os dados sejam válidos, 
+    atribui os respectivos valores a ptr[]
+
+    Parâmetros:
+        TipoPartido* ptr: ponteiro para vetor que armazena os dados dos partidos cadastrados;
+        int* nPartidos: ponteiro para inteiro que guarda a quantidade de partidos cadastrados;
+        int* tam: ponteiro para inteiro que guarda o tamanho atual do vetor;
+    Retorno:
+        int 0: novo cadastro concluído com sucesso;
+        int 1: novo cadastro falhou. 
+    */ 
+
     int flag=1;
     char partidoAux[50], siglaAux[5];
     if (nPartidos >= tam){
@@ -157,8 +182,6 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
     return 0;   
    
 }    
-
-
 
 int main(){
 
