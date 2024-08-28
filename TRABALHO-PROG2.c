@@ -102,7 +102,7 @@ int caracteresValidos(char aux[]){
     int i;
     for (i=0; i < (int)(strlen(aux)); i++){
         //ENTRA NO IF SE O CARACTERE NÃO CORRESPONDER A UMA LETRA DE ACORDO COM A TABELA ASCII
-        if (((int)(aux[i]) < 65 && (int)(aux[i]) > 90) || ((int)(aux[i]) < 97 && (int)(aux[i]) > 122)){
+        if (((int)(aux[i]) < 65 && (int)(aux[i]) > 90) || ((int)(aux[i]) < 97 && (int)(aux[i]) > 122) || (int)(aux[i]) != 32){
             return 1; 
         }       
     }
@@ -161,7 +161,7 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
     while(flag){
         printf("\nDigite o nome do partido: ");
         //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
-        if((scanf("%s", partidoAux)) > 0){
+        if((scanf("%[^\n]", partidoAux)) > 0){
             if (caracteresValidos(partidoAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExistePartido(nPartidos, partidoAux, ptr, "nome") == 1){   //VERIFICA SE O PARTIDO JÁ EXISTE
                     printf("\nPartido já existente.\n");
@@ -201,14 +201,17 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
    
 }   
 
-void registrarVoto(int * qtvotosVal, int * qtvotosBran, int * qtvotosNul){
-    // função responsavel por registrar o voto, e contabilizar o voto, mesmo sendo valido, nulo ou em branco.
-}
+// void registrarVoto(int * qtvotosVal, int * qtvotosBran, int * qtvotosNul){
+//     // função responsavel por registrar o voto, e contabilizar o voto, mesmo sendo valido, nulo ou em branco.
+// }
+// int cadastraCandidato(){
+
+// }
     
 
 int main(){
-
-    int opcao, nPartidos=0, flag=1, tam = 50, qtvotosVal = 0, qtvotosBran = 0, qtvotosNul = 0;
+    int opcao, nPartidos=0, flag=1, tam = 50;
+    // int opcao, nPartidos=0, flag=1, tam = 50, qtvotosVal = 0, qtvotosBran = 0, qtvotosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
     TipoCandidato *candidatos = NULL;
@@ -277,8 +280,8 @@ int main(){
         if ((scanf("%d", &opcao)) > 0){
             switch (opcao){
                 case 1:
-                    registrarVoto(&qtvotosVal,&qtvotosBran,&qtvotosNul);
-                    break;
+                    // registrarVoto(&qtvotosVal,&qtvotosBran,&qtvotosNul);
+                    // break;
                 case 2:
                     flag = 0;
                     break;
@@ -286,6 +289,7 @@ int main(){
                 //MENSAGEM DE ERRO
                 //SOLICITAR A OPÇÃO NOVAMENTE
                 //CASO NECESSÁRIO, AJEITAR LOOP PARA ISSO SER POSSÍVEL
+                break;
             }
         }else{
             printf("\nOpcao invalida. Tente novamente!\n");
