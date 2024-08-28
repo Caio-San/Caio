@@ -379,7 +379,7 @@ int verificaractere(char *nome){
 int verificaNome(TipoCandidato *candidatos, int tam, char *nome) {
     int i;
     for (int i = 0; i < tam; i++) {
-        if (strcmp(candidatos[i].nome, nome) == 0) {
+        if (strcmp(candidatos[i].nomeCandidato, nome) == 0) {
             return 1;
         }
     }
@@ -397,12 +397,6 @@ int verificanumeros(char *aux[]){
     return 0;
     // VERIFICA SE FOI DIGITADO NUMEROS DE 0 A 9
 }
-
-
-
-
-
-
 
 int cadastraCandidato(TipoCandidato *candidatos,TipoPartido *partidos, int *tam, int nCandidatos){
     char nomeaux[50],aux[50],digitosaux[50];
@@ -480,36 +474,17 @@ int cadastraCandidato(TipoCandidato *candidatos,TipoPartido *partidos, int *tam,
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// void registrarVoto(int * qtvotosVal, int * qtvotosBran, int * qtvotosNul){
-//     // função responsavel por registrar o voto, e contabilizar o voto, mesmo sendo valido, nulo ou em branco.
-// }
-// int cadastraCandidato(){
-
-// }
     
-
+// NOTAS: ATUALIZAR A FUNÇÃO DE VERIFICAR CARACTERES NAS FUNÇÕES DE CADASTRAR PARTIDO E FEDERACAO
 int main(){
     int opcao, flag=1;
-    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
-    // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
+    // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
+    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
     // int qtvotosVal = 0, qtvotosBran = 0, qtvotosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
     TipoCandidato *candidatos = NULL;
-    // candidatos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
+    candidatos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
     partidos = (TipoPartido *) malloc(tamp*sizeof(TipoPartido));
     federacoes = (TipoFederacao *) malloc(tamf*sizeof(TipoFederacao));
 
@@ -532,7 +507,7 @@ int main(){
                 case 2:
                     // getchar();
                     printf("2");
-                    if ((cadastraCandidato(candidatos, &nCandidatos, &tam) == 0)){
+                    if ((cadastraCandidato(candidatos, &nCandidatos, &tamc) == 0)){
                         printf("\nCandidato cadastrado com sucesso!\n");
                     }else{
                         printf("\nO procedimento falhou.\n");
@@ -545,7 +520,7 @@ int main(){
                         printf("\nCadastre ao menos 2 partidos para registrar uma Federacao.\n");
                         break;
                     }else{
-                        registraFederacao(federacoes, &nFederacoes, &tamf); //COMPLETAR
+                        registraFederacao(federacoes, &nFederacoes, &tamf);
                         imprimeTituloAfiliados();
                         registraAfiliados(federacoes, partidos, nPartidos, nFederacoes, 1);
                     }
