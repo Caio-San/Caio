@@ -566,9 +566,10 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
     }
 }
     
-// NOTAS: ATUALIZAR A FUNÇÃO DE VERIFICAR CARACTERES NAS FUNÇÕES DE CADASTRAR PARTIDO E FEDERACAO
+
+
 int main(){
-    int i; //TESTE
+    // int i; //TESTE
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
     int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
@@ -664,13 +665,13 @@ int main(){
         }
     }
     // TESTES -- NÃO APAGAR
-    printf("\nRESULTADO");
-    for(i=0; i<nCandidatos; i++){
-        printf("\n%s: %d", candidatos[i].nomeCandidato, candidatos[i].votos);
-    }
-    printf("voto nulo: %d", votosNul);
-    printf("voto branco: %d", votosBra);
-    printf("voto valido: %d", votosVal);
+    // printf("\nRESULTADO");
+    // for(i=0; i<nCandidatos; i++){
+    //     printf("\n%s: %d", candidatos[i].nomeCandidato, candidatos[i].votos);
+    // }
+    // printf("voto nulo: %d", votosNul);
+    // printf("voto branco: %d", votosBra);
+    // printf("voto valido: %d", votosVal);
     
         
 
