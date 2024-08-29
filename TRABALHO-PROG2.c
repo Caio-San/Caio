@@ -530,7 +530,7 @@ int main(){
                         printf("\nO procedimento falhou.\n");                               
                                                                                             
                     }                                                                       
-                    break;                                                                  |
+                    break;                                                                  
                 case 3:
                     getchar();
                     if(nPartidos< 2){
