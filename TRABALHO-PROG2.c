@@ -28,10 +28,6 @@ typedef struct{
 
 } TipoCandidato;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMÇOES DE CADA CANDIDATO
- 
-
-
-
 
 void imprimeMenuCadastro(){
     /* Função responsável por imprimir o menu de cadastros
