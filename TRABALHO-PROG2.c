@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -402,8 +403,8 @@ int cadastraCandidato(TipoCandidato *candidatos,TipoPartido *partidos, int *tam,
     char nomeaux[50],aux[50],digitosaux[50];
     int posiçao=0,i,idadeaux=0;
     if (nCandidatos >= tam){
-        *tam = (*candidatos)*2;
-        candidatos = (TipoCandidato *) realloc(candidatos,(*tam)*sizeof(TipoCandidatos));
+//        *tam = (*candidatos)*2; expressão dando erro 
+//        candidatos = (TipoCandidato *) realloc(candidatos,(*tam)*sizeof(TipoCandidatos)); expressão dando erro no final sizeof
     }
 
 
@@ -412,11 +413,12 @@ int cadastraCandidato(TipoCandidato *candidatos,TipoPartido *partidos, int *tam,
         getchar();
         fgets(aux, 50, stdin);
         
-        if (verificaractere(aux)) == 1{
+        if ((verificaractere(aux)) == 1){
             printf("Digite caracteres válidos!\n");
-        }else{
+        }
+        else{
             for(i=0;i<tam;i++){
-                if (strcmp(aux, partidos[i].nomePartido)) == 0{
+                if ((strcmp(aux, partidos[i].nomePartido)) == 0){
                     printf("Partido escolhido com sucesso!");
                     break;
                 }
@@ -428,27 +430,27 @@ int cadastraCandidato(TipoCandidato *candidatos,TipoPartido *partidos, int *tam,
     //Escolhe um partido e verfica se é válido
     
     while(1){
-        printf("Digite um nome para seu candidato: \n")
+        printf("Digite um nome para seu candidato: \n");
         fgets(nomeaux, 50, stdin);
         
-        if (verificaractere(nomeaux)) == 1{
+        if ((verificaractere(nomeaux)) == 1){
             printf("Digite caracteres válidos!\n");
         }else{
-            if (verificaNome(candidatos, tam, nomeaux)) == 1
+            if ((verificaNome(candidatos, tam, nomeaux)) == 1){
                 printf("Nome do candidato já existente!\n");
             }else{
-                strcpy(nomeaux , ptr[posiçao]);
-                }
-
+//                strcpy(nomeaux , ptr[posiçao]); dando erro no ptr[posiçao]
+            }
+        }
     }
     // Escolhe um nome para o candidato e verifica se é valido
     while(1){
-        printf("Digite a idade do candidato: \n")
+        printf("Digite a idade do candidato: \n");
         scanf("%d", &idadeaux);
         if (idadeaux <= 0){
             printf("Digite uma idade válida");
         }else{
-            candidato[nCandidatos].idade = idadeaux;
+//            candidato[nCandidatos].idade = idadeaux; dando erro no candidato
             break;
         }
 
@@ -457,12 +459,12 @@ int cadastraCandidato(TipoCandidato *candidatos,TipoPartido *partidos, int *tam,
     }
     // DEFINE A IDADE DO QUANDIDATO E VERIFICA SE É VÁLIDO
     while(1){
-        printf("Digite os digitos do candidato: \n")
+        printf("Digite os digitos do candidato: \n");
         fgets(digitosaux, 5, stdin);
         if (verificanumeros(digitosaux) == 1) {
             printf("Digite digitos válidos!");
         }else{
-            candidato[nCandidatos].digitos = digitosaux;
+//            candidato[nCandidatos].digitos = digitosaux; dando erro no candidato
             break;
         }
 
@@ -504,16 +506,16 @@ int main(){
                         printf("\nO procedimento falhou.\n");
                     }
                     break;
-                case 2:
-                    // getchar();
-                    printf("2");
-                    if ((cadastraCandidato(candidatos, &nCandidatos, &tamc) == 0)){
-                        printf("\nCandidato cadastrado com sucesso!\n");
-                    }else{
-                        printf("\nO procedimento falhou.\n");
-
-                    }
-                    break;
+                //case 2:                                                                     |
+                    // getchar();                                                             |
+                    //printf("2");                                                            |
+                    //if ((cadastraCandidato(candidatos, &nCandidatos, &tamc) == 0)){         |             
+                    //    printf("\nCandidato cadastrado com sucesso!\n");                    |---> esse case 2 está dando erro no seu if
+                    //}else{                                                                  |
+                    //    printf("\nO procedimento falhou.\n");                               |
+                    //                                                                        |
+                    //}                                                                       |
+                    //break;                                                                  |
                 case 3:
                     getchar();
                     if(nPartidos< 2){
