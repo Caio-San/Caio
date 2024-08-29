@@ -25,7 +25,7 @@ typedef struct{
     int idade;
     char digitos[5];
     char partido[50];
-    int votos;
+    int votos
 
 } TipoCandidato;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMÇOES DE CADA CANDIDATO
@@ -110,7 +110,7 @@ int caracteresValidos(char aux[]){
     int i;
     for (i=0; i < (int)(strlen(aux)); i++){
         //ENTRA NO IF SE O CARACTERE NÃO CORRESPONDER A UMA LETRA DE ACORDO COM A TABELA ASCII
-        if (isalpha(aux[i]) != 0 && (int)(aux[i]) != 32 && (int)(aux[i]) != 10){
+        if (isalpha(aux[i]) == 0 && (int)(aux[i]) != 32 && (int)(aux[i]) != 10){
             printf("%d",aux[i]);
             printf("i: %d", i);
             return 1; 
@@ -183,7 +183,7 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
                 printf("\nCaracteres invalidos. Tente novamente!");
             }
         }else{
-            printf("\nEntrada inálida. Tente novamente!");
+            printf("\nEntrada invalida. Tente novamente!");
             getchar();
         }
     }
@@ -384,6 +384,13 @@ int verificanumeros(char *aux){
     return 0;
 }
 
+void zeraVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
+    int i;
+    for(i=0; i<nCandidatos; i++){
+        candidatos[i].votos = 0;
+    }
+}
+
 int jaExistecandidato(int* nCandidatos, char aux[], TipoCandidato* ptr, char tipo[], int* indiceCandidato){
     int i;
     for(i=0; i<*nCandidatos; i++){   //VERIFICA SE O CANDIDATO JÁ EXISTE
@@ -414,16 +421,18 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
         }
     }
     while(1){
-        printf("Digite o partido do candidato: \n");
+        printf("Digite o partido do candidato: ");
         fgets(aux, 50, stdin);
         aux[strcspn(aux, "\n")] = '\0';
         
         if (caracteresValidos(aux)){
-            printf("Digite caracteres válidos!\n");
+            getchar();
+            printf("\nDigite caracteres válidos!\n");
         }else{
             for(i=0;i<*tam;i++){
                 if ((strcmp(aux, partidos[i].nomePartido)) == 0){
-                    printf("Partido escolhido com sucesso!\n");
+                    
+                    printf("\nPartido escolhido com sucesso!\n");
                     strcpy(candidatos[*nCandidatos].partido, aux);
                     partidoencontrado = 1;
                     break;
@@ -432,20 +441,24 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
             if (partidoencontrado == 1){
                 break;
             }
-            printf("Partido digitado não existe!\n");
+            getchar();
+            printf("\nPartido digitado não existe!\n");
         }
     }
     while(1){
-        printf("Digite um nome para seu candidato: \n");
+        printf("\nDigite um nome para seu candidato: ");
         fgets(nomeaux, 50, stdin);
         nomeaux[strcspn(nomeaux, "\n")] = '\0';
 
         if ((caracteresValidos(nomeaux))){
-            printf("Digite caracteres válidos!\n");
+            getchar();
+            printf("\nDigite caracteres válidos!\n");
         }else{
             if ((verificaNome(candidatos, nCandidatos, nomeaux)) == 1){
-                printf("Nome do candidato já existente!\n");
+                getchar();
+                printf("\nNome do candidato já existente!\n");
             }else{
+                getchar();
                 strcpy(candidatos[*nCandidatos].nomeCandidato, nomeaux);
                 break;
             }
@@ -453,30 +466,32 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
     }
     // Escolhe um nome para o candidato e verifica se é valido
     while(1){
-        printf("Digite a idade do candidato: \n");
+        printf("\nDigite a idade do candidato: ");
         scanf("%d", &idadeaux);
         if (idadeaux <= 0){
-            printf("Digite uma idade válida/n");
+            getchar();
+            printf("\nDigite uma idade válida!\n");
         }else{
+            getchar();
             candidatos[*nCandidatos].idade = idadeaux;
-            // break;
+            break;
         }
     }
     // DEFINE A IDADE DO QUANDIDATO E VERIFICA SE É VÁLIDO
     while(1){
-        getchar();
-        printf("Digite os 5 digitos do candidato: \n");
-        fgets(digitosaux, 6, stdin);
+        printf("\nDigite os 5 digitos do candidato: ");
+        fgets(digitosaux, 5, stdin); //ACRESCENTAR CASO DE ERRO PARA MENOS OU MAIS DE 5 DIGITOS LIDOS
         digitosaux[strcspn(digitosaux, "\n")] = '\0';
         if (verificanumeros(digitosaux)) {
-            printf("Digite 5 dígitos válidos!\n");
+            getchar();
+            printf("\nDigite 5 dígitos válidos!\n");
         }else{
+            getchar();
             strcpy(candidatos[*nCandidatos].digitos, digitosaux);
             break;
         }
     }
     // DEFINE OS DIGITOS DO CANDIDATO E VERIFICA SE É VALIDO
-    
     (*nCandidatos)++;
     return 0;
 }
@@ -553,6 +568,7 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
     
 // NOTAS: ATUALIZAR A FUNÇÃO DE VERIFICAR CARACTERES NAS FUNÇÕES DE CADASTRAR PARTIDO E FEDERACAO
 int main(){
+    int i; //TESTE
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
     int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
@@ -581,18 +597,23 @@ int main(){
                     }
                     break;
                 case 2:                                                                     
-                    getchar();                                                                                                                        
-                    if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos) == 0)){                   
-                        printf("\nCandidato cadastrado com sucesso!\n");                    
-                    }else{                                                                  
-                        printf("\nO procedimento falhou.\n");                               
-                                                                                            
-                    }                                                                       
+                    getchar();
+                    if(nPartidos >0){
+                        if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos) == 0)){                   
+                            printf("\nCandidato cadastrado com sucesso!\n");                    
+                        }else{                                                                  
+                            printf("\nO procedimento falhou.\n");                                                                                                      
+                        }
+                    }else{
+                        printf("\nCadastre, ao menos, 1 partido para registrar um Candidato.\n");
+                        break;
+                    }                                                                                                                     
+                                                                                           
                     break;                                                                  
                 case 3:
                     getchar();
                     if(nPartidos< 2){
-                        printf("\nCadastre ao menos 2 partidos para registrar uma Federacao.\n");
+                        printf("\nCadastre, ao menos, 2 partidos para registrar uma Federacao.\n");
                         break;
                     }else{
                         registraFederacao(federacoes, &nFederacoes, &tamf);
@@ -616,7 +637,8 @@ int main(){
     }
 
     //VOTAÇÃO
-    flag = 1;    
+    flag = 1;
+    zeraVotosCandidatos(candidatos, nCandidatos);    
     while (flag){
         imprimeMenuVotacao();
 
@@ -642,13 +664,13 @@ int main(){
         }
     }
     // TESTES -- NÃO APAGAR
-    // printf("\nRESULTADO");
-    // for(i=0; i<nCandidatos; i++){
-    //     printf("\n%s: %d", candidatos[i].nomeCandidato, candidatos[i].votos);
-    // }
-    // printf("voto nulo: %d", votosNul);
-    // printf("voto branco: %d", votosBra);
-    // printf("voto valido: %d", votosVal);
+    printf("\nRESULTADO");
+    for(i=0; i<nCandidatos; i++){
+        printf("\n%s: %d", candidatos[i].nomeCandidato, candidatos[i].votos);
+    }
+    printf("voto nulo: %d", votosNul);
+    printf("voto branco: %d", votosBra);
+    printf("voto valido: %d", votosVal);
     
         
 
