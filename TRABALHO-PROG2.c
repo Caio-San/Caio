@@ -8,6 +8,7 @@ typedef struct{
     char nomeFederacao[50];
     char siglaFederacao[5];
     char siglaAfiliados[50][5];
+    int nAfiliados;
     int votos;
 
 } TipoFederacao;
@@ -333,6 +334,7 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
                     if((jaExisteAfiliado(i, nFederacoes, siglaAux, ptr1)) == 0){
                         printf("\nPartido afiliado com sucesso.\n");
                         strcpy(ptr1[nFederacoes].siglaAfiliados[i], siglaAux);
+                        ptr1[nFederacoes].nAfiliados = ptr1[nFederacoes].nAfiliados + 1;
                         break;
                     }else{
                         printf("\nO partido inserido ja esta cadastrado como afiliado.");
@@ -655,6 +657,7 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
         printf("\nDigite o numero do candidato: ");
         if((scanf("%s", auxDigito) > 0)){
             if((verificanumeros(auxDigito)) == 0){
+                printf("%d", jaExistecandidato(nCandidatos, auxDigito, candidatos, "digito", &indiceCandidato)); //TESTE
                 if((jaExistecandidato(nCandidatos, auxDigito, candidatos, "digito", &indiceCandidato)) == 1){
                     printf("\nCandidato(a): %s\n", candidatos[indiceCandidato].nomeCandidato);
                     strcpy(voto, "val");
@@ -690,12 +693,20 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
     }
 }
 
-// void calculaVotosFederacao(TipoFederacao *ptr, int* nFederacoes){
+void calculaVotosFederacao(TipoFederacao *ptr1, TipoPartido *ptr2, int nFederacoes, int nCandidatos){
 
-//     int i;
-//     for(i=0;);
-
-// }
+    int i, j, k;
+    for(i=0; i< nFederacoes; i++){
+        ptr1[i].votos = 0;
+        for(j=0; j<ptr1[i].nAfiliados; j++){ // j< QUANTIDADE DE AFILIADOS CADASTRADOS NA RESPECTIVA FEDERAÇÃO
+            for(k=0; k< nCandidatos; k++){
+                if((strcmp(ptr1[i].siglaAfiliados[j], ptr2[k].siglaPartido)) == 0){
+                    ptr1[i].votos = ptr1[i].votos + ptr2[k].votos;
+                }
+            }  
+        }
+    }
+}
 
 
 int main(){
@@ -730,7 +741,9 @@ int main(){
                     getchar();
                     if(nPartidos >0){
                         if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos) == 0)){                   
-                            printf("\nCandidato cadastrado com sucesso!\n");                    
+                            printf("\nPartido: %s", candidatos[nCandidatos].partido);   //TESTES
+                            printf("\nCandidato: %s", candidatos[nCandidatos].nomeCandidato);
+                            printf("\nDigitos: %s", candidatos[nCandidatos].digitos);                    
                         }else{                                                                  
                             printf("\nO procedimento falhou.\n");                                                                                                      
                         }
@@ -808,6 +821,8 @@ int main(){
 
     // imprimeSecao1(votosVal, votosNul, votosBra, qEleitoral);
     // imprimeSecao2(candidatos, nCandidatos);
+    calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
+    printf("\nVotos fed: %d", federacoes[0].votos);
 
 
 
