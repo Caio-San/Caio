@@ -1,5 +1,3 @@
-
-#define _OPEN_SYS_ITOA_EXT
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -97,6 +95,30 @@ void imprimeTituloAfiliados(){
     printf("* ------------------------------------ *\n");
     printf("\nNota: Afilie um partido por vez\n");
 }
+
+
+void imprimeVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
+    // função que imprime todos os votos dos candidatos
+    
+    int i;
+    printf("\n*--------------------------------------*\n");
+    printf("*                                      *\n");
+    printf("* | c | o | n | c | l | u | s | a | o | *\n");
+    printf("*            | d | a |                 *\n");
+    printf("*    | v | o | t | a | c | a | o |     *\n");
+    printf("*                                      *\n");
+    printf("*--------------------------------------*\n");
+    for (i = 0; i< nCandidatos; i++){
+        printf("* Candidato(a): %s\n", candidatos[i].nomeCandidato);
+        printf("* Numero: %s\n", candidatos[i].digitos);
+        printf("* Quantidade de votos recebidos: %d\n", candidatos[i].votos);
+        printf("*--------------------------------------*\n");
+    }
+    
+
+
+}
+
 
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
