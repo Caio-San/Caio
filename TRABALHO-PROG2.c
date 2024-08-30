@@ -109,10 +109,12 @@ void imprimeVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
     printf("*                                      *\n");
     printf("*--------------------------------------*\n");
     for (i = 0; i< nCandidatos; i++){
+        printf("*                                      *\n");
         printf("* Candidato(a): %s\n", candidatos[i].nomeCandidato);
         printf("* Numero: %s\n", candidatos[i].digitos);
         printf("* Quantidade de votos recebidos: %d\n", candidatos[i].votos);
-        printf("*--------------------------------------*\n");
+        printf("*                                      \n");
+        printf("*--------------------------------------\n");
     }
     
 
