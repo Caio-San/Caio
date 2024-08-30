@@ -88,6 +88,8 @@ void imprimeMenuConfirmacao(){
 }
 
 void imprimeTituloAfiliados(){
+    /* Função responsável por imprimir o título da seção "Afiliados". 
+    */
     printf("\n* ------------------------------------ *\n");
     printf("*                                      *\n");
     printf("* | a | f | i | l | i | a | d| o | s | *\n");
@@ -95,7 +97,6 @@ void imprimeTituloAfiliados(){
     printf("* ------------------------------------ *\n");
     printf("\nNota: Afilie um partido por vez\n");
 }
-
 
 void imprimeVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
     // função que imprime todos os votos dos candidatos
@@ -109,18 +110,16 @@ void imprimeVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
     printf("*                                      *\n");
     printf("*--------------------------------------*\n");
     for (i = 0; i< nCandidatos; i++){
-        printf("*                                      *\n");
-        printf("* Candidato(a): %s\n", candidatos[i].nomeCandidato);
-        printf("* Numero: %s\n", candidatos[i].digitos);
-        printf("* Quantidade de votos recebidos: %d\n", candidatos[i].votos);
-        printf("*                                      \n");
-        printf("*--------------------------------------\n");
+        printf("\n");
+        printf("Candidato(a): %s\n", candidatos[i].nomeCandidato);
+        printf("Numero: %s\n", candidatos[i].digitos);
+        printf("Quantidade de votos recebidos: %d\n", candidatos[i].votos);
+        printf("\n");
     }
     
 
 
 }
-
 
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
@@ -239,6 +238,17 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
 }   
 
 int jaExisteAfiliado(int n, int nFederacoes, char aux[], TipoFederacao* ptr){
+    /* Função responsável por checar se o partido já está filiado à respectiva federação.
+
+    Parâmetros:
+        int n: quantidade de partidos já cadastrados na respectiva federação;
+        int nFederacoes: quantidade de federações cadastradas;
+        char aux[]: sigla do partido a ser cadastrado;
+        TipoFederacao* ptr: ponteiro para vetor que armazena os dados das federacoes cadastradas;
+    Retorno:
+        int 0: partido já afiliado;
+        int 1: partido não afiliado. 
+    */
     
     int i;
     for(i=0; i<n; i++){
@@ -250,7 +260,15 @@ int jaExisteAfiliado(int n, int nFederacoes, char aux[], TipoFederacao* ptr){
 }
 
 void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, int nFederacoes, int i){
-    /*
+    /* Função responsável por registrar os afiliados na respectiva federação.
+    
+    Parâmetros:
+        TipoFederacao* ptr1: ponteiro para vetor que armazena os dados das federacoes cadastradas;
+        TipoPartido* ptr2: ponteiro para vetor que armazena os dados dos partidos cadastrados;
+        int nPartidos: quantidade de partidos cadastrados;
+        int nFederacoes: quantidade de federações cadastradas;
+        int i: quantidade de afiliados cadastrados.
+
     */
     char siglaAux[5];
     int opcao;
@@ -306,11 +324,23 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
 }
 
 int jaExisteFederacao(int* n, char aux[], TipoFederacao* ptr, char tipo[]){
+    /* Função responsável por verificar se o nome ou sigla a ser cadastrado já existe no banco de dados.
+
+    Parâmetros:
+        int* n: quantidade de federacoes cadastradas;
+        char aux[]: string a ser verificada;
+        TipoFederacao* ptr1: ponteiro para vetor que armazena os dados das federacoes cadastradas;
+        TipoPartido* ptr2: ponteiro para vetor que armazena os dados dos partidos cadastrados;
+        char tipo[]: string que define se será verificado um nome ou sigla.
+    Retorno:
+        int 0: não existe;
+        int 1: existe..
+    */
 
     int i;
     for(i=0; i<*n; i++){   //VERIFICA SE O PARTIDO JÁ EXISTE
         if((strcmp(tipo, "nome")) == 0){
-            if((strcmp(aux, ptr[i].nomeFederacao)) == 0){   //ENTRA SE O PARTIDO JÁ EXISTIR
+            if((strcmp(aux, ptr[i].nomeFederacao)) == 0){   //ENTRA SE O NOME JÁ EXISTIR
                 return 1;
             }
         }else{
@@ -410,6 +440,12 @@ int verificanumeros(char *aux){
 }
 
 void zeraVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
+    /* Função responsável por zerar o campo de votos das structs TipoCandidato.
+
+    Parâmetros:
+        TipoCandidato* candidatos: ponteiro para vetor que armazena os dados dos candidatos cadastrados;
+        int nCandidatos: quantidade de candidatos cadastrados.
+    */
     int i;
     for(i=0; i<nCandidatos; i++){
         candidatos[i].votos = 0;
@@ -417,6 +453,19 @@ void zeraVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
 }
 
 int jaExistecandidato(int* nCandidatos, char aux[], TipoCandidato* ptr, char tipo[], int* indiceCandidato){
+    /* Função responsável por verificar se o candidato já existe no banco de dados.
+
+    Parâmetros:
+        int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
+        char aux[]: string a ser verificada;
+        TipoCandidato* ptr: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+        char tipo[]: char que define o que será verificado.
+        int* indiceCandidato: localização do candidato em ptr.
+
+    Retorno:
+        0: não existe;
+        1: existe.
+    */
     int i;
     for(i=0; i<*nCandidatos; i++){   //VERIFICA SE O CANDIDATO JÁ EXISTE
         if((strcmp(tipo, "nome")) == 0){
@@ -592,6 +641,13 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
 }
 
 char auxSecao1(int qtvotos){
+    /* Função responsável por verificar quantos dígitos a quantidade de votos tem.
+
+    Parâmetros:
+        int qtVotos: quantidade de votos a ser analisada;
+    Retorno:
+        char* aux2: ponteiro para char que guarda a quantidade de espaços necessários para regular a tabela.
+    */
     char aux[10];
     char *aux2 = NULL;
     int i;
