@@ -690,12 +690,12 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
     }
 }
 
-void calculaVotosFederacao(TipoFederacao *ptr, int* nFederacoes){
+// void calculaVotosFederacao(TipoFederacao *ptr, int* nFederacoes){
 
-    int i;
-    for(i=0;)
+//     int i;
+//     for(i=0;);
 
-}
+// }
 
 
 int main(){
