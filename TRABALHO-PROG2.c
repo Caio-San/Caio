@@ -1,4 +1,5 @@
 
+#define _OPEN_SYS_ITOA_EXT
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -565,8 +566,50 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
         }  
     }
 }
-    
 
+char auxSecao1(int qtvotos){
+    char aux[10];
+    char *aux2 = NULL;
+    int i;
+    sprintf(aux,"%d", qtvotos);
+    aux2 = (char *) malloc((16-strlen(aux))*sizeof(char));
+    for(i=0; i<(strlen(aux2)); i++){
+        strcpy(aux2[i], ' ');
+    }
+    return aux2;
+
+}
+
+void imprimeSecao1(int votosVal, int votosNul, int votosBra, int qEleitoral){
+    /* A função imprime a tabela com os valores: total de votos, votos válidos, 
+    votos nulos, votos brancos e quociente Eleitoral.
+
+    Parâmetros:
+        int votosVal: quantidade de votos válidos;
+        int votosNul: quantidade de votos nulos;
+        int votosBra: quantidade de votos brancos;
+        int qEleitoral
+    */
+
+    printf("\n* ------------------------------------- *\n");
+    printf("*                                       *\n");
+    printf("* | r | e | l | a | t | o | r | i | o | *\n");
+    printf("*   | p | a | r | t | e |   | u | m |   *\n");
+    printf("*                                       *\n");
+    printf("* ------------------------------------- *\n");
+    printf("*                                       *\n");
+    printf("* Total de votos: %d%s      *\n", (votosBra+votosNul+votosVal), auxSecao1(votosBra+votosNul+votosVal));
+    printf("*                                       *\n");
+    printf("* Votos válidos: %d%s       *\n", votosVal, auxSecao1(votosVal));
+    printf("*                                       *\n");
+    printf("* Votos nulos: %d%s         *\n", votosNul, auxSecao1(votosNul));
+    printf("*                                       *\n");
+    printf("* Votos brancos: %d%s       *\n", votosBra, auxSecao1(votosBra));
+    printf("*                                       *\n");
+    printf("* Quociente eleitoral: %d%s *\n", qEleitoral, auxSecao1(qEleitoral));
+    printf("*                                       *\n");
+    printf("* ------------------------------------- *\n");
+}
 
 int main(){
     // int i; //TESTE
@@ -676,9 +719,20 @@ int main(){
         
 
 // // RELATORIO
-//     //ADICIONAR PASSOS ANTERIORES NECESSÁRIOS
-//     imprimeRelatorio();
-//     //CONTÉM FUNÇÕES DESCRITAS NA PLANILHA
+
+    //SEÇAO 1
+
+    //SEÇÃO 2
+
+    //SEÇAO 3
+
+    //SEÇÃO 4
+
+    //SEÇAO 5
+
+    //SEÇÃO 6
+
+
 
     free(candidatos);
     free(partidos);
