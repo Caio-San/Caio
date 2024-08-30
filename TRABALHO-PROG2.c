@@ -8,7 +8,7 @@ typedef struct{
     char nomeFederacao[50];
     char siglaFederacao[5];
     char siglaAfiliados[50][5];
-
+    int votos;
 
 } TipoFederacao;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇOES DAS FEDERAÇÕES
@@ -169,8 +169,6 @@ void imprimeSecao1(int votosVal, int votosNul, int votosBra, int qEleitoral){
     printf("*                                       *\n");
     printf("* ------------------------------------- *\n");
 }
-
-
 
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
@@ -403,7 +401,7 @@ int jaExisteFederacao(int* n, char aux[], TipoFederacao* ptr, char tipo[]){
     return 0;
 }
 
-int registraFederacao(TipoFederacao *ptr , int* nFederacoes, int* tam){
+int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
     /* A função tem o objetivo de cadastrar novos partidos.
     Caso o partido inserido não exista e os dados sejam válidos, 
     atribui os respectivos valores a ptr[]
@@ -691,6 +689,10 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
     }
 }
 
+void calculaVotosFederacao(TipoFederacao *ptr, int* nFederacoes){
+
+}
+
 
 int main(){
     // int i; //TESTE
@@ -765,8 +767,8 @@ int main(){
     zeraVotosCandidatos(candidatos, nCandidatos);    
     while (flag){
         imprimeMenuVotacao();
-
         printf("Selecione uma opcao: ");
+
         if ((scanf("%d", &opcao)) > 0){
             switch (opcao){
                 case 1:
