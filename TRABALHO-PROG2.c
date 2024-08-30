@@ -16,6 +16,7 @@ typedef struct{
 typedef struct{
     char nomePartido[50];
     char siglaPartido[5];
+    int votos;
 } TipoPartido;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇÕES DOS PARTIDOS
 
@@ -690,6 +691,9 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
 }
 
 void calculaVotosFederacao(TipoFederacao *ptr, int* nFederacoes){
+
+    int i;
+    for(i=0;)
 
 }
 
