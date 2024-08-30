@@ -98,17 +98,16 @@ void imprimeTituloAfiliados(){
     printf("\nNota: Afilie um partido por vez\n");
 }
 
-void imprimeVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
+void imprimeSecao2(TipoCandidato* candidatos, int nCandidatos){
     // função que imprime todos os votos dos candidatos
     
     int i;
-    printf("\n*--------------------------------------*\n");
-    printf("*                                      *\n");
-    printf("* | c | o | n | c | l | u | s | a | o | *\n");
-    printf("*            | d | a |                 *\n");
-    printf("*    | v | o | t | a | c | a | o |     *\n");
-    printf("*                                      *\n");
-    printf("*--------------------------------------*\n");
+    printf("\n* --------------------------------------- *\n");
+    printf("*                                           *\n");
+    printf("*   | r | e | l | a | t | o | r | i | o |   *\n");
+    printf("* | p | a | r | t | e |   | d | o | i | s | *\n");
+    printf("*                                           *\n");
+    printf("* ----------------------------------------- *\n");
     for (i = 0; i< nCandidatos; i++){
         printf("\n");
         printf("Candidato(a): %s\n", candidatos[i].nomeCandidato);
@@ -117,9 +116,61 @@ void imprimeVotosCandidatos(TipoCandidato* candidatos, int nCandidatos){
         printf("\n");
     }
     
+}
 
+char* auxSecao1(int qtvotos){
+    /* Função responsável por verificar quantos dígitos a quantidade de votos tem.
+
+    Parâmetros:
+        int qtVotos: quantidade de votos a ser analisada;
+    Retorno:
+        char* aux2: ponteiro para char que guarda a quantidade de espaços necessários para regular a tabela.
+    */
+    char aux[10];
+    char *aux2 = NULL;
+    int i;
+    sprintf(aux,"%d", qtvotos);
+    aux2 = (char *) malloc((16-strlen(aux))*sizeof(char));
+    for(i=0; i<(int)(strlen(aux2)); i++){
+        // strcpy(aux2[i], ' ');
+        aux2[i] = ' ';
+    }
+    return aux2;
 
 }
+
+void imprimeSecao1(int votosVal, int votosNul, int votosBra, int qEleitoral){
+    /* A função imprime a tabela com os valores: total de votos, votos válidos, 
+    votos nulos, votos brancos e quociente Eleitoral.
+
+    Parâmetros:
+        int votosVal: quantidade de votos válidos;
+        int votosNul: quantidade de votos nulos;
+        int votosBra: quantidade de votos brancos;
+        int qEleitoral
+    */
+
+    printf("\n* ------------------------------------- *\n");
+    printf("*                                       *\n");
+    printf("* | r | e | l | a | t | o | r | i | o | *\n");
+    printf("*   | p | a | r | t | e |   | u | m |   *\n");
+    printf("*                                       *\n");
+    printf("* ------------------------------------- *\n");
+    printf("*                                       *\n");
+    printf("* Total de votos: %d%s      *\n", (votosBra+votosNul+votosVal), auxSecao1(votosBra+votosNul+votosVal));
+    printf("*                                       *\n");
+    printf("* Votos válidos: %d%s       *\n", votosVal, auxSecao1(votosVal));
+    printf("*                                       *\n");
+    printf("* Votos nulos: %d%s         *\n", votosNul, auxSecao1(votosNul));
+    printf("*                                       *\n");
+    printf("* Votos brancos: %d%s       *\n", votosBra, auxSecao1(votosBra));
+    printf("*                                       *\n");
+    printf("* Quociente eleitoral: %d%s *\n", qEleitoral,auxSecao1(qEleitoral));
+    printf("*                                       *\n");
+    printf("* ------------------------------------- *\n");
+}
+
+
 
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
@@ -640,56 +691,6 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
     }
 }
 
-char auxSecao1(int qtvotos){
-    /* Função responsável por verificar quantos dígitos a quantidade de votos tem.
-
-    Parâmetros:
-        int qtVotos: quantidade de votos a ser analisada;
-    Retorno:
-        char* aux2: ponteiro para char que guarda a quantidade de espaços necessários para regular a tabela.
-    */
-    char aux[10];
-    char *aux2 = NULL;
-    int i;
-    sprintf(aux,"%d", qtvotos);
-    aux2 = (char *) malloc((16-strlen(aux))*sizeof(char));
-    for(i=0; i<(strlen(aux2)); i++){
-        strcpy(aux2[i], ' ');
-    }
-    return aux2;
-
-}
-
-void imprimeSecao1(int votosVal, int votosNul, int votosBra, int qEleitoral){
-    /* A função imprime a tabela com os valores: total de votos, votos válidos, 
-    votos nulos, votos brancos e quociente Eleitoral.
-
-    Parâmetros:
-        int votosVal: quantidade de votos válidos;
-        int votosNul: quantidade de votos nulos;
-        int votosBra: quantidade de votos brancos;
-        int qEleitoral
-    */
-
-    printf("\n* ------------------------------------- *\n");
-    printf("*                                       *\n");
-    printf("* | r | e | l | a | t | o | r | i | o | *\n");
-    printf("*   | p | a | r | t | e |   | u | m |   *\n");
-    printf("*                                       *\n");
-    printf("* ------------------------------------- *\n");
-    printf("*                                       *\n");
-    printf("* Total de votos: %d%s      *\n", (votosBra+votosNul+votosVal), auxSecao1(votosBra+votosNul+votosVal));
-    printf("*                                       *\n");
-    printf("* Votos válidos: %d%s       *\n", votosVal, auxSecao1(votosVal));
-    printf("*                                       *\n");
-    printf("* Votos nulos: %d%s         *\n", votosNul, auxSecao1(votosNul));
-    printf("*                                       *\n");
-    printf("* Votos brancos: %d%s       *\n", votosBra, auxSecao1(votosBra));
-    printf("*                                       *\n");
-    printf("* Quociente eleitoral: %d%s *\n", qEleitoral, auxSecao1(qEleitoral));
-    printf("*                                       *\n");
-    printf("* ------------------------------------- *\n");
-}
 
 int main(){
     // int i; //TESTE
@@ -705,7 +706,6 @@ int main(){
     federacoes = (TipoFederacao *) malloc(tamf*sizeof(TipoFederacao));
 
     //CADASTROS
-
     while (flag){
     //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
         imprimeMenuCadastro(); //FUNÇÃO QUE IMPRIME O MENU
@@ -798,19 +798,10 @@ int main(){
     
         
 
-// // RELATORIO
+// RELATORIO
 
-    //SEÇAO 1
-
-    //SEÇÃO 2
-
-    //SEÇAO 3
-
-    //SEÇÃO 4
-
-    //SEÇAO 5
-
-    //SEÇÃO 6
+    // imprimeSecao1(votosVal, votosNul, votosBra, qEleitoral);
+    // imprimeSecao2(candidatos, nCandidatos);
 
 
 
