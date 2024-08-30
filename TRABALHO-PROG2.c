@@ -24,7 +24,7 @@ typedef struct{
     int idade;
     char digitos[5];
     char partido[50];
-    int votos
+    int votos;
 
 } TipoCandidato;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMÇOES DE CADA CANDIDATO
