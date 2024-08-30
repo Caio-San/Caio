@@ -776,7 +776,8 @@ int main(){
         }else{
             printf("\nOpcao invalida. Tente novamente!\n");
             getchar();
-        }   
+        }
+        getchar();
     }
 
     //VOTAÇÃO
@@ -805,6 +806,7 @@ int main(){
             printf("\nOpcao invalida. Tente novamente!\n");
             getchar();
         }
+        getchar();
     }
     // TESTES -- NÃO APAGAR
     // printf("\nRESULTADO");
