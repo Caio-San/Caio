@@ -24,7 +24,7 @@ typedef struct{
 typedef struct{
     char nomeCandidato[50];
     int idade;
-    char digitos[5];
+    char digitos[6];
     char partido[50];
     int votos;
 
@@ -534,6 +534,19 @@ int jaExistecandidato(int* nCandidatos, char aux[], TipoCandidato* ptr, char tip
     return 0;
 }
 
+int numeromax(char *digitos){
+    if (digitos == NULL){
+        return 1;
+    }
+    if (strlen(digitos) != 5){
+        return 1;
+
+    }
+    
+
+
+    return 0;
+}
 int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam, int *nCandidatos){
     char nomeaux[50],aux[50],digitosaux[6];
     int i,idadeaux=0;
@@ -606,19 +619,30 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
     // DEFINE A IDADE DO QUANDIDATO E VERIFICA SE É VÁLIDO
     while(1){
         printf("\nDigite os 5 digitos do candidato: ");
-        fgets(digitosaux, 5, stdin); //ACRESCENTAR CASO DE ERRO PARA MENOS OU MAIS DE 5 DIGITOS LIDOS
+        fgets(digitosaux, 6, stdin); //ACRESCENTAR CASO DE ERRO PARA MENOS OU MAIS DE 5 DIGITOS LIDOS
         digitosaux[strcspn(digitosaux, "\n")] = '\0';
-        if (verificanumeros(digitosaux)) {
+        if (numeromax(digitosaux)){
             getchar();
-            printf("\nDigite 5 dígitos válidos!\n");
+            printf("Deve ser inserido 5 digitos totais!");
+
         }else{
-            getchar();
-            strcpy(candidatos[*nCandidatos].digitos, digitosaux);
-            break;
+            if (verificanumeros(digitosaux)) {
+                getchar();
+                printf("\nDigite 5 dígitos válidos!\n");
+            }else{
+                getchar();
+                strcpy(candidatos[*nCandidatos].digitos, digitosaux);
+                break;
+            }
         }
+
+
+
+
     }
+       
     // DEFINE OS DIGITOS DO CANDIDATO E VERIFICA SE É VALIDO
-    (*nCandidatos)++;
+    *nCandidatos = *nCandidatos + 1 ;
     return 0;
 }
 
@@ -741,9 +765,9 @@ int main(){
                     getchar();
                     if(nPartidos >0){
                         if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos) == 0)){                   
-                            printf("\nPartido: %s", candidatos[nCandidatos].partido);   //TESTES
-                            printf("\nCandidato: %s", candidatos[nCandidatos].nomeCandidato);
-                            printf("\nDigitos: %s", candidatos[nCandidatos].digitos);                    
+                            printf("\nPartido: %s", candidatos[nCandidatos - 1].partido);   //TESTES
+                            printf("\nCandidato: %s", candidatos[nCandidatos - 1].nomeCandidato);
+                            printf("\nDigitos: %s", candidatos[nCandidatos - 1].digitos);                    
                         }else{                                                                  
                             printf("\nO procedimento falhou.\n");                                                                                                      
                         }
