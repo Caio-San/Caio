@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-
+#include <math.h>
 
 typedef struct{
     char nomeFederacao[50];
@@ -686,7 +686,7 @@ int confirmaVoto(){
     }   
 }
 
-void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *votoBra, int* nCandidatos) {
+void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int *votoVal, int *votoNul, int *votoBra, int *nCandidatos) {
     char auxDigito[5], voto[3];
     int indiceCandidato, flag =1;
 
@@ -709,13 +709,30 @@ void Registrarvoto(TipoCandidato* candidatos, int *votoVal, int *votoNul, int *v
                         if((strcmp(voto, "val"))== 0){
                             candidatos[indiceCandidato].votos = candidatos[indiceCandidato].votos + 1;
                             *votoVal = *votoVal +1;
+                            printf("Voto Candidato :");
+                            printf("%d", candidatos[indiceCandidato].votos);
+                            printf("\nQuantidade de votos do partido _");
+                            printf("\n%s",candidatos[indiceCandidato].partido);
+                            //TESTES
+                            int i,p;
+                            char aux[50];
+                            strcpy(candidatos[indiceCandidato].partido,aux);
+                            for(i=0;i<tamp;i++){
+                                if ((strcmp(aux, partidos[i].nomePartido)) == 0){
+                                    partidos[i].votos = partidos[i].votos + 1;
+                                    p = i;
+                                    break;
+                                }
+                            }
+                            // Essa estutura está atualizando a quantidade de votos por partido
+                            printf("\n%d",partidos[p].votos );
                         }else{
                             *votoNul = *votoNul +1;
                         }
                         flag=0;
                         break;
                     case 2:
-                        return Registrarvoto(candidatos,votoVal, votoNul,votoBra,nCandidatos);
+                        return Registrarvoto(candidatos,partidos ,tamp, votoVal, votoNul,votoBra,nCandidatos);
                     case 3:
                         *votoBra = *votoBra +1;
                         flag=0;
@@ -745,7 +762,23 @@ void calculaVotosFederacao(TipoFederacao *ptr1, TipoPartido *ptr2, int nFederaco
     }
 }
 
+int quocienteEleitoral(int votosVálidos, int Vagas){
+    double QEleitoral = (double)votosVálidos / Vagas;
+    int parteInteira  = (int)(QEleitoral);
+    double parteFracionaria  = QEleitoral - parteInteira;
 
+    if (parteFracionaria <= 0.5){
+        return parteInteira;
+
+    }else{
+        return parteInteira + 1;
+    }
+
+}
+int quocientePartidário(int QEleitoral ,int votosVálidosPartido){
+    int TotaldeCadeiras = votosVálidosPartido / QEleitoral;
+    return TotaldeCadeiras;
+}
 int main(){
     // int i; //TESTE
     int opcao, flag=1;
@@ -828,7 +861,7 @@ int main(){
             switch (opcao){
                 case 1:
                     getchar();
-                    Registrarvoto(candidatos, &votosVal, &votosNul, &votosBra, &nCandidatos);
+                    Registrarvoto(candidatos,partidos,tamp ,&votosVal, &votosNul, &votosBra, &nCandidatos);
                     break;
                 case 2:
                     getchar();
