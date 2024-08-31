@@ -547,6 +547,7 @@ int numeromax(char *digitos){
 
     return 0;
 }
+
 int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam, int *nCandidatos){
     char nomeaux[50],aux[50],digitosaux[6];
     int i,idadeaux=0;
@@ -630,12 +631,24 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
                 getchar();
                 printf("\nDigite 5 dígitos válidos!\n");
             }else{
-                getchar();
-                strcpy(candidatos[*nCandidatos].digitos, digitosaux);
-                break;
+                int digitosencontrado = 0;
+                for(i=0;i<*tam;i++){
+                    if (strcmp(digitosaux, candidatos[i].digitos) == 0){
+                        printf("Esses digitos já foram selecionados por outro candidato!");
+                        digitosencontrado = digitosencontrado +1;
+                    }
+                }  
+                if (digitosencontrado == 0){
+                    getchar();
+                    strcpy(candidatos[*nCandidatos].digitos, digitosaux);
+                    break;
+                }          
+                    
+                
+                
             }
         }
-
+        getchar();
 
 
 
