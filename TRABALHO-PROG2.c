@@ -1101,7 +1101,7 @@ int main(){
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
     int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
-    int VagasTotais=1, QEleitoral=0, qtEleitos=0 ,QuantidadeEleitos=0,QuantidadeSuplentes=0;
+    int VagasTotais=1, QEleitoral=0, QuantidadeEleitos=0,QuantidadeSuplentes=0;
     int votosVal = 0, votosBra = 0, votosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
@@ -1133,7 +1133,8 @@ int main(){
                     if(nPartidos >0){
                         if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos))==0){  
                             printf("\nnCanditado pós registro: %d", nCandidatos -1);                 
-                            printf("Partido: %s", candidatos[nCandidatos - 1].partido);   //TESTES
+                            printf("Partido 0: %s", candidatos[nCandidatos - 1].partido);   //TESTES
+                            printf("Partido 1: %s", candidatos[nCandidatos].partido);
                             printf("\nCandidato: %s", candidatos[nCandidatos - 1].nomeCandidato);
                             printf("\nDigitos: %s", candidatos[nCandidatos - 1].digitos);                    
                         }else{                                                                  
@@ -1227,7 +1228,7 @@ int main(){
     getchar();
     candidatosEleitos(candidatos, partidos, eleitos,suplentes, QEleitoral, nCandidatos, nPartidos,&QuantidadeEleitos,&QuantidadeSuplentes);
     imprimirSecao5(eleitos,QuantidadeEleitos);
-    getchar;
+    getchar();
 
     
 
