@@ -285,9 +285,13 @@ void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int q
         }
         if(afiliado == 0){
             printf("\nPartido: %s", ptr1[i].nomePartido);
-            printf("\nQuociente partidario: %d\n",quocientePartidario(QEleitoral ,ptr1[i].votos));
+            printf("\nQuociente partidario: %d\n",quocientePartidario(qEleitoral ,ptr1[i].votos));
         }
     }
+}
+
+void imprimirSecao5(){
+
 }
 
 int caracteresValidos(char aux[]){
