@@ -290,7 +290,7 @@ void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int q
     }
 }
 
-void imprimirSecao5(TipoCandidato* eleitos){
+void imprimirSecao5(TipoCandidato* eleitos, int qtEleitos){
     /* Função responsável por imprimir a Seção 5 do relatório.
     Dados a serem impressos: Nome dos candidatos eleitos e o nome dos seus respectivos partidos.
 
@@ -298,7 +298,7 @@ void imprimirSecao5(TipoCandidato* eleitos){
         char candidatosEleitos[]: lista com o nome de todos os candidatos eleitos;
         TipoCandidato* ptr: TipoCandidato* candidatos: ponteiro para vetor que armazena os dados dos candidatos cadastrados.
     */
-    int i, j;
+    int i;
     printf("\n* --------------------------------------------- *\n");
     printf("*                                               *\n");
     printf("*     | r | e | l | a | t | o | r | i | o |     *\n");
@@ -309,7 +309,7 @@ void imprimirSecao5(TipoCandidato* eleitos){
     printf("*                                               *\n");
     printf("* --------------------------------------------- *\n");
 
-    for(i=0; i< len(eleitos); i++){
+    for(i=0; i< qtEleitos; i++){
         printf("\nCandidato(a): %s", eleitos[i].nomeCandidato);
         printf("\nLegenda Partidaria: %s\n", eleitos[i].partido);
     }
@@ -1075,7 +1075,8 @@ int main(){
     // int i; //TESTE
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
-    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50, VagasTotais=1, QEleitoral=0;
+    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
+    int VagasTotais=1, QEleitoral=0, qtEleitos=0;
     int votosVal = 0, votosBra = 0, votosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
@@ -1198,9 +1199,9 @@ int main(){
     getchar();
     imprimeSecao4(partidos, federacoes, nPartidos, nFederacoes, QEleitoral);
     getchar();
-    candidatosEleitos(candidatos, partidos, eleitos, QEleitoral, nCandidatos, nPartidos);
-    imprimirSecao5(eleitos);
-    getchar;
+    qtEleitos = candidatosEleitos(candidatos, partidos, eleitos, QEleitoral, nCandidatos, nPartidos);
+    imprimirSecao5(eleitos, qtEleitos);
+    getchar();
 
     
 
