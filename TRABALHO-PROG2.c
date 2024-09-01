@@ -717,8 +717,7 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int
                             printf("\nQuantidade de votos do partido _");
                             printf("\n%s",candidatos[indiceCandidato].partido);
                             //TESTES
-                            
-                            // strcpy(candidatos[indiceCandidato].partido,aux);
+
                             strcpy(aux, candidatos[indiceCandidato].partido);
                             for(i=0;i<tamp;i++){
                                 if ((strcmp(aux, partidos[i].nomePartido)) == 0){
@@ -799,12 +798,9 @@ int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleit
             break;
         }
     }
-    printf("\npartido: %s" ,aux);
     for(i=0;i<nPartidos;i++){
         printf("\npartido vetor: %s\npartido aux: %s ", partidos[i].nomePartido, aux);
         if (strcmp(partidos[i].nomePartido, aux) == 0){
-            // votosPartidos = partidos[i].votos;
-            // QPartidario = quocientePartidario(QEleitoral, votosPartidos);
             QPartidario = quocientePartidario(QEleitoral, partidos[i].votos);
             printf("\nqpartidario %d", QPartidario);
             if (partidos[i].eleitos < QPartidario){
