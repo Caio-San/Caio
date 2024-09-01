@@ -184,7 +184,7 @@ void imprimeSecao3(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF){
     /* Função responsável por imprimir a Seção 3 do relatório.
     Dados a serem impressos: Nome do partido/federação e a quantidade de votos que obteve.
     */
-    int i, j, k;
+    int i, j, k, afiliado=0;
     printf("\n* --------------------------------------- *\n");
     printf("*                                           *\n");
     printf("*   | r | e | l | a | t | o | r | i | o |   *\n");
@@ -200,15 +200,24 @@ void imprimeSecao3(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF){
     for(i=0; i<nP; i++){
         for(j=0; j<nF; j++){
             for(k=0; k<ptr2[j].nAfiliados; k++){
-                if(strcmp(ptr1[i].siglaPartido, ptr2[j].siglaAfiliados[k]) != 0){ //ENTRA SE O PARTIDO FOR INDEPENDENTE
-                    printf("\n");
-                    printf("Partido: %s\n", ptr1[i].nomePartido);
-                    printf("Votos recebidos: %d\n", ptr1[i].votos);
+                if(strcmp(ptr1[i].siglaPartido, ptr2[j].siglaAfiliados[k]) == 0){ //ENTRA SE O PARTIDO FOR AFILIADO
+                    afiliado = 1;
+                    break;    
                 }
             }
-                
+            if(afiliado == 1){
+                break;
+            }
+        }
+        if(afiliado == 0){
+            printf("\n");
+            printf("Partido: %s\n", ptr1[i].nomePartido);
+            printf("Votos recebidos: %d\n", ptr1[i].votos);
         }
     }
+    // printf("\n");
+    //                 printf("Partido: %s\n", ptr1[i].nomePartido);
+    //                 printf("Votos recebidos: %d\n", ptr1[i].votos);
 }
 
 int caracteresValidos(char aux[]){
@@ -838,7 +847,7 @@ int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleit
         }
     }
     for(i=0;i<nPartidos;i++){
-        printf("\npartido vetor: %s\npartido aux: %s ", partidos[i].nomePartido, aux);
+        // printf("\npartido vetor: %s\npartido aux: %s ", partidos[i].nomePartido, aux);
         if (strcmp(partidos[i].nomePartido, aux) == 0){
             QPartidario = quocientePartidario(QEleitoral, partidos[i].votos);
             printf("\nqpartidario %d", QPartidario);
@@ -971,6 +980,7 @@ int main(){
 // DADOS AUXILIARES PARA O RELATORIO
     QEleitoral = quocienteEleitoral(votosVal , VagasTotais);
     printf("\nqEleitoral: %d", QEleitoral);
+    
     calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
 // RELATORIO
 
