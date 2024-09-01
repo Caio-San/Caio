@@ -297,7 +297,7 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
             getchar();
             if (caracteresValidos(nomeAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExistePartido(*nPartidos, nomeAux, ptr, "nome") == 1){   //VERIFICA SE O PARTIDO JÁ EXISTE
-                    printf("\nPartido já existente.\n");
+                    printf("\nPartido ja existente.\n");
                     return 1;
                 }else{
                     break;
@@ -351,7 +351,7 @@ int jaExisteAfiliado(int n, int nFederacoes, char aux[], TipoFederacao* ptr){
     
     int i;
     for(i=0; i<n; i++){
-        if((strcmp(aux, ptr[nFederacoes].siglaAfiliados[i])) == 0){   //ENTRA SE O AFILIADO JA ESTIVER CADASTRADO
+        if((strcmp(aux, ptr[nFederacoes-1].siglaAfiliados[i])) == 0){   //ENTRA SE O AFILIADO JA ESTIVER CADASTRADO
             return 1;
         }
     }
@@ -376,13 +376,13 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
         printf("\nDigite a sigla do partido a ser afiliado: ");
         //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
         if((scanf("%s", siglaAux)) > 0){
-
             if (caracteresValidos(siglaAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExistePartido(nPartidos, siglaAux, ptr2, "sigla") == 1){   //VERIFICA SE O PARTIDO EXISTE
                     if((jaExisteAfiliado(i, nFederacoes, siglaAux, ptr1)) == 0){
                         printf("\nPartido afiliado com sucesso.\n");
-                        strcpy(ptr1[nFederacoes].siglaAfiliados[i], siglaAux);
-                        ptr1[nFederacoes].nAfiliados = ptr1[nFederacoes].nAfiliados + 1;
+                        strcpy(ptr1[nFederacoes-1].siglaAfiliados[i], siglaAux);
+                        ptr1[nFederacoes-1].nAfiliados = ptr1[nFederacoes-1].nAfiliados + 1;
+                        printf("\nfederacao: %s\nnumero de afiliados: %d",ptr1[nFederacoes-1].nomeFederacao, ptr1[nFederacoes-1].nAfiliados);
                         break;
                     }else{
                         printf("\nO partido inserido ja esta cadastrado como afiliado.");
@@ -406,7 +406,6 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
     while(1){
         printf("\n(1) Sim\n(2) Nao\nSelecione uma opcao: ");
         if ((scanf("%d", &opcao)) > 0){
-            getchar();
             switch (opcao){
                 case 1:
                     return registraAfiliados(ptr1, ptr2, nPartidos, nFederacoes, i+1);
@@ -476,7 +475,7 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
         printf("\nDigite o nome da federacao: ");
         //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
         if((scanf("%[^\n]", nomeAux)) > 0){
-            getchar();
+            printf("\n1 nomeAux: %s", nomeAux); //TESTE
             if (caracteresValidos(nomeAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExisteFederacao(nFederacoes, nomeAux, ptr, "nome") == 1){   //VERIFICA SE A FEDERACAO JÁ EXISTE
                     printf("\nFederacao já existente.\n");
@@ -488,15 +487,15 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
                 printf("\nCaracteres invalidos. Tente novamente!");
             }
         }else{
-            getchar();
             printf("\nEntrada invalida. Tente novamente!");
         }
+        getchar();
     }
     //SE A FEDERAÇÃO AINDA NAO EXISTIR:
     while(1){
         printf("\nDigite a sigla da federacao (maximo 5 caracteres): ");
         if(scanf("%s", siglaAux) > 0){
-            getchar();
+            printf("\n1 siglaAux: %s", siglaAux); //TESTE
             if (caracteresValidos(siglaAux) == 0){
                 if (jaExisteFederacao(nFederacoes, siglaAux, ptr, "sigla")){
                     printf("\nSigla já existente. Tente novamente!\n");
@@ -507,12 +506,13 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
                 printf("\nCaracteres invalidos. Tente novamente!\n");
             }
         }else{
-            getchar();
             printf("\nEntrada inálida. Tente novamente!\n");
-        }                  
+        }
+        getchar();                  
     }
-
+    printf("\n2 nomeAux: %s", nomeAux); //TESTE
     strcpy(ptr[*nFederacoes].nomeFederacao, nomeAux);
+    printf("\n2 siglaAux: %s", siglaAux); //TESTE
     strcpy(ptr[*nFederacoes].siglaFederacao, siglaAux);
     *nFederacoes = *nFederacoes +1;
     return 0;   
@@ -798,14 +798,20 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int
 }
 
 void calculaVotosFederacao(TipoFederacao *ptr1, TipoPartido *ptr2, int nFederacoes, int nCandidatos){
-
+    /* Função responsável por calcular os votos de cada Federação.
+    */
     int i, j, k;
     for(i=0; i< nFederacoes; i++){
         ptr1[i].votos = 0;
+        // for(j=0; j<nCandidatos; j++){
         for(j=0; j<ptr1[i].nAfiliados; j++){ // j< QUANTIDADE DE AFILIADOS CADASTRADOS NA RESPECTIVA FEDERAÇÃO
             for(k=0; k< nCandidatos; k++){
-                if((strcmp(ptr1[i].siglaAfiliados[j], ptr2[k].siglaPartido)) == 0){
+            // for(k=0; k< ptr1[i].nAfiliados; k++){
+                printf("\nsigla afiiado: %s\nsigla partido: %s\n", ptr1[i].siglaAfiliados[j], ptr2[k].siglaPartido); //TESTE
+                if((strcmp(ptr1[i].siglaAfiliados[k], ptr2[j].siglaPartido)) == 0){
+                    printf("ptr1[i].votos");
                     ptr1[i].votos = ptr1[i].votos + ptr2[k].votos;
+                    break;
                 }
             }  
         }
@@ -899,9 +905,9 @@ int main(){
                     getchar();
                     if(nPartidos >0){
                         if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos) == 0)){                   
-                            printf("\nPartido: %s", candidatos[nCandidatos - 1].partido);   //TESTES
-                            printf("\nCandidato: %s", candidatos[nCandidatos - 1].nomeCandidato);
-                            printf("\nDigitos: %s", candidatos[nCandidatos - 1].digitos);                    
+                            // printf("\nPartido: %s", candidatos[nCandidatos - 1].partido);   //TESTES
+                            // printf("\nCandidato: %s", candidatos[nCandidatos - 1].nomeCandidato);
+                            // printf("\nDigitos: %s", candidatos[nCandidatos - 1].digitos);                    
                         }else{                                                                  
                             printf("\nO procedimento falhou.\n");                                                                                                      
                         }
@@ -919,7 +925,7 @@ int main(){
                     }else{
                         registraFederacao(federacoes, &nFederacoes, &tamf);
                         imprimeTituloAfiliados();
-                        registraAfiliados(federacoes, partidos, nPartidos, nFederacoes, 1);
+                        registraAfiliados(federacoes, partidos, nPartidos, nFederacoes, 0);
                     }
                     break;
                 case 4:
@@ -992,9 +998,9 @@ int main(){
     getchar();
     
     candidatosEleitos(candidatos,partidos,QEleitoral,nCandidatos,nPartidos);
-    printf("\n votos val: %d",votosVal );
+    printf("\n votos val: %d",votosVal ); //TESTE
     // testes
-    printf("\nVotos fed: %d", federacoes[0].votos);
+    printf("\nVotos fed: %d", federacoes[0].votos); //TESTE
     calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
 
 
