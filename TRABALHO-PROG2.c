@@ -290,7 +290,7 @@ void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int q
     }
 }
 
-void imprimirSecao5(char candidatosEleitos[], TipoCandidato* ptr){
+void imprimirSecao5(TipoCandidato* eleitos){
     /* Função responsável por imprimir a Seção 5 do relatório.
     Dados a serem impressos: Nome dos candidatos eleitos e o nome dos seus respectivos partidos.
 
@@ -309,14 +309,9 @@ void imprimirSecao5(char candidatosEleitos[], TipoCandidato* ptr){
     printf("*                                               *\n");
     printf("* --------------------------------------------- *\n");
 
-    for(i=0; i< len(candidatosEleitos); i++){
-        for(j=0; j< len(ptr); j++){
-            if(strcmp(candidatosEleitos[i], ptr[j].nomeCandidato) == 0){
-                printf("\nCandidato(a): %s", candidatosEleitos[i]);
-                printf("\nLegenda Partidaria: %s\n", ptr[j].partido);
-            }
-        }
-
+    for(i=0; i< len(eleitos); i++){
+        printf("\nCandidato(a): %s", eleitos[i].nomeCandidato);
+        printf("\nLegenda Partidaria: %s\n", eleitos[i].partido);
     }
 }
 
@@ -1008,9 +1003,9 @@ int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCand
     superior ao produto de 0.1 e do quociente eleitoral , alem de estar dentro do limite de vagas do seu partido.
     
         Parâmetros:
-            TipoCandidato *candidatos: ponteiro para o vetor que armazena as informaçoes dos candidatos.
-            TipoPartido *partidos :  ponteiro para vetor que armazena os dados dos partidos cadastrados.
-            TipoCandidato *eleitos; ponteiro para o vetor que armazena as informaçoes dos candidatos
+            TipoCandidato *candidatos: ponteiro para o vetor que armazena as informaçoes dos candidatos;
+            TipoPartido *partidos :  ponteiro para vetor que armazena os dados dos partidos cadastrados;
+            TipoCandidato *eleitos; ponteiro para o vetor que armazena as informaçoes dos candidatos eleitos;
             int QEleitoral: variavel inteira que armazena o quociente eleitoral da eleiçao.
             int nCandidatos: inteiro que armazena a quantidade de cadidatos cadastrados;
             int npartidos: inteiro que armazena a quantidade de partidos cadastrados;
@@ -1020,14 +1015,11 @@ int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCand
             int 1: Candidato não está eleito;
             */
     
-    
-    
     int i, j, indiceCandidato = 0, indicePartido = 0, eleito = 0, votoC = 0;
     int QPartidario = 0;
     TipoCandidato auxCandidato;
     char aux[50] = "";
-    int QuantidadeEleitos = 0, vagasTotais = 1;
-
+    int QuantidadeEleitos = 0, vagasTotais = 24;
 
     for (i = 0; i < nCandidatos - 1; i++) {
         for (j = 0; j < nCandidatos - i - 1; j++) {
@@ -1042,7 +1034,6 @@ int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCand
 
     while (vagasTotais > 0) {
         eleito = 0;
-
         for (i = 0; i < nCandidatos; i++) {
             votoC = candidatos[i].votos;
             if (votoC >= (0.1 * QEleitoral)) {
@@ -1052,7 +1043,6 @@ int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCand
                 break;
             }
         }
-
         for (i = 0; i < nPartidos; i++) {
             if (strcmp(partidos[i].nomePartido, aux) == 0) {
                 QPartidario = quocientePartidario(QEleitoral, partidos[i].votos);
@@ -1196,6 +1186,7 @@ int main(){
     QEleitoral = quocienteEleitoral(votosVal , VagasTotais);
     printf("\nqEleitoral: %d", QEleitoral);
     
+    
     //calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
 // RELATORIO
     candidatosEleitos(candidatos,partidos,eleitos,QEleitoral,nCandidatos,nPartidos);
@@ -1207,6 +1198,9 @@ int main(){
     getchar();
     imprimeSecao4(partidos, federacoes, nPartidos, nFederacoes, QEleitoral);
     getchar();
+    candidatosEleitos(candidatos, partidos, eleitos, QEleitoral, nCandidatos, nPartidos);
+    imprimirSecao5(eleitos);
+    getchar;
 
     
 
