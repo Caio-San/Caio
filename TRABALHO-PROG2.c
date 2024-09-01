@@ -977,14 +977,15 @@ int quocienteEleitoral(int votosValidos, int Vagas){
 
 }
 
-int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleitoral, int nCandidatos , int nPartidos){
+int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCandidato *eleitos, int QEleitoral, int nCandidatos, int nPartidos) {
     /*Funçao responsavel por verificar e o candidato esta eleito: precisa cumprir os criterios de ter quantidade de votos validos
     superior ao produto de 0.1 e do quociente eleitoral , alem de estar dentro do limite de vagas do seu partido.
     
         Parâmetros:
-            TipoCandidato *candidatos: ponteiro para o vetor que armazena as informações dos candidatos.
+            TipoCandidato *candidatos: ponteiro para o vetor que armazena as informaçoes dos candidatos.
             TipoPartido *partidos :  ponteiro para vetor que armazena os dados dos partidos cadastrados.
-            int QEleitoral: vairavel inteira que armazena o quociente eleitoral da eleição.
+            TipoCandidato *eleitos; ponteiro para o vetor que armazena as informaçoes dos candidatos
+            int QEleitoral: variavel inteira que armazena o quociente eleitoral da eleiçao.
             int nCandidatos: inteiro que armazena a quantidade de cadidatos cadastrados;
             int npartidos: inteiro que armazena a quantidade de partidos cadastrados;
 
@@ -992,41 +993,65 @@ int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleit
             int 0: Candidato atende aos dois criterios e está eleito;
             int 1: Candidato não está eleito;
             */
-
-    int i,indiceCandidato=0,indicePartido=0,eleito=0,votoC=0;
+    
+    
+    
+    int i, j, indiceCandidato = 0, indicePartido = 0, eleito = 0, votoC = 0;
     int QPartidario = 0;
+    TipoCandidato auxCandidato;
     char aux[50] = "";
-    //printf("oi");
-    for(i=0;i<nCandidatos;i++){
-        votoC = candidatos[i].votos;
-        if ((votoC) >= (0.1 * QEleitoral)) {
-            eleito = eleito + 1;
-            indiceCandidato = i;
-            strcpy(aux, candidatos[i].partido);
-            break;
-        }
-    }
-    //printf("%s", aux);
-    for(i=0;i<nPartidos;i++){
-        // printf("\npartido vetor: %s\npartido aux: %s ", partidos[i].nomePartido, aux);
-        if (strcmp(partidos[i].nomePartido, aux) == 0){
-            QPartidario = quocientePartidario(QEleitoral, partidos[i].votos);
-            //printf("\nQPartidario: %d", QPartidario);
-            if (partidos[i].eleitos < QPartidario){
-                eleito = eleito + 1;
-                indicePartido = i;
-                break;
+    int QuantidadeEleitos = 0, vagasTotais = 1;
+
+
+    for (i = 0; i < nCandidatos - 1; i++) {
+        for (j = 0; j < nCandidatos - i - 1; j++) {
+            if (candidatos[j].votos < candidatos[j + 1].votos ||
+                (candidatos[j].votos == candidatos[j + 1].votos && candidatos[j].idade < candidatos[j + 1].idade)) {
+                auxCandidato = candidatos[j];
+                candidatos[j] = candidatos[j + 1];
+                candidatos[j + 1] = auxCandidato;
             }
         }
     }
-    if (eleito == 2){
-        printf("\n %s esta eleito(a)!\n", candidatos[indiceCandidato].nomeCandidato);
-        partidos[indicePartido].eleitos = partidos[indicePartido].eleitos + 1;
-        return 0;
-    }else{
-        return 1;
+
+    while (vagasTotais > 0) {
+        eleito = 0;
+
+        for (i = 0; i < nCandidatos; i++) {
+            votoC = candidatos[i].votos;
+            if (votoC >= (0.1 * QEleitoral)) {
+                eleito++;
+                indiceCandidato = i;
+                strcpy(aux, candidatos[i].partido);
+                break;
+            }
+        }
+
+        for (i = 0; i < nPartidos; i++) {
+            if (strcmp(partidos[i].nomePartido, aux) == 0) {
+                QPartidario = quocientePartidario(QEleitoral, partidos[i].votos);
+                if (partidos[i].eleitos < QPartidario) {
+                    eleito++;
+                    indicePartido = i;
+                    break;
+                }
+            }
+        }
+
+        if (eleito == 2) {  
+            eleitos[QuantidadeEleitos] = candidatos[indiceCandidato];
+            printf("%s esta eleito!", candidatos[indiceCandidato].nomeCandidato);
+            partidos[indicePartido].eleitos++;
+            QuantidadeEleitos++;
+            vagasTotais--; 
+        } else {
+            break; 
+        }
     }
+
+    return QuantidadeEleitos;  
 }
+
 
 int main(){
     /* Função responsável por concatenar todas as outras funções do programa. */
@@ -1034,15 +1059,16 @@ int main(){
     // int i; //TESTE
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
-    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50, VagasTotais=24, QEleitoral=0;
+    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50, VagasTotais=1, QEleitoral=0;
     int votosVal = 0, votosBra = 0, votosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
     TipoCandidato *candidatos = NULL;
+    TipoCandidato *eleitos = NULL;
     candidatos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
     partidos = (TipoPartido *) malloc(tamp*sizeof(TipoPartido));
     federacoes = (TipoFederacao *) malloc(tamf*sizeof(TipoFederacao));
-
+    eleitos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
     //CADASTROS
     while (flag){
     //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
@@ -1146,7 +1172,7 @@ int main(){
     
     //calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
 // RELATORIO
-    candidatosEleitos(candidatos,partidos,QEleitoral,nCandidatos,nPartidos);
+    candidatosEleitos(candidatos,partidos,eleitos,QEleitoral,nCandidatos,nPartidos);
     imprimeSecao1(votosVal, votosNul, votosBra, QEleitoral);
     getchar();
     imprimeSecao2(candidatos, nCandidatos);
