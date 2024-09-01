@@ -691,7 +691,8 @@ int confirmaVoto(){
 void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int *votoVal, int *votoNul, int *votoBra, int *nCandidatos) {
     char auxDigito[5], voto[3];
     int indiceCandidato, flag =1;
-
+    int i,p=0;
+    char aux[50];
     while(flag){
         printf("\nDigite o numero do candidato: ");
         if((scanf("%s", auxDigito) > 0)){
@@ -716,8 +717,7 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int
                             printf("\nQuantidade de votos do partido _");
                             printf("\n%s",candidatos[indiceCandidato].partido);
                             //TESTES
-                            int i,p;
-                            char aux[50];
+                            
                             strcpy(candidatos[indiceCandidato].partido,aux);
                             for(i=0;i<tamp;i++){
                                 if ((strcmp(aux, partidos[i].nomePartido)) == 0){
@@ -764,8 +764,8 @@ void calculaVotosFederacao(TipoFederacao *ptr1, TipoPartido *ptr2, int nFederaco
     }
 }
 
-int quocienteEleitoral(int votosVálidos, int Vagas){
-    double QEleitoral = (double)votosVálidos / Vagas;
+int quocienteEleitoral(int votosValidos, int Vagas){
+    double QEleitoral = (double)votosValidos / Vagas;
     int parteInteira  = (int)(QEleitoral);
     double parteFracionaria  = QEleitoral - parteInteira;
 
@@ -783,26 +783,27 @@ int quocienteEleitoral(int votosVálidos, int Vagas){
 
 
 
-int quocientePartidario(int QEleitoral ,int votosVálidosPartido){
-    int TotaldeCadeiras = votosVálidosPartido / QEleitoral;
+int quocientePartidario(int QEleitoral ,int votosValidosPartido){
+    int TotaldeCadeiras = votosValidosPartido / QEleitoral;
     return TotaldeCadeiras;
 }
 
 
 
 int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleitoral, int nCandidatos , int nPartidos){
-    int i,indiceCandidato=0,indicePartido=0,eleito=0;
+    int i,indiceCandidato=0,indicePartido=0,eleito=0,votoC=0;
     int QPartidario = 0,votosPartidos=0;
     char aux[50] = "";
-
     for(i=0;i<nCandidatos;i++){
-        if (candidatos[i].votos >= (0.1 * QEleitoral)) {
+        votoC = candidatos[i].votos;
+        if ((votoC) >= (0.1 * QEleitoral)) {
             eleito = eleito + 1;
             indiceCandidato = i;
             strcpy(aux, candidatos[i].partido);
             break;
         }
     }
+    printf("%s" ,aux);
     for(i=0;i<nPartidos;i++){
         if (strcmp(partidos[i].nomePartido, aux) == 0){
             votosPartidos = partidos[i].votos;
