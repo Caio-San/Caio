@@ -102,26 +102,27 @@ void imprimeTituloAfiliados(){
 }
 
 void imprimeSecao2(TipoCandidato* candidatos, int nCandidatos){
-    // função que imprime todos os votos dos candidatos
+    /* Função responsável por imprimir a Seção 2 do relatório.
+    Dados a serem impressos: Nome do candidato e a quantidade de votos que obteve.
+    */
     
     int i;
-    printf("\n* --------------------------------------- *\n");
+    printf("\n* ----------------------------------------- *\n");
     printf("*                                           *\n");
     printf("*   | r | e | l | a | t | o | r | i | o |   *\n");
+    printf("*                                           *\n");
     printf("* | p | a | r | t | e |   | d | o | i | s | *\n");
     printf("*                                           *\n");
-    printf("* ----------------------------------------- *\n");
+    printf("* ----------------------------------------- *");
     for (i = 0; i< nCandidatos; i++){
         printf("\n");
-        printf("Candidato(a): %s\n", candidatos[i].nomeCandidato);
-        printf("Numero: %s\n", candidatos[i].digitos);
-        printf("Quantidade de votos recebidos: %d\n", candidatos[i].votos);
-        printf("\n");
+        printf("\nCandidato(a): %s", candidatos[i].nomeCandidato);
+        printf("\nVotos recebidos: %d", candidatos[i].votos);
     }
     
 }
 
-char* auxSecao1(int qtvotos){
+void auxSecao1(int qtvotos){
     /* Função responsável por verificar quantos dígitos a quantidade de votos tem.
 
     Parâmetros:
@@ -130,16 +131,11 @@ char* auxSecao1(int qtvotos){
         char* aux2: ponteiro para char que guarda a quantidade de espaços necessários para regular a tabela.
     */
     char aux[10];
-    char *aux2 = NULL;
     int i;
     sprintf(aux,"%d", qtvotos);
-    aux2 = (char *) malloc((16-strlen(aux))*sizeof(char));
-    for(i=0; i<(int)(strlen(aux2)); i++){
-        // strcpy(aux2[i], ' ');
-        aux2[i] = ' ';
+    for(i=0; i<16 - (int)(strlen(aux)); i++){
+        printf(" ");
     }
-    return aux2;
-
 }
 
 void imprimeSecao1(int votosVal, int votosNul, int votosBra, int qEleitoral){
@@ -156,21 +152,63 @@ void imprimeSecao1(int votosVal, int votosNul, int votosBra, int qEleitoral){
     printf("\n* ------------------------------------- *\n");
     printf("*                                       *\n");
     printf("* | r | e | l | a | t | o | r | i | o | *\n");
+    printf("*                                       *\n");
     printf("*   | p | a | r | t | e |   | u | m |   *\n");
     printf("*                                       *\n");
     printf("* ------------------------------------- *\n");
     printf("*                                       *\n");
-    printf("* Total de votos: %d%s      *\n", (votosBra+votosNul+votosVal), auxSecao1(votosBra+votosNul+votosVal));
+    printf("* Total de votos: %d      ", (votosBra+votosNul+votosVal));
+    auxSecao1(votosBra+votosNul+votosVal);
+    printf("*\n");
     printf("*                                       *\n");
-    printf("* Votos válidos: %d%s       *\n", votosVal, auxSecao1(votosVal));
+    printf("* Votos validos: %d       ", votosVal);
+    auxSecao1(votosBra+votosNul+votosVal);
+    printf("*\n");
     printf("*                                       *\n");
-    printf("* Votos nulos: %d%s         *\n", votosNul, auxSecao1(votosNul));
+    printf("* Votos nulos: %d         ", votosNul);
+    auxSecao1(votosBra+votosNul+votosVal);
+    printf("*\n");
     printf("*                                       *\n");
-    printf("* Votos brancos: %d%s       *\n", votosBra, auxSecao1(votosBra));
+    printf("* Votos brancos: %d       ", votosBra);
+    auxSecao1(votosBra+votosNul+votosVal);
+    printf("*\n");
     printf("*                                       *\n");
-    printf("* Quociente eleitoral: %d%s *\n", qEleitoral,auxSecao1(qEleitoral));
+    printf("* Quociente eleitoral: %d ", qEleitoral);
+    auxSecao1(votosBra+votosNul+votosVal);
+    printf("*\n");
     printf("*                                       *\n");
     printf("* ------------------------------------- *\n");
+}
+
+void imprimeSecao3(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF){
+    /* Função responsável por imprimir a Seção 3 do relatório.
+    Dados a serem impressos: Nome do partido/federação e a quantidade de votos que obteve.
+    */
+    int i, j, k;
+    printf("\n* --------------------------------------- *\n");
+    printf("*                                           *\n");
+    printf("*   | r | e | l | a | t | o | r | i | o |   *\n");
+    printf("*                                           *\n");
+    printf("* | p | a | r | t | e |   | t | r | e | s | *\n");
+    printf("*                                           *\n");
+    printf("* ----------------------------------------- *\n");
+    for (i = 0; i< nF; i++){
+        printf("\n");
+        printf("Federacao: %s\n", ptr2[i].nomeFederacao);
+        printf("Votos recebidos: %d\n", ptr2[i].votos);
+    }
+    for(i=0; i<nP; i++){
+        for(j=0; j<nF; j++){
+            for(k=0; k<ptr2[j].nAfiliados; k++){
+                if(strcmp(ptr1[i].siglaPartido, ptr2[j].siglaAfiliados[k]) != 0){ //ENTRA SE O PARTIDO FOR INDEPENDENTE
+                    printf("\n");
+                    printf("Partido: %s\n", ptr1[i].nomePartido);
+                    printf("Votos recebidos: %d\n", ptr1[i].votos);
+                }
+            }
+                
+        }
+    }
 }
 
 int caracteresValidos(char aux[]){
@@ -329,7 +367,7 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
         printf("\nDigite a sigla do partido a ser afiliado: ");
         //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
         if((scanf("%s", siglaAux)) > 0){
-            getchar();
+
             if (caracteresValidos(siglaAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExistePartido(nPartidos, siglaAux, ptr2, "sigla") == 1){   //VERIFICA SE O PARTIDO EXISTE
                     if((jaExisteAfiliado(i, nFederacoes, siglaAux, ptr1)) == 0){
@@ -343,7 +381,7 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
                     }
                     
                 }else{
-                    printf("\nA sigla inserida não pertence a um partido existente.\n");
+                    printf("\nA sigla inserida nao pertence a um partido existente.\n");
                     break;
                 }
             }else{
@@ -351,10 +389,11 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
             }
         }else{
             printf("\nEntrada invalida. Tente novamente!");
-            getchar();
         }
+        getchar();
     }
     printf("\nDeseja inserir outro partido?");
+    getchar();
     while(1){
         printf("\n(1) Sim\n(2) Nao\nSelecione uma opcao: ");
         if ((scanf("%d", &opcao)) > 0){
@@ -370,9 +409,9 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
             }
         }else{
             printf("\nOpcao invalida. Tente novamente!\n");
-            getchar();
         }
     }
+    getchar();
     
 }
 
@@ -568,7 +607,7 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
         
         if (caracteresValidos(aux)){
             getchar();
-            printf("\nDigite caracteres válidos!\n");
+            printf("\nDigite caracteres validos!\n");
         }else{
             for(i=0;i<*tam;i++){
                 if ((strcmp(aux, partidos[i].nomePartido)) == 0){
@@ -583,7 +622,7 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
                 break;
             }
             getchar();
-            printf("\nPartido digitado não existe!\n");
+            printf("\nPartido digitado nao existe!\n");
         }
     }
     while(1){
@@ -823,7 +862,7 @@ int main(){
     // int i; //TESTE
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
-    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50, VagasTotais=2, QEleitoral=0;
+    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50, VagasTotais=24, QEleitoral=0;
     int votosVal = 0, votosBra = 0, votosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
@@ -929,13 +968,19 @@ int main(){
     // printf("voto valido: %d", votosVal);
     
         
-
-// RELATORIO
-
-    // imprimeSecao1(votosVal, votosNul, votosBra, qEleitoral);
-    // imprimeSecao2(candidatos, nCandidatos);
+// DADOS AUXILIARES PARA O RELATORIO
     QEleitoral = quocienteEleitoral(votosVal , VagasTotais);
     printf("\nqEleitoral: %d", QEleitoral);
+    calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
+// RELATORIO
+
+    imprimeSecao1(votosVal, votosNul, votosBra, QEleitoral);
+    getchar();
+    imprimeSecao2(candidatos, nCandidatos);
+    getchar();
+    imprimeSecao3(partidos, federacoes, nPartidos, nFederacoes);
+    getchar();
+    
     candidatosEleitos(candidatos,partidos,QEleitoral,nCandidatos,nPartidos);
     printf("\n votos val: %d",votosVal );
     // testes
