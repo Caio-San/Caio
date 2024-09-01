@@ -299,6 +299,7 @@ void imprimirSecao5(TipoCandidato *eleitos,int QuantidadeEleitos){
         TipoCandidato* eleitos: TipoCandidato* candidatos: ponteiro para vetor que armazena os dados dos candidatos eleitos.
     */
     int i;
+    int i;
     printf("\n* --------------------------------------------- *\n");
     printf("*                                               *\n");
     printf("*     | r | e | l | a | t | o | r | i | o |     *\n");
@@ -309,7 +310,7 @@ void imprimirSecao5(TipoCandidato *eleitos,int QuantidadeEleitos){
     printf("*                                               *\n");
     printf("* --------------------------------------------- *\n");
 
-    for(i=0; i< QuantidadeEleitos; i++){
+    for(i=0; i< qtEleitos; i++){
         printf("\nCandidato(a): %s", eleitos[i].nomeCandidato);
         printf("\nLegenda Partidaria: %s\n", eleitos[i].partido);
     }
@@ -754,7 +755,7 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
         *tam = (*tam)*2;
         candidatos = (TipoCandidato *) realloc(candidatos,(*tam)*sizeof(TipoCandidato));
         if (!candidatos) { 
-            printf("\nErro na realocacaoo de memoria!\n");
+            printf("\nErro na realocacao de memoria!\n");
             return -1;
         }
     }
@@ -764,28 +765,29 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
         aux[strcspn(aux, "\n")] = '\0';
         
         if (caracteresValidos(aux)){
-            getchar();
             printf("Digite caracteres validos!\n");
         }else{
+            partidoencontrado = 0;
             for(i=0;i<*tam;i++){
                 if ((strcmp(aux, partidos[i].nomePartido)) == 0){
-                    
                     printf("Partido escolhido com sucesso!\n");
                     strcpy(candidatos[*nCandidatos].partido, aux);
+                    printf("auxiliar: %s", aux);
                     partidoencontrado = 1;
-                    printf("%s", candidatos[*nCandidatos].partido);
+                    printf("\ncandidatos[*nCandidatos].partido: %s", candidatos[*nCandidatos].partido);
+                    printf("\ncandidatos[%d].partido: %s", *nCandidatos, candidatos[*nCandidatos].partido);
+                    printf("\nnCandidatos: %d", *nCandidatos);
                     break;
-
                 }
             }
             if (partidoencontrado == 1){
                 strcpy(candidatos[*nCandidatos].partido, aux);
                 break;
             }
-            getchar();
             printf("Partido digitado nao existe!\n");
         }
     }
+    // Escolhe um nome para o candidato e verifica se é valido
     while(1){
         printf("\nDigite um nome para seu candidato: ");
         fgets(nomeaux, 50, stdin);
@@ -797,7 +799,7 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
         }else{
             if ((verificaNome(candidatos, nCandidatos, nomeaux)) == 1){
                 getchar();
-                printf("Nome do candidato já existente!\n");
+                printf("Nome do candidato ja existente!\n");
             }else{
                 getchar();
                 strcpy(candidatos[*nCandidatos].nomeCandidato, nomeaux);
@@ -805,18 +807,16 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
             }
         }
     }
-    // Escolhe um nome para o candidato e verifica se é valido
+    // Escolhe uma idade para o candidato e verifica se é valida
     while (1) {
         printf("Digite a idade do candidato: ");
         // Verifica se a entrada é válida
-        if (scanf("%d", &idadeaux) != 1) {
-            
+        if (scanf("%d", &idadeaux) != 1) { 
             while (getchar() != '\n');  // Descarta caracteres até a nova linha
             printf("\nEntrada invalida! Digite um numero inteiro.\n");
             continue;
         }
 
-      
         if (idadeaux <= 0 || idadeaux < 18 || idadeaux > 100) {
             printf("\nValor invalido! A idade valida eh entre 18 e 100 anos.\n");
         } else {
@@ -825,6 +825,7 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
             printf("Idade do candidato registrada como %d.\n", idadeaux);
             break;
         }
+        while(getchar() != '\n');
     }
 
     // DEFINE A IDADE DO QUANDIDATO E VERIFICA SE É VÁLIDO
@@ -839,7 +840,7 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
                 printf("Deve ser inserido 5 digitos totais!");
             }else{
                 digitosencontrado = 0;
-                for(i=0;i<*tam;i++){
+                for(i=0;i<*nCandidatos;i++){
                     if (strcmp(digitosaux, candidatos[i].digitos) == 0){
                         
                         printf("Esses digitos já foram selecionados por outro candidato!");
@@ -851,15 +852,9 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
                     strcpy(candidatos[*nCandidatos].digitos, digitosaux);
                     break;
                 }          
-                    
-                
-                
+    
             }
         }
-
-
-
-
     }
        
     // DEFINE OS DIGITOS DO CANDIDATO E VERIFICA SE É VALIDO
@@ -1104,7 +1099,8 @@ int main(){
     // int i; //TESTE
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
-    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50, VagasTotais=1, QEleitoral=0 ,QuantidadeEleitos=0,QuantidadeSuplentes=0;
+    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
+    int VagasTotais=1, QEleitoral=0, QuantidadeEleitos=0,QuantidadeSuplentes=0;
     int votosVal = 0, votosBra = 0, votosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
@@ -1134,8 +1130,10 @@ int main(){
                 case 2:                                                                     
                     getchar();
                     if(nPartidos >0){
-                        if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos))==0){                   
-                            printf("Partido: %s", candidatos[nCandidatos - 1].partido);   //TESTES
+                        if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos))==0){  
+                            printf("\nnCanditado pós registro: %d", nCandidatos -1);                 
+                            printf("Partido 0: %s", candidatos[nCandidatos - 1].partido);   //TESTES
+                            printf("Partido 1: %s", candidatos[nCandidatos].partido);
                             printf("\nCandidato: %s", candidatos[nCandidatos - 1].nomeCandidato);
                             printf("\nDigitos: %s", candidatos[nCandidatos - 1].digitos);                    
                         }else{                                                                  
@@ -1159,8 +1157,6 @@ int main(){
                     }
                     break;
                 case 4:
-                    getchar();
-                    printf("4");
                     flag = 0;
                     break;
                 default:
