@@ -290,15 +290,15 @@ void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int q
     }
 }
 
-void imprimirSecao5(TipoCandidato* eleitos,int QuantidadeEleitos ){
+void imprimirSecao5(TipoCandidato *eleitos,int QuantidadeEleitos){
     /* Função responsável por imprimir a Seção 5 do relatório.
     Dados a serem impressos: Nome dos candidatos eleitos e o nome dos seus respectivos partidos.
 
     Parâmetros:
-        char candidatosEleitos[]: lista com o nome de todos os candidatos eleitos;
-        TipoCandidato* ptr: TipoCandidato* candidatos: ponteiro para vetor que armazena os dados dos candidatos cadastrados.
+        QuantidadeEleitos : inteiro que armazena a quantidade de eleitos;
+        TipoCandidato* eleitos: TipoCandidato* candidatos: ponteiro para vetor que armazena os dados dos candidatos eleitos.
     */
-    int i, j;
+    int i;
     printf("\n* --------------------------------------------- *\n");
     printf("*                                               *\n");
     printf("*     | r | e | l | a | t | o | r | i | o |     *\n");
@@ -314,6 +314,31 @@ void imprimirSecao5(TipoCandidato* eleitos,int QuantidadeEleitos ){
         printf("\nLegenda Partidaria: %s\n", eleitos[i].partido);
     }
 }
+void imprimirSecao6(TipoCandidato *suplentes,int QuantidadeSuplentes ){
+    /* Função responsável por imprimir a Seção 5 do relatório.
+    Dados a serem impressos: Nome dos candidatos eleitos e o nome dos seus respectivos partidos.
+
+    Parâmetros:
+        QuantidadeSuplentes: inteiro que armazena a quantidade de candidatos suplentes;
+        TipoCandidato* suplentes: ponteiro para vetor que armazena os dados dos candidatos suplentes.
+    */
+    int i;
+    printf("\n* --------------------------------------------- *\n");
+    printf("*                                               *\n");
+    printf("*     | r | e | l | a | t | o | r | i | o |     *\n");
+    printf("*                                               *\n");
+    printf("* | p | a | r | t | e |   | S | E | I | S |     *\n");
+    printf("*                                               *\n");
+    printf("*     | S | U | P | L | E | N | T | E | S |     *\n");
+    printf("*                                               *\n");
+    printf("* --------------------------------------------- *\n");
+
+    for(i=0; i< QuantidadeSuplentes; i++){
+        printf("\nCandidato(a): %s", suplentes[i].nomeCandidato);
+        printf("\nLegenda Partidaria: %s\n", suplentes[i].partido);
+    }
+}
+
 
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
@@ -1069,7 +1094,6 @@ int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCand
             (*QuantidadeSuplentes)++;
         }
     }
-
     return 0;  
 }
 
@@ -1208,7 +1232,7 @@ int main(){
     candidatosEleitos(candidatos, partidos, eleitos,suplentes, QEleitoral, nCandidatos, nPartidos,&QuantidadeEleitos,&QuantidadeSuplentes);
     imprimirSecao5(eleitos,QuantidadeEleitos);
     getchar;
-
+    imprimirSecao6(suplentes,QuantidadeSuplentes);
     
 
 
