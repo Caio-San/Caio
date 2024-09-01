@@ -726,6 +726,11 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
 }
 
 int confirmaVoto(){
+    /* Função responsável por verificar a escolha do usuário e retornar o opção escolhida.
+
+    Retorno:
+        int opcao: opção escolhida pelo usuário.
+    */
     int opcao;
     while(1){
         printf("\nSelecione uma opcao: ");
@@ -733,13 +738,13 @@ int confirmaVoto(){
             switch (opcao){
                 case 1:
                     getchar();
-                    return 1;
+                    return opcao;
                 case 2:
                     getchar();
-                    return 2;
+                    return opcao;
                 case 3:
                     getchar();
-                    return 3;
+                    return opcao;
                 default:
                     getchar();
                     printf("\nOpcao invalida. Tente novamente!\n");
@@ -753,6 +758,18 @@ int confirmaVoto(){
 }
 
 void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int *votoVal, int *votoNul, int *votoBra, int *nCandidatos) {
+    /* Função responsável por registrar o voto do usuário.
+
+    Parâmetros:
+        TipoCandidato *candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+        TipoPartido *partido: ponteiro para TipoPartido que armazena as informações dos partidoss já cadastrados;
+        int tamp:
+        int *votoVal: ponteiro para inteiro que armazena a quantidade de votos válidos;
+        int *votoNul: ponteiro para inteiro que armazena a quantidade de votos válidos;
+        int *votoBra: ponteiro para inteiro que armazena a quantidade de votos válidos;
+        int *nCandidatos: ponteiro para inteiro que armazena a quantidade de candidatos já cadastrados;
+    */
+    
     char auxDigito[5], voto[3];
     int indiceCandidato=0, flag =1;
     int i,p=0;
