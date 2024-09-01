@@ -230,6 +230,46 @@ void imprimeSecao3(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF){
     //                 printf("Votos recebidos: %d\n", ptr1[i].votos);
 }
 
+int quocientePartidario(int QEleitoral ,int votosValidosPartido){
+    int TotaldeCadeiras = votosValidosPartido / QEleitoral;
+    return TotaldeCadeiras;
+}
+
+void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int QEleitoral){
+    int afiliado, i, j, k;
+    
+    printf("\n* ------------------------------------------------- *\n");
+    printf("*                                                   *\n");
+    printf("*       | r | e | l | a | t | o | r | i | o |       *\n");
+    printf("*                                                   *\n");
+    printf("* | p | a | r | t | e |   | q | u | a | t | r | o | *\n");
+    printf("*                                                   *\n");
+    printf("* ------------------------------------------------- *\n");
+
+    for (i = 0; i< nF; i++){
+        printf("\nFederacao: %s", ptr2[i].nomeFederacao);
+        printf("\nQuociente partidario: %d\n", quocientePartidario(QEleitoral ,ptr2[i].votos));
+    }
+    for(i=0; i<nP; i++){ //CHECA TODOS OS PARTIDOS
+        afiliado = 0;
+        for(j=0; j<nF; j++){ // CHECA TODAS AS FEDERAÇÕES
+            for(k=0; k<ptr2[j].nAfiliados; k++){ //CHECA TODOS OS AFILIADOS DE UMA FEDEÇÃO
+                if(strcmp(ptr1[i].siglaPartido, ptr2[j].siglaAfiliados[k]) == 0){ //ENTRA SE O PARTIDO FOR AFILIADO
+                    afiliado = 1;
+                    break;    
+                }
+            }
+            if(afiliado == 1){
+                break;
+            }
+        }
+        if(afiliado == 0){
+            printf("\nPartido: %s", ptr1[i].nomePartido);
+            printf("\nQuociente partidario: %d\n",quocientePartidario(QEleitoral ,ptr1[i].votos));
+        }
+    }
+}
+
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
     Caracteres válidos são letras maiúsculas e minúsculas.
@@ -873,10 +913,6 @@ int quocienteEleitoral(int votosValidos, int Vagas){
 
 }
 
-int quocientePartidario(int QEleitoral ,int votosValidosPartido){
-    int TotaldeCadeiras = votosValidosPartido / QEleitoral;
-    return TotaldeCadeiras;
-}
 
 int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleitoral, int nCandidatos , int nPartidos){
     int i,indiceCandidato=0,indicePartido=0,eleito=0,votoC=0;
