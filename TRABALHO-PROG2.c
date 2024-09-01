@@ -150,7 +150,7 @@ void imprimeSecao1(int votosVal, int votosNul, int votosBra, int qEleitoral){
         int votosVal: quantidade de votos válidos;
         int votosNul: quantidade de votos nulos;
         int votosBra: quantidade de votos brancos;
-        int qEleitoral
+        int qEleitoral: quocienteEleitoral
     */
 
     printf("\n* ------------------------------------- *\n");
@@ -244,7 +244,18 @@ int quocientePartidario(int QEleitoral ,int votosValidosPartido){
     return TotaldeCadeiras;
 }
 
-void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int QEleitoral){
+void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int qEleitoral){
+    /* Função responsável por imprimir a Seção 4 do relatório.
+    Dados a serem impressos: Nome do partido/federação e o seu respectivo quacioente partidário.
+    O quociente partidário representa o número de cadeiras disponíveis para o partido/federação.
+
+    Paraâmetros:
+        TipoPartido* ptr1: ponteiro para vetor que armazena os dados dos partidos cadastrados;
+        TipoFederacao* ptr2: ponteiro para vetor que armazena os dados das federações cadastradas;
+        int nP:  quantidade de partidos cadastrados;
+        int nF:  quantidade de federações cadastradas;
+        int qEleitoral: quociente eleitoral.
+    */
     int afiliado, i, j, k;
     
     printf("\n* ------------------------------------------------- *\n");
@@ -257,7 +268,7 @@ void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int Q
 
     for (i = 0; i< nF; i++){
         printf("\nFederacao: %s", ptr2[i].nomeFederacao);
-        printf("\nQuociente partidario: %d\n", quocientePartidario(QEleitoral ,ptr2[i].votos));
+        printf("\nQuociente partidario: %d\n", quocientePartidario(qEleitoral ,ptr2[i].votos));
     }
     for(i=0; i<nP; i++){ //CHECA TODOS OS PARTIDOS
         afiliado = 0;
@@ -293,8 +304,8 @@ int caracteresValidos(char aux[]){
     for (i=0; i < (int)(strlen(aux)); i++){
         //ENTRA NO IF SE O CARACTERE NÃO CORRESPONDER A UMA LETRA DE ACORDO COM A TABELA ASCII
         if (isalpha(aux[i]) == 0 && (int)(aux[i]) != 32 && (int)(aux[i]) != 10){
-            printf("%d",aux[i]);
-            printf("i: %d", i);
+            // printf("%d",aux[i]); //TESTES
+            // printf("i: %d", i);
             return 1; 
         }       
     }
@@ -940,13 +951,13 @@ void calculaVotosFederacao(TipoFederacao *ptr1, TipoPartido *ptr2, int nFederaco
 int quocienteEleitoral(int votosValidos, int Vagas){
     /*Funçao responsavel por calcular o quociente eleitoral: votos válidos divididos pelo numero de vagas.
     
-        Parametros:
-            int votosValidos: inteiro que armazena a quantidade de votos validos .
-            int Vagas: inteiro que armazena a quantidade total de vagas da eleição(24 vagas)
+        Parâmetros:
+            int votosValidos: quantidade de votos validos;
+            int Vagas: quantidade total de vagas da eleição (24 vagas);
             
         Retorno: 
-            Se a parte fracionaria do quociente eleitoral for menor ou igual a meio, retorna a parte inteira do quociente
-            caso contrario retorna a parte inteira do quociente eleitoral somado de 1
+            int parteInteira: Se a parte fracionaria do quociente eleitoral for menor ou igual a meio;
+            int parteInteira +1: Se a parte fracionaria do quociente eleitoral for maior que meio
             */
     double QEleitoral = (double)votosValidos / Vagas;
     int parteInteira  = (int)(QEleitoral);
@@ -966,17 +977,16 @@ int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleit
     /*Funçao responsavel por verificar e o candidato esta eleito: precisa cumprir os criterios de ter quantidade de votos validos
     superior ao produto de 0.1 e do quociente eleitoral , alem de estar dentro do limite de vagas do seu partido.
     
-        Parametros:
+        Parâmetros:
             TipoCandidato *candidatos: ponteiro para o vetor que armazena as informações dos candidatos.
             TipoPartido *partidos :  ponteiro para vetor que armazena os dados dos partidos cadastrados.
             int QEleitoral: vairavel inteira que armazena o quociente eleitoral da eleição.
             int nCandidatos: inteiro que armazena a quantidade de cadidatos cadastrados;
             int npartidos: inteiro que armazena a quantidade de partidos cadastrados;
 
-
         Retorno:
-            Retorna um inteiro 0 em caso do candidato atender aos dois criterios e estar eleito
-            caso contrario retorna 1 indicando que o o candidato nao foi eleito.
+            int 0: Candidato atende aos dois criterios e está eleito;
+            int 1: Candidato não está eleito;
             */
 
     int i,indiceCandidato=0,indicePartido=0,eleito=0,votoC=0;
@@ -1015,6 +1025,8 @@ int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleit
 }
 
 int main(){
+    /* Função responsável por concatenar todas as outras funções do programa. */
+    
     // int i; //TESTE
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
@@ -1137,6 +1149,9 @@ int main(){
     getchar();
     imprimeSecao3(partidos, federacoes, nPartidos, nFederacoes);
     getchar();
+    imprimeSecao4(partidos, federacoes, nPartidos, nFederacoes, QEleitoral);
+    getchar();
+
     
 
 
