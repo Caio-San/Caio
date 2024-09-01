@@ -231,6 +231,15 @@ void imprimeSecao3(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF){
 }
 
 int quocientePartidario(int QEleitoral ,int votosValidosPartido){
+    /*Funçao que calcula o quociente partidario : votos validos por cada partido dividido pelo quociente eleitoral
+    
+        Parametro :
+            int QEleitoral: quociente eleitoral da eleição.
+            int VotosValidosPartido: quantidade de votos validos recebido por um partido/federação
+            
+        Retorna:
+            int TotaldeCadeiras: quantidade de cadeiras que o partido terá direito na eleição
+        */
     int TotaldeCadeiras = votosValidosPartido / QEleitoral;
     return TotaldeCadeiras;
 }
@@ -570,6 +579,17 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
 }
 
 int verificaNome(TipoCandidato *candidatos, int *tam, char *nome) {
+    /*Função responsável por verificar se o nome inserio pelo candidato já foi cadastrado por outro candidato
+    
+    Parametros: 
+        TipoCandidato *candidatos: ponteiro para o vetor que armazena as informações dos candidatos.
+        int *tam: Ponteiro de inteiro para a variavel que armazena o tamanho do vetor candidatos.
+        char *nome: Ponteiro char para variavel que armazena a string que representa o nome do candidato.
+        
+        
+    Retorno:
+        Retorna inteiro 0 em casa de nome válido e retorna inteiro 1 em caso de nome inválido.
+        */
     int i;
     for (i = 0; i < *tam; i++) {
         if (strcmp(candidatos[i].nomeCandidato, nome) == 0) {
@@ -634,6 +654,14 @@ int jaExistecandidato(int* nCandidatos, char aux[], TipoCandidato* ptr, char tip
 }
 
 int numeromax(char *digitos){
+    /* Função responsável por verificar se o usuário digitou exatamente 5 digitos na entrada
+
+    Paramatro: 
+        char *digitos: ponteiro tipo char que recebe uma string
+
+    Retorno:
+        Retorna um inteiro 1 em casa de entrada inválida e um inteiro 0 em caso de entrada válida;
+    */
     if (digitos == NULL){
         return 1;
     }
@@ -646,6 +674,17 @@ int numeromax(char *digitos){
 }
 
 int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam, int *nCandidatos){
+    /* Função responsável por receber e armazenar as informações dos candidatos: partido, nome do candidato, idade do candidato , digitos do candidato.
+    
+        Parametros: 
+            TipoCandidato *candidatos: ponteiro para o vetor que armazena as informações dos candidatos.
+            TipoPartido *partidos :  ponteiro para vetor que armazena os dados dos partidos cadastrados.
+            int *tam: Ponteiro de inteiro para a variavel que armazena o tamanho do vetor candidatos.
+            int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
+
+        Retorno:
+            Retorna um inteiro 0 se todas entradas forem inseridas corretamente.
+        */
     char nomeaux[50],aux[50],digitosaux[6];
     int i,idadeaux=0;
     int partidoencontrado = 0,digitosencontrado;
@@ -691,7 +730,7 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
 
         if ((caracteresValidos(nomeaux))){
             getchar();
-            printf("Digite caracteres válidos!\n");
+            printf("Digite caracteres validos!\n");
         }else{
             if ((verificaNome(candidatos, nCandidatos, nomeaux)) == 1){
                 getchar();
@@ -710,13 +749,13 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
         if (scanf("%d", &idadeaux) != 1) {
             
             while (getchar() != '\n');  // Descarta caracteres até a nova linha
-            printf("\nEntrada invalida! Digite um número inteiro.\n");
+            printf("\nEntrada invalida! Digite um numero inteiro.\n");
             continue;
         }
 
       
         if (idadeaux <= 0 || idadeaux < 18 || idadeaux > 100) {
-            printf("\nValor invalido! A idade valida é entre 18 e 100 anos.\n");
+            printf("\nValor invalido! A idade valida eh entre 18 e 100 anos.\n");
         } else {
             // Salva a idade no candidato e sai do loop
             candidatos[*nCandidatos].idade = idadeaux;
@@ -731,7 +770,7 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
         scanf("%s", digitosaux); 
         getchar();
         if (verificanumeros(digitosaux)){ 
-            printf("\nDigite 5 dígitos válidos!\n");
+            printf("\nDigite 5 dígitos validos!\n");
         }else{
             if (numeromax(digitosaux)){
                 printf("Deve ser inserido 5 digitos totais!");
@@ -899,6 +938,16 @@ void calculaVotosFederacao(TipoFederacao *ptr1, TipoPartido *ptr2, int nFederaco
 }
 
 int quocienteEleitoral(int votosValidos, int Vagas){
+    /*Funçao responsavel por calcular o quociente eleitoral: votos válidos divididos pelo numero de vagas.
+    
+        Parametros:
+            int votosValidos: inteiro que armazena a quantidade de votos validos .
+            int Vagas: inteiro que armazena a quantidade total de vagas da eleição(24 vagas)
+            
+        Retorno: 
+            Se a parte fracionaria do quociente eleitoral for menor ou igual a meio, retorna a parte inteira do quociente
+            caso contrario retorna a parte inteira do quociente eleitoral somado de 1
+            */
     double QEleitoral = (double)votosValidos / Vagas;
     int parteInteira  = (int)(QEleitoral);
     double parteFracionaria  = QEleitoral - parteInteira;
@@ -913,10 +962,24 @@ int quocienteEleitoral(int votosValidos, int Vagas){
 
 }
 
-
 int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleitoral, int nCandidatos , int nPartidos){
+    /*Funçao responsavel por verificar e o candidato esta eleito: precisa cumprir os criterios de ter quantidade de votos validos
+    superior ao produto de 0.1 e do quociente eleitoral , alem de estar dentro do limite de vagas do seu partido.
+    
+        Parametros:
+            TipoCandidato *candidatos: ponteiro para o vetor que armazena as informações dos candidatos.
+            TipoPartido *partidos :  ponteiro para vetor que armazena os dados dos partidos cadastrados.
+            int QEleitoral: vairavel inteira que armazena o quociente eleitoral da eleição.
+            int nCandidatos: inteiro que armazena a quantidade de cadidatos cadastrados;
+            int npartidos: inteiro que armazena a quantidade de partidos cadastrados;
+
+
+        Retorno:
+            Retorna um inteiro 0 em caso do candidato atender aos dois criterios e estar eleito
+            caso contrario retorna 1 indicando que o o candidato nao foi eleito.
+            */
+
     int i,indiceCandidato=0,indicePartido=0,eleito=0,votoC=0;
-    // int QPartidario = 0,votosPartidos=0;
     int QPartidario = 0;
     char aux[50] = "";
     //printf("oi");
@@ -1067,7 +1130,7 @@ int main(){
     
     //calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
 // RELATORIO
-
+    candidatosEleitos(candidatos,partidos,QEleitoral,nCandidatos,nPartidos);
     imprimeSecao1(votosVal, votosNul, votosBra, QEleitoral);
     getchar();
     imprimeSecao2(candidatos, nCandidatos);
@@ -1075,7 +1138,7 @@ int main(){
     imprimeSecao3(partidos, federacoes, nPartidos, nFederacoes);
     getchar();
     
-    candidatosEleitos(candidatos,partidos,QEleitoral,nCandidatos,nPartidos);
+
 
     printf("\n votos val: %d",votosVal ); //TESTE
     // testes
