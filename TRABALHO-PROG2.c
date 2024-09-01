@@ -681,7 +681,7 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
 
         if ((caracteresValidos(nomeaux))){
             getchar();
-            printf("Digite caracteres válidos!\n");
+            printf("Digite caracteres validos!\n");
         }else{
             if ((verificaNome(candidatos, nCandidatos, nomeaux)) == 1){
                 getchar();
@@ -700,13 +700,13 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
         if (scanf("%d", &idadeaux) != 1) {
             
             while (getchar() != '\n');  // Descarta caracteres até a nova linha
-            printf("\nEntrada invalida! Digite um número inteiro.\n");
+            printf("\nEntrada invalida! Digite um numero inteiro.\n");
             continue;
         }
 
       
         if (idadeaux <= 0 || idadeaux < 18 || idadeaux > 100) {
-            printf("\nValor invalido! A idade valida é entre 18 e 100 anos.\n");
+            printf("\nValor invalido! A idade valida eh entre 18 e 100 anos.\n");
         } else {
             // Salva a idade no candidato e sai do loop
             candidatos[*nCandidatos].idade = idadeaux;
@@ -721,7 +721,7 @@ int cadastraCandidato(TipoCandidato* candidatos, TipoPartido *partidos, int *tam
         scanf("%s", digitosaux); 
         getchar();
         if (verificanumeros(digitosaux)){ 
-            printf("\nDigite 5 dígitos válidos!\n");
+            printf("\nDigite 5 dígitos validos!\n");
         }else{
             if (numeromax(digitosaux)){
                 printf("Deve ser inserido 5 digitos totais!");
@@ -943,9 +943,8 @@ int candidatosEleitos(TipoCandidato *candidatos,TipoPartido *partidos,int QEleit
             Retorna um inteiro 0 em caso do candidato atender aos dois criterios e estar eleito
             caso contrario retorna 1 indicando que o o candidato nao foi eleito.
             */
-           
+
     int i,indiceCandidato=0,indicePartido=0,eleito=0,votoC=0;
-    // int QPartidario = 0,votosPartidos=0;
     int QPartidario = 0;
     char aux[50] = "";
     //printf("oi");
@@ -1096,7 +1095,7 @@ int main(){
     
     //calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
 // RELATORIO
-
+    candidatosEleitos(candidatos,partidos,QEleitoral,nCandidatos,nPartidos);
     imprimeSecao1(votosVal, votosNul, votosBra, QEleitoral);
     getchar();
     imprimeSecao2(candidatos, nCandidatos);
@@ -1104,7 +1103,7 @@ int main(){
     imprimeSecao3(partidos, federacoes, nPartidos, nFederacoes);
     getchar();
     
-    candidatosEleitos(candidatos,partidos,QEleitoral,nCandidatos,nPartidos);
+
 
     printf("\n votos val: %d",votosVal ); //TESTE
     // testes
