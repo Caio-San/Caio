@@ -290,8 +290,34 @@ void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int q
     }
 }
 
-void imprimirSecao5(){
+void imprimirSecao5(char candidatosEleitos[], TipoCandidato* ptr){
+    /* Função responsável por imprimir a Seção 5 do relatório.
+    Dados a serem impressos: Nome dos candidatos eleitos e o nome dos seus respectivos partidos.
 
+    Parâmetros:
+        char candidatosEleitos[]: lista com o nome de todos os candidatos eleitos;
+        TipoCandidato* ptr: TipoCandidato* candidatos: ponteiro para vetor que armazena os dados dos candidatos cadastrados.
+    */
+    int i, j;
+    printf("\n* --------------------------------------------- *\n");
+    printf("*                                               *\n");
+    printf("*     | r | e | l | a | t | o | r | i | o |     *\n");
+    printf("*                                               *\n");
+    printf("* | p | a | r | t | e |   | c | i | n | c | o | *\n");
+    printf("*                                               *\n");
+    printf("*         | E | L | E | I | T | O | S |         *\n");
+    printf("*                                               *\n");
+    printf("* --------------------------------------------- *\n");
+
+    for(i=0; i< len(candidatosEleitos); i++){
+        for(j=0; j< len(ptr); j++){
+            if(strcmp(candidatosEleitos[i], ptr[j].nomeCandidato) == 0){
+                printf("\nCandidato(a): %s", candidatosEleitos[i]);
+                printf("\nLegenda Partidaria: %s\n", ptr[j].partido);
+            }
+        }
+
+    }
 }
 
 int caracteresValidos(char aux[]){
