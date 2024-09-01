@@ -405,6 +405,7 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
             getchar();
         }
     }
+
     while(1){
         printf("\nDigite a sigla do partido (maximo 5 caracteres): ");
         if(scanf("%s", siglaAux) > 0){
@@ -721,7 +722,7 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
         Retorno:
             Retorna um inteiro 0 se todas entradas forem inseridas corretamente.
         */
-    char nomeaux[50],aux[50],digitosaux[6];
+    char nomeaux[50],aux[50]="",digitosaux[6];
     int i,idadeaux=0;
     int partidoencontrado = 0,digitosencontrado;
     if (*nCandidatos >= *tam){
@@ -753,6 +754,7 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
                 }
             }
             if (partidoencontrado == 1){
+                strcpy(candidatos[*nCandidatos].partido, aux);
                 break;
             }
             getchar();
@@ -837,6 +839,8 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
        
     // DEFINE OS DIGITOS DO CANDIDATO E VERIFICA SE É VALIDO
     (*nCandidatos) = (*nCandidatos) + 1 ;
+    printf("%s", aux);
+    strcpy(candidatos[*nCandidatos].partido, aux);
     return 0;
 }
 
@@ -910,8 +914,8 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int
                             *votoVal = *votoVal +1;
                             printf("Voto Candidato :");
                             printf("%d", candidatos[indiceCandidato].votos);
-                            printf("\nQuantidade de votos do partido _");
-                            printf("\n%s",candidatos[indiceCandidato].partido);
+                            printf("\nQuantidade de votos do partido :");
+                            printf("%s",candidatos[indiceCandidato].partido);
                             //TESTES
 
                             strcpy(aux, candidatos[indiceCandidato].partido);
@@ -998,7 +1002,7 @@ int quocienteEleitoral(int votosValidos, int Vagas){
 
 }
 
-int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCandidato *eleitos, int QEleitoral, int nCandidatos, int nPartidos,int *QuantidadeEleitos) {
+int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCandidato *eleitos, TipoCandidato *suplentes, int QEleitoral, int nCandidatos, int nPartidos,int *QuantidadeEleitos,int *QuantidadeSuplentes) {
     /*Funçao responsavel por verificar e o candidato esta eleito: precisa cumprir os criterios de ter quantidade de votos validos
     superior ao produto de 0.1 e do quociente eleitoral , alem de estar dentro do limite de vagas do seu partido.
     
@@ -1060,8 +1064,9 @@ int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCand
             partidos[indicePartido].eleitos++;
             (*QuantidadeEleitos)++;
             vagasTotais--; 
-        } else {
-            break; 
+        }else{
+            suplentes[*QuantidadeSuplentes] = candidatos[indiceCandidato];
+            (*QuantidadeSuplentes)++;
         }
     }
 
@@ -1075,16 +1080,18 @@ int main(){
     // int i; //TESTE
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
-    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50, VagasTotais=1, QEleitoral=0 ,QuantidadeEleitos=0;
+    int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50, VagasTotais=1, QEleitoral=0 ,QuantidadeEleitos=0,QuantidadeSuplentes=0;
     int votosVal = 0, votosBra = 0, votosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
     TipoCandidato *candidatos = NULL;
     TipoCandidato *eleitos = NULL;
+    TipoCandidato *suplentes = NULL;
     candidatos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
     partidos = (TipoPartido *) malloc(tamp*sizeof(TipoPartido));
     federacoes = (TipoFederacao *) malloc(tamf*sizeof(TipoFederacao));
     eleitos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
+    suplentes = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
     //CADASTROS
     while (flag){
     //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
@@ -1103,8 +1110,8 @@ int main(){
                 case 2:                                                                     
                     getchar();
                     if(nPartidos >0){
-                        if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos) == 0)){                   
-                            printf("\nPartido: %s", candidatos[nCandidatos - 1].partido);   //TESTES
+                        if ((cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos))==0){                   
+                            printf("Partido: %s", candidatos[nCandidatos - 1].partido);   //TESTES
                             printf("\nCandidato: %s", candidatos[nCandidatos - 1].nomeCandidato);
                             printf("\nDigitos: %s", candidatos[nCandidatos - 1].digitos);                    
                         }else{                                                                  
@@ -1198,7 +1205,7 @@ int main(){
     getchar();
     imprimeSecao4(partidos, federacoes, nPartidos, nFederacoes, QEleitoral);
     getchar();
-    candidatosEleitos(candidatos, partidos, eleitos, QEleitoral, nCandidatos, nPartidos,&QuantidadeEleitos);
+    candidatosEleitos(candidatos, partidos, eleitos,suplentes, QEleitoral, nCandidatos, nPartidos,&QuantidadeEleitos,&QuantidadeSuplentes);
     imprimirSecao5(eleitos,QuantidadeEleitos);
     getchar;
 
