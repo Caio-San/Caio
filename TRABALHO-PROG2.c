@@ -718,7 +718,7 @@ int jaExistecandidato(int* nCandidatos, char aux[], TipoCandidato* ptr, char tip
 int caracteresVal(char *str) {
     // Verifica se a string contém caracteres válidos
     // Implementação de exemplo
-    for (int i = 0; i < strlen(str); i++) {
+    for (int i = 0; i < (int)strlen(str); i++) {
         if (!isalpha(str[i]) && !isspace(str[i])) {
             return 1;
         }
@@ -823,7 +823,7 @@ int validaDigitosCandidato(TipoCandidato *candidatos, int *nCandidatos) {
 
 int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam, int *nCandidatos) {
     char aux[50];
-    int partidoencontrado;
+    // int partidoencontrado;
 
     while (1) {
         printf("\nDigite o partido do candidato: ");
@@ -833,7 +833,7 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
         if (caracteresVal(aux)) {
             printf("Digite caracteres validos!\n");
         } else {
-            partidoencontrado = 0;
+            // partidoencontrado = 0;
             for (int i = 0; i < *tam; i++) {
                 if (strcmp(aux, partidos[i].nomePartido) == 0) {
                     printf("Partido escolhido com sucesso!\n");
@@ -1103,7 +1103,7 @@ int main(){
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
     int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
-    int VagasTotais=1, QEleitoral=0, QuantidadeEleitos=0,QuantidadeSuplentes=0;
+    int VagasTotais=24, QEleitoral=0, QuantidadeEleitos=0,QuantidadeSuplentes=0;
     int votosVal = 0, votosBra = 0, votosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
@@ -1217,7 +1217,7 @@ int main(){
     printf("\nqEleitoral: %d", QEleitoral);
     
     
-    //calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
+    calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
 // RELATORIO
     //candidatosEleitos(candidatos,partidos,eleitos,QEleitoral,nCandidatos,nPartidos,QuantidadeEleitos);
     imprimeSecao1(votosVal, votosNul, votosBra, QEleitoral);
@@ -1228,9 +1228,11 @@ int main(){
     getchar();
     imprimeSecao4(partidos, federacoes, nPartidos, nFederacoes, QEleitoral);
     getchar();
+    printf("oi1");
     candidatosEleitos(candidatos, partidos, eleitos,suplentes, QEleitoral, nCandidatos, nPartidos,&QuantidadeEleitos,&QuantidadeSuplentes);
+    printf("oi2");
     imprimirSecao5(eleitos,QuantidadeEleitos);
-    getchar;
+    getchar();
     imprimirSecao6(suplentes,QuantidadeSuplentes);
     
 
