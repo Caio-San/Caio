@@ -314,6 +314,7 @@ void imprimirSecao5(TipoCandidato *eleitos,int QuantidadeEleitos){
         printf("\nLegenda Partidaria: %s\n", eleitos[i].partido);
     }
 }
+
 void imprimirSecao6(TipoCandidato *suplentes,int QuantidadeSuplentes ){
     /* Função responsável por imprimir a Seção 5 do relatório.
     Dados a serem impressos: Nome dos candidatos eleitos e o nome dos seus respectivos partidos.
@@ -338,7 +339,6 @@ void imprimirSecao6(TipoCandidato *suplentes,int QuantidadeSuplentes ){
         printf("\nLegenda Partidaria: %s\n", suplentes[i].partido);
     }
 }
-
 
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
