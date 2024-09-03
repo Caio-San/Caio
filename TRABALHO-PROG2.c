@@ -338,14 +338,7 @@ void imprimirSecao6(TipoCandidato *suplentes,int QuantidadeSuplentes ){
         printf("\nLegenda Partidaria: %s\n", suplentes[i].partido);
     }
 }
-void checkEmptyInput(char *input) {
-    // Verifica se a entrada é vazia
-    if (input[0] == '\n') {
-        printf("Erro: Entrada vazia!\n");
-    } else {
-        printf("Entrada válida: %s", input);
-    }
-}
+
 int caracteresValidos(char aux[]){
     /* A função verifica se a string inserida possui caracteres inválidos.
     Caracteres válidos são letras maiúsculas e minúsculas.
