@@ -995,7 +995,7 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
         } else {
             // partidoencontrado = 0;
             for (i = 0; i < nPartidos; i++) {
-                if (strcmp(aux, partidos[i].nomePartido) == 0) {
+                if (strcmp(aux, partidos[i].siglaPartido) == 0) {
                     printf("Partido escolhido com sucesso!\n");
                     strcpy(candidatos[*nCandidatos].siglaPartido, aux);
                     return 0;
