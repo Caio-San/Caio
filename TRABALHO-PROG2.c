@@ -789,8 +789,15 @@ int jaExistecandidato(int* nCandidatos, char aux[], TipoCandidato* ptr, char tip
 }
 
 int caracteresVal(char *str) {
-    // Verifica se a string contém caracteres válidos
-    // Implementação de exemplo
+    /*Funçao responsavel por verificar se os carecteres inseridos sao letras maiusculas ou minusculas.
+    Ultilizando a funçao !isalpha da biblioteca ctype.h para analisar cada carctere da string.
+    
+        Parametros:
+            char *str: ponteiro pra um string que armazena a entrada de carateres do usuario.
+            
+        Retorno:
+                Retorna um inteiro 1 em caso de carctere invalido.
+                Caso contrario retorna 0.*/
     for (int i = 0; i < (int)strlen(str); i++) {
         if (!isalpha(str[i]) && !isspace(str[i])) {
             return 1;
@@ -800,6 +807,19 @@ int caracteresVal(char *str) {
 }
 
 int verificaN(TipoCandidato *candidatos, int *tam, char *nome) {
+    /*Funçao responsavel por verificar se o nome inserido pelo candidato já esta registrado em outro candidato.
+    Percorre o vetor de candidatos e compara a entrada com cada nome de candidato armazenado.
+    
+        Parametros:
+            TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+            int *tam: ponteiro de inteiro pra variavel que armazena o tamanho do vetor candidatos.
+            char *nome: ponteiro para string que recebe o nome do candidato.
+
+
+        Retorno:
+            Retorna um inteiro 1 em caso de nome invalido.
+                Caso contrario retorna 0.
+            */
     for (int i = 0; i < *tam; i++) {
         if (strcmp(candidatos[i].nomeCandidato, nome) == 0) {
             return 1;
@@ -809,10 +829,28 @@ int verificaN(TipoCandidato *candidatos, int *tam, char *nome) {
 }
 
 int verificaId(int idade) {
+    /*Funçao responsavel por verificar se a idade inserida pelo usuario esta dentro do limite permitido.
+        Parametros:
+                int idade: Variavel de inteiros que armazena a idade.
+        Retorno:
+            Retorna um inteiro 1 em caso de carctere invalido.
+                Caso contrario retorna 0.
+
+    */
     return (idade >= 10 && idade <= 25);
 }
 
 int verificanum(char *aux) {
+    /*Funçao responsavel por verificar se a entrada inserida são de digitos entre 0 e 9.
+    Ultilizando a funçao !isdigit da biblioteca ctype.h e analisando cada caractere da string.
+
+        Parametros:
+                char *aux: Ponteiro para string que armazena a entrada do usuario.
+        Retorno:
+            Retorna um inteiro 1 em caso de carctere invalido.
+                Caso contrario retorna 0.
+
+    */
     for (int i = 0; i < (int)(strlen(aux)); i++) {
         if (!isdigit(aux[i])) {
             return 1; 
@@ -822,6 +860,14 @@ int verificanum(char *aux) {
 }
 
 int numeromax(char *digitos) {
+    /*Funçao responsavel por verificar se a entrada do usuario possui exatamente a quantidade de 5 caracteres
+    
+    
+    Parametros:
+            char *digitos: Ponteiro para string que recebe a entrada dos digitos do usuario.
+    Retorno:
+            Retorna um inteiro 1 em caso de entrada invalida.
+                Caso contrario retorna 0.        */
     if (digitos == NULL || strlen(digitos) != 5) {
         return 1;
     }
@@ -829,6 +875,16 @@ int numeromax(char *digitos) {
 }
 
 int validaNomeCandidato(TipoCandidato *candidatos, int *nCandidatos, char *nomeaux) {
+    /*Funçao responsavel por receber a entrada para o nome do candidato , armazenar em uma variavel char e verificar se ela eh valida
+    Sempre que a entrada for invalida a funçao vai receber uma nova entrada. Se a entrada for valida vai armazenar o nome no vetor candidato.
+    Parametros:
+            int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
+            TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+            char *nomeaux: armazena o nome inserido pelo usuario.
+            
+    Retorno:
+        Retorna um inteiro 1 em caso de entrada invalida.
+                Caso contrario retorna 0.          */
     while (1) {
         getchar();
         printf("Digite um nome para seu candidato: ");
@@ -846,6 +902,14 @@ int validaNomeCandidato(TipoCandidato *candidatos, int *nCandidatos, char *nomea
 }
 
 int validaIdadeCandidato(TipoCandidato *candidatos, int *nCandidatos) {
+    /*Funçao responsavel por receber a entrada para a idade do candidato , armazenar em uma variavel int e verificar se ela eh valida
+    Sempre que a entrada for invalida a funçao vai receber uma nova entrada. Se a entrada for valida vai armazenara idade no vetor candidato.
+    Parametros:
+            int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
+            TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+    Retorno:
+        Retorna um inteiro 1 em caso de entrada invalida.
+                Caso contrario retorna 0.          */
     int idadeaux;
     while (1) {
         printf("Digite a idade do candidato: ");
@@ -866,6 +930,15 @@ int validaIdadeCandidato(TipoCandidato *candidatos, int *nCandidatos) {
 }
 
 int validaDigitosCandidato(TipoCandidato *candidatos, int *nCandidatos) {
+    /*Funçao responsavel por receber a entrada para os digitos do candidato , armazenar em uma variavel char e verificar se ela eh valida
+    Sempre que a entrada for invalida a funçao vai receber uma nova entrada. Se a entrada for valida vai armazenara idade no vetor candidato.
+    A entrada eh invalida em caso de ser inserido uma quantidade diferente de 5 digitos ou caso os digitos ja estejam registrados por outro candidato.
+    Parametros:
+            int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
+            TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+    Retorno:
+        Retorna um inteiro 1 em caso de entrada invalida.
+                Caso contrario retorna 0.          */
     char digitosaux[6];
     int digitosencontrado;
 
@@ -896,6 +969,17 @@ int validaDigitosCandidato(TipoCandidato *candidatos, int *nCandidatos) {
 }
 
 int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int nPartidos, int *nCandidatos) {
+    /*Funçao responsavel por receber a entrada para a o partido do candidato e verificar se eh valido.
+    Se o partido nao existir a entrada sera invalida e o procedimento de cadastro vai falhar.
+
+    Parametros:
+            int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
+            TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+            int *tam: ponteiro de inteiro pra variavel que armazena o tamanho do vetor candidatos.
+            TipoPartido* partidos: ponteiro para TipoPartido que armazena as informações dos partidos já cadastrados;
+    Retorno:
+        Retorna um inteiro 1 em caso de entrada invalida.
+                Caso contrario retorna 0.          */
     char aux[5];
     // int partidoencontrado;
 
@@ -923,6 +1007,20 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
 }
 
 int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam, int *nCandidatos, int nPartidos) {
+    /*Funçao responsavel por receber as entradas paras as informaçoes dos candidatos: nome, idade, digitos e partido.
+    Verifica se cada entrada eh valida e se atende aos criterios. Se as entradas forem validas elas serao armazenadas no vetor de candidato.
+    E sera contabilizado mais uma candidato cadastrado na eleiçao.
+    Se a quantidade de candidatos cadastrados exceder o tamanho do vetor candidatos sera realocado o tamanho do vetor candidatos.
+
+    Parametros:
+            int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
+            TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+            int *tam: ponteiro de inteiro pra variavel que armazena o tamanho do vetor candidatos.
+            TipoPartido* partidos: ponteiro para TipoPartido que armazena as informações dos partidos já cadastrados;
+    Retorno:
+        Retorna um inteiro 1 em caso do procedimento falhar(se o usuario tentar se cadastrar em um partido nao existente o cadastro
+        ira falhar e o usuario sera redirecionado ao menu inicial.)
+                Caso contrario retorna 0.          */
     char nomeaux[50];
 
     if (*nCandidatos == *tam) {
@@ -1231,7 +1329,10 @@ int main(){
                         if (cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos, nPartidos)==0){  
                             printf("\nCandidato registrato com sucesso!");                   
                         }else{                                                                  
-                            printf("\nO procedimento falhou.\n");                                                                                                      
+                            printf("\nO procedimento falhou.\n");  
+                            printf("ENTER para seguir.\n");
+                            while (getchar() != '\n');
+                            imprimeMenuCadastro();                                                                                                  
                         }
                     }else{
                         printf("\nCadastre, ao menos, 1 partido para registrar um Candidato.\n");
