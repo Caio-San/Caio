@@ -10,6 +10,10 @@ typedef struct{
     char siglaAfiliados[50][5];
     int nAfiliados;
     int votos;
+    int qPartidario;
+    int qtEleitoSuplente[2];
+    int indiceEleitos[24];
+    int indiceSuplentes[50];
 
 } TipoFederacao;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇOES DAS FEDERAÇÕES
@@ -18,7 +22,10 @@ typedef struct{
     char nomePartido[50];
     char siglaPartido[5];
     int votos;
-    int eleitos;
+    int qPartidario;
+    int qtEleitoSuplente[2];
+    int indiceEleitos[24];
+    int indiceSuplentes[50];
 } TipoPartido;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMAÇÕES DOS PARTIDOS
 
@@ -26,11 +33,20 @@ typedef struct{
     char nomeCandidato[50];
     int idade;
     char digitos[6];
-    char partido[50];
+    char siglaPartido[5]; //MODIFICAR FUNÇÃO DE CADASTRO
     int votos;
 
 } TipoCandidato;
 // CRIA UM TIPO PARA ARMAZENAR AS INFORMÇOES DE CADA CANDIDATO
+
+// typedef struct{
+//     int nPartidos;
+//     int nCandidatos;
+//     int nFederacoes;
+//     int nEleitos; //PRECISA ZERAR TD
+//     int nSuplentes;
+
+// } TipoBase;
 
 void imprimeMenuCadastro(){
     /* Função responsável por imprimir o menu de cadastros
@@ -267,7 +283,8 @@ void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int q
 
     for (i = 0; i< nF; i++){
         printf("\nFederacao: %s", ptr2[i].nomeFederacao);
-        printf("\nQuociente partidario: %d\n", quocientePartidario(qEleitoral ,ptr2[i].votos));
+        ptr2[i].qPartidario = quocientePartidario(qEleitoral ,ptr2[i].votos);
+        printf("\nQuociente partidario: %d\n", ptr2[i].qPartidario);
     }
     for(i=0; i<nP; i++){ //CHECA TODOS OS PARTIDOS
         afiliado = 0;
@@ -284,12 +301,13 @@ void imprimeSecao4(TipoPartido* ptr1, TipoFederacao* ptr2, int nP, int nF, int q
         }
         if(afiliado == 0){
             printf("\nPartido: %s", ptr1[i].nomePartido);
-            printf("\nQuociente partidario: %d\n",quocientePartidario(qEleitoral ,ptr1[i].votos));
+            ptr1[i].qPartidario = quocientePartidario(qEleitoral ,ptr1[i].votos);
+            printf("\nQuociente partidario: %d\n", ptr1[i].qPartidario);
         }
     }
 }
 
-void imprimirSecao5(TipoCandidato *eleitos,int QuantidadeEleitos){
+void imprimirSecao5(TipoCandidato* candidatos, TipoPartido* partidos, TipoFederacao* federacoes, int nP, int nF){
     /* Função responsável por imprimir a Seção 5 do relatório.
     Dados a serem impressos: Nome dos candidatos eleitos e o nome dos seus respectivos partidos.
 
@@ -297,7 +315,7 @@ void imprimirSecao5(TipoCandidato *eleitos,int QuantidadeEleitos){
         QuantidadeEleitos : inteiro que armazena a quantidade de eleitos;
         TipoCandidato* eleitos: TipoCandidato* candidatos: ponteiro para vetor que armazena os dados dos candidatos eleitos.
     */
-    int i;
+    int i, j, k,h, afiliado;
     printf("\n* --------------------------------------------- *\n");
     printf("*                                               *\n");
     printf("*     | r | e | l | a | t | o | r | i | o |     *\n");
@@ -308,13 +326,29 @@ void imprimirSecao5(TipoCandidato *eleitos,int QuantidadeEleitos){
     printf("*                                               *\n");
     printf("* --------------------------------------------- *\n");
 
-    for(i=0; i< QuantidadeEleitos; i++){
-        printf("\nCandidato(a): %s", eleitos[i].nomeCandidato);
-        printf("\nLegenda Partidaria: %s\n", eleitos[i].partido);
+    for(i=0; i<nP; i++){ //CHECA TODOS OS PARTIDOS
+        afiliado = 0;
+        for(j=0; j<nF; j++){ // CHECA TODAS AS FEDERAÇÕES
+            for(k=0; k<federacoes[j].nAfiliados; k++){ //CHECA TODOS OS AFILIADOS DE UMA FEDEÇÃO
+                if(strcmp(partidos[i].siglaPartido, federacoes[j].siglaAfiliados[k]) == 0){ //ENTRA SE O PARTIDO FOR AFILIADO
+                    afiliado = 1;
+                    break;    
+                }
+            }if (afiliado == 1){
+                printf("\nFederacao: %s\n", federacoes[j].nomeFederacao);
+                for(h=0; h< federacoes[j].qtEleitoSuplente[0]; h++){
+                    printf("\nCandidato: %s", candidatos[federacoes[j].indiceEleitos[h]].nomeCandidato);
+                }
+            }else{
+                for(h=0; h< partidos[i].qtEleitoSuplente[0]; h++){
+                    printf("\nCandidato: %s", candidatos[partidos[i].indiceEleitos[h]].nomeCandidato);
+                }
+            }    
+        }
     }
 }
 
-void imprimirSecao6(TipoCandidato *suplentes,int QuantidadeSuplentes ){
+void imprimirSecao6(TipoCandidato* candidatos, TipoPartido* partidos, TipoFederacao* federacoes, int nP, int nF){
     /* Função responsável por imprimir a Seção 5 do relatório.
     Dados a serem impressos: Nome dos candidatos eleitos e o nome dos seus respectivos partidos.
 
@@ -322,7 +356,7 @@ void imprimirSecao6(TipoCandidato *suplentes,int QuantidadeSuplentes ){
         QuantidadeSuplentes: inteiro que armazena a quantidade de candidatos suplentes;
         TipoCandidato* suplentes: ponteiro para vetor que armazena os dados dos candidatos suplentes.
     */
-    int i;
+    int i, j, k,h, afiliado;
     printf("\n* --------------------------------------------- *\n");
     printf("*                                               *\n");
     printf("*     | r | e | l | a | t | o | r | i | o |     *\n");
@@ -333,9 +367,25 @@ void imprimirSecao6(TipoCandidato *suplentes,int QuantidadeSuplentes ){
     printf("*                                               *\n");
     printf("* --------------------------------------------- *\n");
 
-    for(i=0; i< QuantidadeSuplentes; i++){
-        printf("\nCandidato(a): %s", suplentes[i].nomeCandidato);
-        printf("\nLegenda Partidaria: %s\n", suplentes[i].partido);
+    for(i=0; i<nP; i++){ //CHECA TODOS OS PARTIDOS
+        afiliado = 0;
+        for(j=0; j<nF; j++){ // CHECA TODAS AS FEDERAÇÕES
+            for(k=0; k<federacoes[j].nAfiliados; k++){ //CHECA TODOS OS AFILIADOS DE UMA FEDEÇÃO
+                if(strcmp(partidos[i].siglaPartido, federacoes[j].siglaAfiliados[k]) == 0){ //ENTRA SE O PARTIDO FOR AFILIADO
+                    afiliado = 1;
+                    break;    
+                }
+            }if (afiliado == 1){
+                printf("\nFederacao: %s\n", federacoes[j].nomeFederacao);
+                for(h=0; h< federacoes[j].qtEleitoSuplente[0]; h++){
+                    printf("\nCandidato: %s", candidatos[federacoes[j].indiceSuplentes[h]].nomeCandidato);
+                }
+            }else{
+                for(h=0; h< partidos[i].qtEleitoSuplente[0]; h++){
+                    printf("\nCandidato: %s", candidatos[partidos[i].indiceSuplentes[h]].nomeCandidato);
+                }
+            }    
+        }
     }
 }
 
@@ -353,8 +403,6 @@ int caracteresValidos(char aux[]){
     for (i=0; i < (int)(strlen(aux)); i++){
         //ENTRA NO IF SE O CARACTERE NÃO CORRESPONDER A UMA LETRA DE ACORDO COM A TABELA ASCII
         if (isalpha(aux[i]) == 0 && (int)(aux[i]) != 32 && (int)(aux[i]) != 10){
-            // printf("%d",aux[i]); //TESTES
-            // printf("i: %d", i);
             return 1; 
         }       
     }
@@ -456,7 +504,7 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
    
 }   
 
-int jaExisteAfiliado(int n, int nFederacoes, char aux[], TipoFederacao* ptr){
+int jaExisteAfiliado(int nFederacoes, char aux[], TipoFederacao* ptr){
     /* Função responsável por checar se o partido já está filiado à respectiva federação.
 
     Parâmetros:
@@ -470,7 +518,7 @@ int jaExisteAfiliado(int n, int nFederacoes, char aux[], TipoFederacao* ptr){
     */
     
     int i;
-    for(i=0; i<n; i++){
+    for(i=0; i<ptr[i].nAfiliados; i++){
         if((strcmp(aux, ptr[nFederacoes-1].siglaAfiliados[i])) == 0){   //ENTRA SE O AFILIADO JA ESTIVER CADASTRADO
             return 1;
         }
@@ -478,7 +526,7 @@ int jaExisteAfiliado(int n, int nFederacoes, char aux[], TipoFederacao* ptr){
     return 0;
 }
 
-void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, int nFederacoes, int i){
+void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, int nFederacoes, int afiliados){
     /* Função responsável por registrar os afiliados na respectiva federação.
     
     Parâmetros:
@@ -491,7 +539,6 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
     */
     char siglaAux[5];
     int opcao;
-    ptr1[nFederacoes-1].nAfiliados = 0;
     
     while(1){
         printf("\nDigite a sigla do partido a ser afiliado: ");
@@ -499,11 +546,11 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
         if((scanf("%s", siglaAux)) > 0){
             if (caracteresValidos(siglaAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExistePartido(nPartidos, siglaAux, ptr2, "sigla") == 1){   //VERIFICA SE O PARTIDO EXISTE
-                    if((jaExisteAfiliado(i, nFederacoes, siglaAux, ptr1)) == 0){
+                    if((jaExisteAfiliado( nFederacoes, siglaAux, ptr1)) == 0){
+                        strcpy(ptr1[nFederacoes-1].siglaAfiliados[afiliados], siglaAux);
+                        ptr1[nFederacoes-1].nAfiliados += 1;
                         printf("\nPartido afiliado com sucesso.\n");
-                        strcpy(ptr1[nFederacoes-1].siglaAfiliados[i], siglaAux);
-                        ptr1[nFederacoes-1].nAfiliados = ptr1[nFederacoes-1].nAfiliados + 1;
-                        printf("\nfederacao: %s\nnumero de afiliados: %d",ptr1[nFederacoes-1].nomeFederacao, ptr1[nFederacoes-1].nAfiliados);
+                        // strcpy(ptr1[nFederacoes-1].siglaAfiliados[ptr1[nFederacoes-1].nAfiliados], siglaAux);
                         break;
                     }else{
                         printf("\nO partido inserido ja esta cadastrado como afiliado.");
@@ -529,7 +576,7 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
         if ((scanf("%d", &opcao)) > 0){
             switch (opcao){
                 case 1:
-                    return registraAfiliados(ptr1, ptr2, nPartidos, nFederacoes, i+1);
+                    return registraAfiliados(ptr1, ptr2, nPartidos, nFederacoes, afiliados+1);
                 case 2:
                     return;
                 default:
@@ -596,7 +643,6 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
         printf("\nDigite o nome da federacao: ");
         //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
         if((scanf("%[^\n]", nomeAux)) > 0){
-            printf("\n1 nomeAux: %s", nomeAux); //TESTE
             if (caracteresValidos(nomeAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExisteFederacao(nFederacoes, nomeAux, ptr, "nome") == 1){   //VERIFICA SE A FEDERACAO JÁ EXISTE
                     printf("\nFederacao já existente.\n");
@@ -616,7 +662,6 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
     while(1){
         printf("\nDigite a sigla da federacao (maximo 5 caracteres): ");
         if(scanf("%s", siglaAux) > 0){
-            printf("\n1 siglaAux: %s", siglaAux); //TESTE
             if (caracteresValidos(siglaAux) == 0){
                 if (jaExisteFederacao(nFederacoes, siglaAux, ptr, "sigla")){
                     printf("\nSigla já existente. Tente novamente!\n");
@@ -631,9 +676,7 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
         }
         getchar();                  
     }
-    printf("\n2 nomeAux: %s", nomeAux); //TESTE
     strcpy(ptr[*nFederacoes].nomeFederacao, nomeAux);
-    printf("\n2 siglaAux: %s", siglaAux); //TESTE
     strcpy(ptr[*nFederacoes].siglaFederacao, siglaAux);
     *nFederacoes = *nFederacoes +1;
     return 0;   
@@ -695,6 +738,8 @@ void zeraVotosPartidos(TipoPartido* partidos, int nPartidos){
     int i;
     for(i=0; i<nPartidos; i++){
         partidos[i].votos = 0;
+        partidos[i].qtEleitoSuplente[0] = 0;
+        partidos[i].qtEleitoSuplente[1] = 0;
     }
 }
 
@@ -708,6 +753,8 @@ void zeraVotosFederacoes(TipoFederacao* federacoes, int nFederacoes){
     int i;
     for(i=0; i<nFederacoes; i++){
         federacoes[i].votos = 0;
+        federacoes[i].qtEleitoSuplente[0] = 0;
+        federacoes[i].qtEleitoSuplente[1] = 0;
     }
 }
 
@@ -848,24 +895,24 @@ int validaDigitosCandidato(TipoCandidato *candidatos, int *nCandidatos) {
     }
 }
 
-int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam, int *nCandidatos) {
-    char aux[50];
+int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int nPartidos, int *nCandidatos) {
+    char aux[5];
     // int partidoencontrado;
 
     while (1) {
         getchar();
-        printf("\nDigite o partido do candidato: ");
-        fgets(aux, 50, stdin);
+        printf("\nDigite a sigla do partido do candidato: ");
+        fgets(aux, 5, stdin);
         aux[strcspn(aux, "\n")] = '\0';
 
         if (caracteresVal(aux)) {
             printf("Digite caracteres validos!\n");
         } else {
             // partidoencontrado = 0;
-            for (int i = 0; i < *tam; i++) {
+            for (int i = 0; i < nPartidos; i++) {
                 if (strcmp(aux, partidos[i].nomePartido) == 0) {
                     printf("Partido escolhido com sucesso!\n");
-                    strcpy(candidatos[*nCandidatos].partido, aux);
+                    strcpy(candidatos[*nCandidatos].siglaPartido, aux);
                     return 0;
                 }
             }
@@ -875,10 +922,10 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
     }
 }
 
-int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam, int *nCandidatos) {
+int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam, int *nCandidatos, int nPartidos) {
     char nomeaux[50];
 
-    if (*nCandidatos >= *tam) {
+    if (*nCandidatos == *tam) {
         *tam = (*tam) * 2;
         candidatos = (TipoCandidato *) realloc(candidatos, (*tam) * sizeof(TipoCandidato));
         if (!candidatos) {
@@ -887,10 +934,11 @@ int cadastraCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int *tam
         }
     }
 
+    if (validaPartidoCandidato(candidatos, partidos, nPartidos, nCandidatos) != 0) return -1;
     if (validaNomeCandidato(candidatos, nCandidatos, nomeaux) != 0) return -1;
     if (validaIdadeCandidato(candidatos, nCandidatos) != 0) return -1;
     if (validaDigitosCandidato(candidatos, nCandidatos) != 0) return -1;
-    if (validaPartidoCandidato(candidatos, partidos, tam, nCandidatos) != 0) return -1;
+    
     
     (*nCandidatos)++;
     return 0;
@@ -928,7 +976,7 @@ int confirmaVoto(){
     }   
 }
 
-void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int *votoVal, int *votoNul, int *votoBra, int *nCandidatos) {
+void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int nPartidos, int *votoVal, int *votoNul, int *votoBra, int *nCandidatos) {
     /* Função responsável por registrar o voto do usuário.
 
     Parâmetros:
@@ -943,13 +991,12 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int
     
     char auxDigito[5], voto[3];
     int indiceCandidato=0, flag =1;
-    int i,p=0;
+    int i;
     char aux[50];
     while(flag){
         printf("\nDigite o numero do candidato: ");
         if((scanf("%s", auxDigito) > 0)){
             if((verificanumeros(auxDigito)) == 0){
-                printf("%d", jaExistecandidato(nCandidatos, auxDigito, candidatos, "digito", &indiceCandidato)); //TESTE
                 if((jaExistecandidato(nCandidatos, auxDigito, candidatos, "digito", &indiceCandidato)) == 1){
                     printf("\nCandidato(a): %s\n", candidatos[indiceCandidato].nomeCandidato);
                     strcpy(voto, "val");
@@ -959,34 +1006,26 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int
                 }
                 imprimeMenuConfirmacao();
                 switch(confirmaVoto()){
-                    printf("oi switch");
                     case 1:
                         if((strcmp(voto, "val"))== 0){
                             candidatos[indiceCandidato].votos = candidatos[indiceCandidato].votos + 1;
                             *votoVal = *votoVal +1;
-                            printf("Voto Candidato :");
-                            printf("%d", candidatos[indiceCandidato].votos);
-                            printf("\nQuantidade de votos do partido :");
-                            printf("%s",candidatos[indiceCandidato].partido);
-                            //TESTES
 
-                            strcpy(aux, candidatos[indiceCandidato].partido);
-                            for(i=0;i<tamp;i++){
-                                if ((strcmp(aux, partidos[i].nomePartido)) == 0){
-                                    partidos[i].votos = partidos[i].votos + 1;
-                                    p = i;
+                            strcpy(aux, candidatos[indiceCandidato].siglaPartido);
+                            for(i=0;i<nPartidos;i++){
+                                if ((strcmp(aux, partidos[i].siglaPartido)) == 0){
+                                    partidos[i].votos += 1;
                                     break;
                                 }
                             }
                             // Essa estutura está atualizando a quantidade de votos por partido
-                            printf("\n%d",partidos[p].votos );
                         }else{
                             *votoNul = *votoNul +1;
                         }
                         flag=0;
                         break;
                     case 2:
-                        return Registrarvoto(candidatos,partidos ,tamp, votoVal, votoNul,votoBra,nCandidatos);
+                        return Registrarvoto(candidatos,partidos ,nPartidos, votoVal, votoNul,votoBra,nCandidatos);
                     case 3:
                         *votoBra = *votoBra +1;
                         flag=0;
@@ -1001,7 +1040,7 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int tamp, int
     }
 }
 
-void calculaVotosFederacao(TipoFederacao *ptr1, TipoPartido *ptr2, int nFederacoes, int nPartidos){
+void calculaVotosFederacao(TipoFederacao *federacoes, TipoPartido *partidos, int nFederacoes, int nPartidos){
     /* Função responsável por calcular os votos de cada Federação.
 
     Parâmetros:
@@ -1013,15 +1052,11 @@ void calculaVotosFederacao(TipoFederacao *ptr1, TipoPartido *ptr2, int nFederaco
     
     int i, j, k;
     for(i=0; i< nFederacoes; i++){
-        ptr1[i].votos = 0;
-        // for(j=0; j<nCandidatos; j++){
-        for(j=0; j<ptr1[i].nAfiliados; j++){ // j< QUANTIDADE DE AFILIADOS CADASTRADOS NA RESPECTIVA FEDERAÇÃO
+        federacoes[i].votos = 0;
+        for(j=0; j<federacoes[i].nAfiliados; j++){ // j< QUANTIDADE DE AFILIADOS CADASTRADOS NA RESPECTIVA FEDERAÇÃO
             for(k=0; k< nPartidos; k++){
-                printf("\nsigla afiiado: %s\nsigla partido: %s\n", ptr1[i].siglaAfiliados[j], ptr2[k].siglaPartido); //TESTE
-                if((strcmp(ptr1[i].siglaAfiliados[j], ptr2[k].siglaPartido)) == 0){
-                    printf("\nantes ptr1[i].votos: %d", ptr1[i].votos);
-                    ptr1[i].votos = ptr1[i].votos + ptr2[k].votos;
-                    printf("\ndepois ptr1[i].votos: %d", ptr1[i].votos);
+                if((strcmp(federacoes[i].siglaAfiliados[j], partidos[k].siglaPartido)) == 0){
+                    federacoes[i].votos += partidos[k].votos;
                     break;
                 }
             }  
@@ -1054,28 +1089,13 @@ int quocienteEleitoral(int votosValidos, int Vagas){
 
 }
 
-int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCandidato *eleitos, TipoCandidato *suplentes, int QEleitoral, int nCandidatos, int nPartidos,int *QuantidadeEleitos,int *QuantidadeSuplentes, int vagasTotais) {
-    /*Funçao responsavel por verificar e o candidato esta eleito: precisa cumprir os criterios de ter quantidade de votos validos
-    superior ao produto de 0.1 e do quociente eleitoral , alem de estar dentro do limite de vagas do seu partido.
-    
-        Parâmetros:
-            TipoCandidato *candidatos: ponteiro para o vetor que armazena as informaçoes dos candidatos;
-            TipoPartido *partidos :  ponteiro para vetor que armazena os dados dos partidos cadastrados;
-            TipoCandidato *eleitos; ponteiro para o vetor que armazena as informaçoes dos candidatos eleitos;
-            int QEleitoral: variavel inteira que armazena o quociente eleitoral da eleiçao.
-            int nCandidatos: inteiro que armazena a quantidade de cadidatos cadastrados;
-            int npartidos: inteiro que armazena a quantidade de partidos cadastrados;
-
-        Retorno:
-            int 0: Candidato atende aos dois criterios e está eleito;
-            int 1: Candidato não está eleito;
-            */
-    
-    int i, j, indiceCandidato = 0, indicePartido = 0, eleito = 0, votoC = 0;
-    int QPartidario = 0;
+void ordenaCandidatos(TipoCandidato* candidatos, int nCandidatos){
+    /* Função responsável por ordenar a lista de candidatos em ordem decrescente de quantidade de votos.
+    */
+    int i, j;
     TipoCandidato auxCandidato;
-    char aux[50] = "";
 
+    //Ordena *candidatos -> decrescente em votos
     for (i = 0; i < nCandidatos - 1; i++) {
         for (j = 0; j < nCandidatos - i - 1; j++) {
             if (candidatos[j].votos < candidatos[j + 1].votos ||
@@ -1086,41 +1106,87 @@ int candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoCand
             }
         }
     }
+}
 
-    while (vagasTotais > 0) {
+void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFederacao* federacoes, int QEleitoral, int nCandidatos, int nPartidos,int *QuantidadeEleitos, int vagasTotais, int nFederacoes, int* eleitos) {
+    /*Funçao responsavel por verificar e o candidato esta eleito: precisa cumprir os criterios de ter quantidade de votos validos
+    superior ao produto de 0.1 e do quociente eleitoral , alem de estar dentro do limite de vagas do seu partido.
+    
+        Parâmetros:
+            TipoCandidato *candidatos: ponteiro para o vetor que armazena as informaçoes dos candidatos;
+            TipoPartido *partidos :  ponteiro para vetor que armazena os dados dos partidos cadastrados;
+            TipoCandidato *eleitos; ponteiro para o vetor que armazena as informaçoes dos candidatos eleitos;
+            int QEleitoral: variavel inteira que armazena o quociente eleitoral da eleiçao.
+            int nCandidatos: inteiro que armazena a quantidade de cadidatos cadastrados;
+            int npartidos: inteiro que armazena a quantidade de partidos cadastrados;
+            */
+    
+    int i, j, k, indiceCandidato = 0, indicePartido = 0, eleito = 0, nEleitos= 0;
+    char aux[5] = "";
+    int afiliado, indiceFederacao, jaEleito=0;
+
+    //verificaca eleição
+    while (1) {
         eleito = 0;
-        for (i = 0; i < nCandidatos; i++) {
-            votoC = candidatos[i].votos;
-            if (votoC >= (0.1 * QEleitoral)) {
-                eleito++;
-                indiceCandidato = i;
-                strcpy(aux, candidatos[i].partido);
-                break;
-            }
-        }
-        for (i = 0; i < nPartidos; i++) {
-            if (strcmp(partidos[i].nomePartido, aux) == 0) {
-                QPartidario = quocientePartidario(QEleitoral, partidos[i].votos);
-                if (partidos[i].eleitos < QPartidario) {
-                    eleito++;
-                    indicePartido = i;
+        //verifica se os votos do candidato sao >= a 10% do QEleitoral
+        for (i = 0; i < nCandidatos; i++){
+            for(j=0; i< nEleitos; j++){
+                if(i == eleitos[j]){
+                    jaEleito = 1;
                     break;
+                }
+            }if(jaEleito == 0){
+                if(candidatos[i].votos >= (0.1 * QEleitoral)){
+                    eleito++;
+                    indiceCandidato = i;
+                    strcpy(aux, candidatos[i].siglaPartido);
+                    break;
+                }
+            }
+    
+        }
+        //verifica se ainda há vagas pelo qPartidario
+        for(i=0; i< nFederacoes; i++){
+            for(j=0; j<federacoes[i].nAfiliados; j++){
+                if(strcmp(aux, federacoes[i].siglaAfiliados[j]) == 0){
+                    if(federacoes[i].qtEleitoSuplente[0] < federacoes[i].qPartidario){
+                        eleito++;
+                        afiliado = 1;
+                        indiceFederacao = i;
+                    }
                 }
             }
         }
 
-        if (eleito == 2) {  
-            eleitos[*QuantidadeEleitos] = candidatos[indiceCandidato];
-            printf("%s esta eleito!", candidatos[indiceCandidato].nomeCandidato);
-            partidos[indicePartido].eleitos++;
+        if(!afiliado){
+            for(i=0; k<nPartidos; k++){
+                if(strcmp(aux, partidos[i].siglaPartido) == 0){
+                    if(partidos[i].qtEleitoSuplente[0] < partidos[i].qPartidario){
+                        eleito++;
+                    }
+                }
+            }
+        }
+        if (eleito == 2) {
+            eleitos[nEleitos] = indiceCandidato;
+            if(afiliado == 1){
+                federacoes[indiceFederacao].indiceEleitos[federacoes[indiceFederacao].qtEleitoSuplente[0]] = indiceCandidato;
+                federacoes[indiceFederacao].qtEleitoSuplente[0]++;
+            }else{
+                partidos[indicePartido].indiceEleitos[partidos[indicePartido].qtEleitoSuplente[0]] = indiceCandidato;
+                partidos[indicePartido].qtEleitoSuplente[0]++;
+            }
             (*QuantidadeEleitos)++;
             vagasTotais--; 
         }else{
-            suplentes[*QuantidadeSuplentes] = candidatos[indiceCandidato];
-            (*QuantidadeSuplentes)++;
+            if(afiliado == 1){
+                federacoes[indiceFederacao].indiceSuplentes[federacoes[indiceFederacao].qtEleitoSuplente[1]] = indiceCandidato;
+            }else{
+                partidos[indicePartido].indiceSuplentes[partidos[indicePartido].qtEleitoSuplente[1]] = indiceCandidato;
+            }
+            
         }
-    }
-    return 0;  
+    } 
 }
 
 
@@ -1130,19 +1196,21 @@ int main(){
     int opcao, flag=1;
     // int nPartidos=0, tamp=50, nFederacoes=0, tamf=50;
     int nPartidos=0, tamp=50, nFederacoes=0, tamf=50, nCandidatos=0, tamc=50;
-    int VagasTotais=24, QEleitoral=0, QuantidadeEleitos=0,QuantidadeSuplentes=0;
+    int VagasTotais=24, QEleitoral=0, QuantidadeEleitos=0;
     int votosVal = 0, votosBra = 0, votosNul = 0;
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
     TipoCandidato *candidatos = NULL;
-    TipoCandidato *eleitos = NULL;
-    TipoCandidato *suplentes = NULL;
+    int *eleitos = NULL;
+    // TipoBase *informacoes = NULL;
+    // informacoes = (TipoBase *) malloc(sizeof(TipoBase));
+    eleitos = (int *) malloc(VagasTotais*sizeof(int));
     candidatos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
     partidos = (TipoPartido *) malloc(tamp*sizeof(TipoPartido));
     federacoes = (TipoFederacao *) malloc(tamf*sizeof(TipoFederacao));
-    eleitos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
-    suplentes = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
+
     //CADASTROS
+
     while (flag){
     //O WHILE DEVE ENCERRAR QUANDO O USUARIO ESCOLHER O OPÇÃO 4 'ENCERRAR ETAPA DE CADASTROS'
         imprimeMenuCadastro(); //FUNÇÃO QUE IMPRIME O MENU
@@ -1160,7 +1228,7 @@ int main(){
                 case 2:                                                                     
                     getchar();
                     if(nPartidos >0){
-                        if (cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos)==0){  
+                        if (cadastraCandidato(candidatos,partidos, &tamc, &nCandidatos, nPartidos)==0){  
                             printf("\nCandidato registrato com sucesso!");                   
                         }else{                                                                  
                             printf("\nO procedimento falhou.\n");                                                                                                      
@@ -1178,8 +1246,9 @@ int main(){
                         break;
                     }else{
                         registraFederacao(federacoes, &nFederacoes, &tamf);
+                        federacoes[nFederacoes-1].nAfiliados = 0;
                         imprimeTituloAfiliados();
-                        registraAfiliados(federacoes, partidos, nPartidos, nFederacoes, 0);
+                        registraAfiliados(federacoes, partidos, nPartidos, nFederacoes,0);
                     }
                     break;
                 case 4:
@@ -1209,8 +1278,7 @@ int main(){
             switch (opcao){
                 case 1:
                     getchar();
-                    Registrarvoto(candidatos,partidos,tamp ,&votosVal, &votosNul, &votosBra, &nCandidatos);
-                    
+                    Registrarvoto(candidatos,partidos,nPartidos ,&votosVal, &votosNul, &votosBra, &nCandidatos);
                     break;
                 case 2:
                     getchar();
@@ -1235,7 +1303,7 @@ int main(){
     
     calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
 // RELATORIO
-    //candidatosEleitos(candidatos,partidos,eleitos,QEleitoral,nCandidatos,nPartidos,QuantidadeEleitos);
+
     imprimeSecao1(votosVal, votosNul, votosBra, QEleitoral);
     getchar();
     imprimeSecao2(candidatos, nCandidatos);
@@ -1244,14 +1312,11 @@ int main(){
     getchar();
     imprimeSecao4(partidos, federacoes, nPartidos, nFederacoes, QEleitoral);
     getchar();
-    candidatosEleitos(candidatos, partidos, eleitos,suplentes, QEleitoral, nCandidatos, nPartidos,&QuantidadeEleitos,&QuantidadeSuplentes, VagasTotais);
-    imprimirSecao5(eleitos,QuantidadeEleitos);
+    ordenaCandidatos(candidatos, nCandidatos);
+    candidatosEleitos(candidatos, partidos, federacoes, QEleitoral, nCandidatos, nPartidos, &QuantidadeEleitos, VagasTotais, nFederacoes, eleitos);
+    imprimirSecao5(candidatos, partidos, federacoes, nPartidos, nFederacoes);
     getchar();
-    imprimirSecao6(suplentes,QuantidadeSuplentes);
-    
-
-
-
+    imprimirSecao6(candidatos, partidos, federacoes, nPartidos, nFederacoes);
 
     free(candidatos);
     free(partidos);
