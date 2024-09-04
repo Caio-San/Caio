@@ -1225,7 +1225,7 @@ void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFed
     int afiliado, indiceFederacao, jaEleito=0;
 
     //verificaca eleição
-    while (1) {
+    while (vagasTotais > 0) {
         eleito = 0;
         //verifica se os votos do candidato sao >= a 10% do QEleitoral
         for (i = 0; i < nCandidatos; i++){
@@ -1259,8 +1259,9 @@ void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFed
 
         if(!afiliado){
             for(k=0; k<nPartidos; k++){
-                if(strcmp(aux, partidos[i].siglaPartido) == 0){
-                    if(partidos[i].qtEleitoSuplente[0] < partidos[i].qPartidario){
+                if(strcmp(aux, partidos[k].siglaPartido) == 0){
+                    if(partidos[k].qtEleitoSuplente[0] < partidos[k].qPartidario){
+                        indicePartido = k;
                         eleito++;
                     }
                 }
