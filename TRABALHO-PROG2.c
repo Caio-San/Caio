@@ -1383,8 +1383,15 @@ int main(){
                     break;
                 case 2:
                     getchar();
-                    flag = 0;
-                    break;
+                    if(votosVal <= 12){
+                        printf("quantidade de votos validos nao alcancada! realize mais votos\n");
+                        Registrarvoto(candidatos,partidos,nPartidos ,&votosVal, &votosNul, &votosBra, &nCandidatos);
+                        break;
+                    }
+                    else{
+                        flag = 0;
+                        break;
+                    }
                 default:
                     getchar();
                     printf("\nOpcao invalida. Tente novamente!\n");
