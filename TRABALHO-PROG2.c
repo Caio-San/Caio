@@ -981,6 +981,7 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
         Retorna um inteiro 1 em caso de entrada invalida.
                 Caso contrario retorna 0.          */
     char aux[5];
+    int i=0;
     // int partidoencontrado;
 
     while (1) {
@@ -993,7 +994,7 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
             printf("Digite caracteres validos!\n");
         } else {
             // partidoencontrado = 0;
-            for (int i = 0; i < nPartidos; i++) {
+            for (i = 0; i < nPartidos; i++) {
                 if (strcmp(aux, partidos[i].nomePartido) == 0) {
                     printf("Partido escolhido com sucesso!\n");
                     strcpy(candidatos[*nCandidatos].siglaPartido, aux);
@@ -1257,7 +1258,7 @@ void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFed
         }
 
         if(!afiliado){
-            for(i=0; k<nPartidos; k++){
+            for(k=0; k<nPartidos; k++){
                 if(strcmp(aux, partidos[i].siglaPartido) == 0){
                     if(partidos[i].qtEleitoSuplente[0] < partidos[i].qPartidario){
                         eleito++;
