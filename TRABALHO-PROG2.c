@@ -1249,7 +1249,7 @@ void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFed
                         if(federacoes[j].qtEleitoSuplente[0] < federacoes[j].qPartidario){
                             eleito++;
                             afiliado = 1;
-                            indiceFederacao = i;
+                            indiceFederacao = j;
                             break;
                         }
                     }
@@ -1258,7 +1258,7 @@ void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFed
                 for(j=0; j<nPartidos; j++){
                     if(strcmp(aux, partidos[j].siglaPartido) == 0){
                         if(partidos[j].qtEleitoSuplente[0] < partidos[j].qPartidario){
-                            indicePartido = i;
+                            indicePartido = j;
                             eleito++;
                             break;
                         }
