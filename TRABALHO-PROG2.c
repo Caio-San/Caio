@@ -396,22 +396,21 @@ void imprimirSecao6(TipoCandidato* candidatos, TipoPartido* partidos, TipoFedera
     }
 }
 
-int caracteresValidos(char aux[]){
-    /* A função verifica se a string inserida possui caracteres inválidos.
-    Caracteres válidos são letras maiúsculas e minúsculas.
-
-    Parâmetros:
-        char aux[]: String a ser verificada;
-    Retorno (int):
-        1: Há caracteres inválidos;
-        0: Não há caracteres inválidos;
-    */
-    int i;
-    for (i=0; i < (int)(strlen(aux)); i++){
-        //ENTRA NO IF SE O CARACTERE NÃO CORRESPONDER A UMA LETRA DE ACORDO COM A TABELA ASCII
-        if (isalpha(aux[i]) == 0 && (int)(aux[i]) != 32 && (int)(aux[i]) != 10){
-            return 1; 
-        }       
+int caracteresVal(char *str) {
+    /*Funçao responsavel por verificar se os carecteres inseridos sao letras maiusculas ou minusculas.
+    Ultilizando a funçao !isalpha da biblioteca ctype.h para analisar cada carctere da string.
+    
+        Parametros:
+            char *str: ponteiro pra um string que armazena a entrada de carateres do usuario.
+            
+        Retorno:
+            0: Não há caracteres inválidos;
+                1: Há caracteres inválidos;
+                */
+    for (int i = 0; i < (int)strlen(str); i++) {
+        if (!isalpha(str[i]) && !isspace(str[i]) && (int)(str[i]) != 10) {
+            return 1;
+        }
     }
     return 0;
 }
@@ -469,7 +468,7 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
         //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
         if((scanf("%[^\n]", nomeAux)) > 0){
             getchar();
-            if (caracteresValidos(nomeAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
+            if (caracteresVal(nomeAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExistePartido(*nPartidos, nomeAux, ptr, "nome") == 1){   //VERIFICA SE O PARTIDO JÁ EXISTE
                     printf("\nPartido ja existente.\n");
                     return 1;
@@ -489,7 +488,7 @@ int cadastraPartido(TipoPartido *ptr , int* nPartidos, int* tam){
         printf("\nDigite a sigla do partido (maximo 5 caracteres): ");
         if(scanf("%s", siglaAux) > 0){
             getchar();
-            if (caracteresValidos(siglaAux) == 0){
+            if (caracteresVal(siglaAux) == 0){
                 if (jaExistePartido(*nPartidos, siglaAux, ptr, "sigla") == 1){
                     printf("\nSigla ja existente. Tente novamente!");
                 }else{
@@ -552,7 +551,7 @@ void registraAfiliados(TipoFederacao *ptr1, TipoPartido* ptr2, int nPartidos, in
         printf("\nDigite a sigla do partido a ser afiliado: ");
         //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
         if((scanf("%s", siglaAux)) > 0){
-            if (caracteresValidos(siglaAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
+            if (caracteresVal(siglaAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExistePartido(nPartidos, siglaAux, ptr2, "sigla") == 1){   //VERIFICA SE O PARTIDO EXISTE
                     if((jaExisteAfiliado( nFederacoes, siglaAux, ptr1)) == 0){
                         strcpy(ptr1[nFederacoes-1].siglaAfiliados[afiliados], siglaAux);
@@ -653,7 +652,7 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
         printf("\nDigite o nome da federacao: ");
         //ENTRA NO IF SE A LEITURA FOR VÁLIDA (CARACTERES)
         if((scanf("%[^\n]", nomeAux)) > 0){
-            if (caracteresValidos(nomeAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
+            if (caracteresVal(nomeAux) == 0){   //VERIFICA SE TODOS OS CARACTERES SÃO VÁLIDOS
                 if (jaExisteFederacao(nFederacoes, nomeAux, ptr, "nome") == 1){   //VERIFICA SE A FEDERACAO JÁ EXISTE
                     printf("\nFederacao já existente.\n");
                     return 1;
@@ -672,7 +671,7 @@ int registraFederacao(TipoFederacao *ptr, int* nFederacoes, int* tam){
     while(1){
         printf("\nDigite a sigla da federacao (maximo 5 caracteres): ");
         if(scanf("%s", siglaAux) > 0){
-            if (caracteresValidos(siglaAux) == 0){
+            if (caracteresVal(siglaAux) == 0){
                 if (jaExisteFederacao(nFederacoes, siglaAux, ptr, "sigla")){
                     printf("\nSigla já existente. Tente novamente!\n");
                 }else{
@@ -807,24 +806,6 @@ int jaExistecandidato(int* nCandidatos, char aux[], TipoCandidato* ptr, char tip
                 *indiceCandidato = i;
                 return 1;
             }
-        }
-    }
-    return 0;
-}
-
-int caracteresVal(char *str) {
-    /*Funçao responsavel por verificar se os carecteres inseridos sao letras maiusculas ou minusculas.
-    Ultilizando a funçao !isalpha da biblioteca ctype.h para analisar cada carctere da string.
-    
-        Parametros:
-            char *str: ponteiro pra um string que armazena a entrada de carateres do usuario.
-            
-        Retorno:
-                Retorna um inteiro 1 em caso de carctere invalido.
-                Caso contrario retorna 0.*/
-    for (int i = 0; i < (int)strlen(str); i++) {
-        if (!isalpha(str[i]) && !isspace(str[i])) {
-            return 1;
         }
     }
     return 0;
