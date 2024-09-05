@@ -343,9 +343,10 @@ void imprimirSecao5(TipoCandidato* candidatos, TipoPartido* partidos, TipoFedera
                     printf("\nCandidato: %s", candidatos[federacoes[j].indiceEleitos[h]].nomeCandidato);
                 }federacoes[j].impresso = 1;
             }else if(!afiliado && !partidos[i].impresso){
+                printf("\nPartido: %s\n", partidos[i].nomePartido);
                 for(h=0; h< partidos[i].qtEleitoSuplente[0]; h++){
                     printf("\nCandidato: %s", candidatos[partidos[i].indiceEleitos[h]].nomeCandidato);
-                }
+                }partidos[i].impresso = 1;
             }    
         }
     }
