@@ -1002,6 +1002,7 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
             for (i = 0; i < nPartidos; i++) {
                 if (strcmp(aux, partidos[i].siglaPartido) == 0) {
                     printf("Partido escolhido com sucesso!\n");
+                    partidos[i].qtCandidatos = partidos[i].qtCandidatos +1 ;
                     strcpy(candidatos[*nCandidatos].siglaPartido, aux);
                     return 0;
                 }
@@ -1211,7 +1212,52 @@ void ordenaCandidatos(TipoCandidato* candidatos, int nCandidatos){
         }
     }
 }
+void VagasRemanescentes(TipoPartido *partidos, TipoFederacao  *federacoes, int nPartidos,int nFederacoes){
+    int i;
 
+    for (i = 0; i < nPartidos; i++) {
+        while (partidos[i].qtEleitoSuplente[0] < partidos[i].qPartidario && partidos[i].qtEleitoSuplente[1] > 0) {
+            partidos[i].indiceEleitos[partidos[i].qtEleitoSuplente[0]] = partidos[i].indiceSuplentes[--partidos[i].qtEleitoSuplente[1]];
+            partidos[i].qtEleitoSuplente[0]++;
+        }
+    }
+
+    for (i = 0; i < nFederacoes; i++) {
+        while (federacoes[i].qtEleitoSuplente[0] < federacoes[i].qPartidario && federacoes[i].qtEleitoSuplente[1] > 0) {
+            federacoes[i].indiceEleitos[federacoes[i].qtEleitoSuplente[0]] = federacoes[i].indiceSuplentes[--federacoes[i].qtEleitoSuplente[1]];
+            federacoes[i].qtEleitoSuplente[0]++;
+        }
+    }
+
+
+}
+void ArmazenaEleitos(TipoPartido *partidos, TipoFederacao *federacoes,int indiceCandidato,int indicePartido, int indiceFederacao, int afiliado, int eleito){
+    if (eleito == 2) {
+        //ARMAZENA ELEITOS
+            if(afiliado){
+                federacoes[indiceFederacao].indiceEleitos[federacoes[indiceFederacao].qtEleitoSuplente[0]] = indiceCandidato;
+                federacoes[indiceFederacao].qtEleitoSuplente[0]++;
+            }else{
+                partidos[indicePartido].indiceEleitos[partidos[indicePartido].qtEleitoSuplente[0]] = indiceCandidato;
+                partidos[indicePartido].qtEleitoSuplente[0]++;
+            }
+        //ARMAZENA SUPLENTES
+        }else{
+            if(afiliado){
+                if(federacoes[indiceFederacao].qPartidario > 0){
+                    federacoes[indiceFederacao].indiceSuplentes[federacoes[indiceFederacao].qtEleitoSuplente[1]] = indiceCandidato;
+                    federacoes[indiceFederacao].qtEleitoSuplente[1]++;
+                }
+            }else{
+                if(partidos[indicePartido].qPartidario > 0){
+                    partidos[indicePartido].indiceSuplentes[partidos[indicePartido].qtEleitoSuplente[1]] = indiceCandidato;
+                    partidos[indicePartido].qtEleitoSuplente[1]++;
+                }
+            }
+        }
+
+
+}
 void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFederacao* federacoes, int QEleitoral, int nCandidatos, int nPartidos, int nFederacoes) {
     /*Funçao responsavel por verificar e o candidato esta eleito: precisa cumprir os criterios de ter quantidade de votos validos
     superior ao produto de 0.1 e do quociente eleitoral , alem de estar dentro do limite de vagas do seu partido.
@@ -1227,7 +1273,7 @@ void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFed
     
     int i, j, k, indiceCandidato = 0, indicePartido = 0, eleito = 0;
     char aux[5] = "";
-    int afiliado, indiceFederacao;
+    int afiliado=0, indiceFederacao=0;
 
     //verificaca eleição
 
@@ -1235,7 +1281,7 @@ void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFed
     for (i = 0; i < nCandidatos; i++){
         afiliado =0;
         eleito = 0;
-        // Verifica se os votos doc andidato estão acima de 10% do Quociente Eleitoral
+        // Verifica se os votos do candidato estão acima de 10% do Quociente Eleitoral
         if(candidatos[i].votos >= (0.1 * QEleitoral)){
             eleito++;
             indiceCandidato = i;
@@ -1267,30 +1313,11 @@ void candidatosEleitos(TipoCandidato *candidatos, TipoPartido *partidos, TipoFed
                 }
             }
         }
-         // ARMAZENA ELEITOS
-        if (eleito == 2) {
-            if(afiliado){
-                federacoes[indiceFederacao].indiceEleitos[federacoes[indiceFederacao].qtEleitoSuplente[0]] = indiceCandidato;
-                federacoes[indiceFederacao].qtEleitoSuplente[0]++;
-            }else{
-                partidos[indicePartido].indiceEleitos[partidos[indicePartido].qtEleitoSuplente[0]] = indiceCandidato;
-                partidos[indicePartido].qtEleitoSuplente[0]++;
-            }
-        //ARMAZENA SUPLENTES
-        }else{
-            if(afiliado){
-                if(federacoes[indiceFederacao].qPartidario > 0){
-                    federacoes[indiceFederacao].indiceSuplentes[federacoes[indiceFederacao].qtEleitoSuplente[1]] = indiceCandidato;
-                    federacoes[indiceFederacao].qtEleitoSuplente[1]++;
-                }
-            }else{
-                if(partidos[indicePartido].qPartidario > 0){
-                    partidos[indicePartido].indiceSuplentes[partidos[indicePartido].qtEleitoSuplente[1]] = indiceCandidato;
-                    partidos[indicePartido].qtEleitoSuplente[1]++;
-                }
-            }
-        }
+        ArmazenaEleitos(partidos,federacoes,indiceCandidato,indicePartido,indiceFederacao,afiliado,eleito);
+        
     }
+    
+    VagasRemanescentes(partidos,federacoes, nPartidos, nFederacoes);
 }        
 
 
