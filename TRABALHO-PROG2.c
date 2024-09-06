@@ -771,8 +771,8 @@ int jaExisteCandidato(int* nCandidatos, char aux[], TipoCandidato* partidos, cha
         int* indiceCandidato: localização do candidato em candidatos.
 
     Retorno:
-        0: não existe;
-        1: existe.
+        int 0: candidato não existe;
+        int 1: candidato já existe.
     */
     int i;
     for(i=0; i<*nCandidatos; i++){ //VERIFICA SE O CANDIDATO JÁ EXISTE
@@ -801,8 +801,8 @@ int verificaN(TipoCandidato *candidatos, int* nCandidatos, char *nome) {
             char *nome: ponteiro para string que recebe o nome do candidato.
 
         Retorno:
-            Retorna um inteiro 1 em caso de nome invalido.
-                Caso contrario retorna 0.
+            int 0: nome não cadastrado;
+            int 1: nome já cadastrado.
             */
     for (int i = 0; i < *nCandidatos; i++) {
         if (strcmp(candidatos[i].nomeCandidato, nome) == 0) {
@@ -812,45 +812,45 @@ int verificaN(TipoCandidato *candidatos, int* nCandidatos, char *nome) {
 }
 
 int verificaId(int idade) {
-    /*Funçao responsavel por verificar se a idade inserida pelo usuario esta dentro do limite permitido.
-        Parametros:
-                int idade: Variavel de inteiros que armazena a idade.
+    /* Função responsável por verificar se a idade inserida pelo usuário está dentro do limite permitido.
+        
+        Parâmetros:
+            int idade: idade inserida pelo usuário.
         Retorno:
-            Retorna um inteiro 1 em caso de carctere invalido.
-                Caso contrario retorna 0.
-
+            int 0: idade inválida;
+            int 1: idade válida.
     */
     return (idade >= 10 && idade <= 25);
 }
 
-int verificanum(char *aux) {
-    /*Funçao responsavel por verificar se a entrada inserida são de digitos entre 0 e 9.
+int verificaNum(char* aux) {
+    /* Função responsável por verificar se a entrada inserida são de digitos entre 0 e 9.
     Ultilizando a funçao !isdigit da biblioteca ctype.h e analisando cada caractere da string.
 
-        Parametros:
-                char *aux: Ponteiro para string que armazena a entrada do usuario.
-        Retorno:
-            Retorna um inteiro 1 em caso de carctere invalido.
-                Caso contrario retorna 0.
+    Parâmetros:
+        char *aux: Ponteiro para string que armazena a entrada do usuario.
+    Retorno:
+        int 0: caracteres são válidos;
+        int 1: há caractere inválido.
 
     */
     for (int i = 0; i < (int)(strlen(aux)); i++) {
         if (!isdigit(aux[i])) {
             return 1; 
         }       
-    }
-    return 0;
+    } return 0;
 }
 
-int numeromax(char *digitos) {
-    /*Funçao responsavel por verificar se a entrada do usuario possui exatamente a quantidade de 5 caracteres
+int numeromax(char* digitos) {
+    /*Função responsável por verificar se a entrada do usuario possui exatamente a quantidade de 5 caracteres.
     
-    
-    Parametros:
-            char *digitos: Ponteiro para string que recebe a entrada dos digitos do usuario.
-    Retorno:
-            Retorna um inteiro 1 em caso de entrada invalida.
-                Caso contrario retorna 0.        */
+    Parâmetros:
+        char* digitos: Ponteiro para string que recebe a entrada dos digitos do usuario;
+
+    Retorno:  
+        int 0: entrada válida;
+        int 1: entrada inválida.
+        */
     if (digitos == NULL || strlen(digitos) != 5) {
         return 1;
     }
@@ -858,16 +858,18 @@ int numeromax(char *digitos) {
 }
 
 int validaNomeCandidato(TipoCandidato *candidatos, int *nCandidatos, char *nomeaux) {
-    /*Funçao responsavel por receber a entrada para o nome do candidato , armazenar em uma variavel char e verificar se ela eh valida
-    Sempre que a entrada for invalida a funçao vai receber uma nova entrada. Se a entrada for valida vai armazenar o nome no vetor candidato.
-    Parametros:
-            int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
-            TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
-            char *nomeaux: armazena o nome inserido pelo usuario.
+    /*Função responsável por receber a entrada para o nome do candidato, armazenar em uma variavel char e verificar se ela é válida.
+    Sempre que a entrada for inválida, a funçao vai receber uma nova entrada. Se a entrada for válida, vai armazenar o nome no vetor candidato.
+    
+    Parâmetros:
+        TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
+        int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
+        char *nomeaux: armazena o nome inserido pelo usuario.
             
     Retorno:
-        Retorna um inteiro 1 em caso de entrada invalida.
-                Caso contrario retorna 0.          */
+        int 0: entrada válida;
+        int 1: entrada inválida.
+        */
     while (1) {
         getchar();
         printf("Digite um nome para seu candidato: ");
@@ -885,8 +887,8 @@ int validaNomeCandidato(TipoCandidato *candidatos, int *nCandidatos, char *nomea
 }
 
 int validaIdadeCandidato(TipoCandidato *candidatos, int *nCandidatos) {
-    /*Funçao responsavel por receber a entrada para a idade do candidato , armazenar em uma variavel int e verificar se ela eh valida
-    Sempre que a entrada for invalida a funçao vai receber uma nova entrada. Se a entrada for valida vai armazenara idade no vetor candidato.
+    /*Função responsável por receber a entrada para a idade do candidato, armazenar em uma variavel int e verificar se ela é válida.
+    Sempre que a entrada for inválida, a função vai receber uma nova entrada. Se a entrada for válida, vai armazenara idade no vetor candidato.
     Parametros:
             int* nCandidatos: ponteiro para inteiro que armazena a quantidade de cadidatos cadastrados;
             TipoCandidato* candidatos: ponteiro para TipoCandidato que armazena as informações dos candidatos já cadastrados;
@@ -930,7 +932,7 @@ int validaDigitosCandidato(TipoCandidato *candidatos, int *nCandidatos) {
         printf("\nDigite os 5 digitos do candidato: ");
         scanf("%s", digitosaux); 
 
-        if (verificanum(digitosaux)) {
+        if (verificaNum(digitosaux)) {
             printf("\nDigite 5 dígitos validos!\n");
         } else if (numeromax(digitosaux)) {
             printf("Deve ser inserido 5 digitos totais!\n");
