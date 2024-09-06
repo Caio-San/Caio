@@ -1094,7 +1094,7 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int nPartidos
         int *nCandidatos: ponteiro para inteiro que armazena a quantidade de candidatos já cadastrados;
     */
     
-    char auxDigito[5], voto[3];
+    char auxDigito[5], voto[4];
     int indiceCandidato=0, flag =1;
     int i;
     char aux[50];
