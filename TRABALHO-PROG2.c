@@ -333,13 +333,13 @@ void imprimirSecao5(TipoCandidato* candidatos, TipoPartido* partidos, TipoFedera
                 }
             }if (afiliado && !federacoes[j].impresso){
                 printf("\nFederacao: %s", federacoes[j].nomeFederacao);
-                print("\n");
+                printf("\n");
                 for(h=0; h< federacoes[j].qtEleitoSuplente[0]; h++){
                     printf("Candidato: %s", candidatos[federacoes[j].indiceEleitos[h]].nomeCandidato);
                 }federacoes[j].impresso = 1;
             }else if(!afiliado && !partidos[i].impresso){
                 printf("\nPartido: %s\n", partidos[i].nomePartido);
-                print("\n");
+                printf("\n");
                 for(h=0; h< partidos[i].qtEleitoSuplente[0]; h++){
                     printf("Candidato: %s", candidatos[partidos[i].indiceEleitos[h]].nomeCandidato);
                 }partidos[i].impresso = 1;
@@ -737,16 +737,23 @@ int verificaNome(TipoCandidato* candidatos, int* tam, char* nome) {
         }
     } return 0;
 }
-// FAZER DOCSTRING ABAIXO
-int verificanumeros(char *aux){
-    int i;
-    for (i=0; i < (int)(strlen(aux)); i++){
-        // VERIFICA SE FOI DIGITADO NUMEROS DE 0 A 9 DE ACORDO COM A TABELA ASCII
-        if (!isdigit(aux[i])){
+
+int verificaNum(char* aux) {
+    /* Função responsável por verificar se a entrada inserida são de digitos entre 0 e 9.
+    Ultilizando a funçao !isdigit da biblioteca ctype.h e analisando cada caractere da string.
+
+    Parâmetros:
+        char *aux: Ponteiro para string que armazena a entrada do usuario.
+    Retorno:
+        int 0: caracteres são válidos;
+        int 1: há caractere inválido.
+
+    */
+    for (int i = 0; i < (int)(strlen(aux)); i++) {
+        if (!isdigit(aux[i])) {
             return 1; 
         }       
-    }
-    return 0;
+    } return 0;
 }
 // FAZER DOCSTRING ABAIXO
 void zeraImpresso(TipoFederacao *federacoes, TipoPartido* partidos, int nPartidos, int nFederacoes){
@@ -791,25 +798,6 @@ int jaExisteCandidato(int* nCandidatos, char aux[], TipoCandidato* partidos, cha
     } return 0;
 }
 
-int verificaN(TipoCandidato *candidatos, int* nCandidatos, char *nome) {
-    /* Função responsável por verificar se o nome inserido pelo candidato já está registrado em outro candidato.
-    Percorre o vetor de candidatos e compara a entrada com cada nome de candidato armazenado.
-    
-        Parâmetros:
-            TipoCandidato* candidatos: ponteiro para vetor que armazena as informações dos candidatos já cadastrados;
-            int *nCandidatos: ponteiro de inteiro pra variavel que armazena o tamanho do vetor candidatos.
-            char *nome: ponteiro para string que recebe o nome do candidato.
-
-        Retorno:
-            int 0: nome não cadastrado;
-            int 1: nome já cadastrado.
-            */
-    for (int i = 0; i < *nCandidatos; i++) {
-        if (strcmp(candidatos[i].nomeCandidato, nome) == 0) {
-            return 1;
-        }
-    } return 0;
-}
 
 int verificaId(int idade) {
     /* Função responsável por verificar se a idade inserida pelo usuário está dentro do limite permitido.
@@ -823,23 +811,7 @@ int verificaId(int idade) {
     return (idade >= 10 && idade <= 25);
 }
 
-int verificaNum(char* aux) {
-    /* Função responsável por verificar se a entrada inserida são de digitos entre 0 e 9.
-    Ultilizando a funçao !isdigit da biblioteca ctype.h e analisando cada caractere da string.
 
-    Parâmetros:
-        char *aux: Ponteiro para string que armazena a entrada do usuario.
-    Retorno:
-        int 0: caracteres são válidos;
-        int 1: há caractere inválido.
-
-    */
-    for (int i = 0; i < (int)(strlen(aux)); i++) {
-        if (!isdigit(aux[i])) {
-            return 1; 
-        }       
-    } return 0;
-}
 
 int numeromax(char* digitos) {
     /*Função responsável por verificar se a entrada do usuario possui exatamente a quantidade de 5 caracteres.
@@ -870,18 +842,26 @@ int validaNomeCandidato(TipoCandidato *candidatos, int *nCandidatos, char *nomea
         int 0: entrada válida;
         int 1: entrada inválida.
         */
+    int i,candidatoExistente;
     while (1) {
+        candidatoExistente=0;
         getchar();
         printf("Digite um nome para seu candidato: ");
         fgets(nomeaux, 50, stdin);
         
         if (caracteresVal(nomeaux)) {
             printf("Digite caracteres validos!\n");
-        } else if (verificaN(candidatos, nCandidatos, nomeaux) == 1) {
-            printf("Nome do candidato ja existente!\n");
-        } else {
-            strcpy(candidatos[*nCandidatos].nomeCandidato, nomeaux);
-            return 0;
+        }else{
+            for (int i = 0; i < *nCandidatos; i++) {
+                if (strcmp(candidatos[i].nomeCandidato, nomeaux) == 0) {
+                    printf("Nome do candidato ja existente!\n");
+                    candidatoExistente = 1;
+                }
+            }    
+            if (candidatoExistente == 0){
+                strcpy(candidatos[*nCandidatos].nomeCandidato, nomeaux);
+                return 0;
+            }         
         }
     }
 }
@@ -967,8 +947,7 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
                 Caso contrario retorna 0.          */
     char aux[5];
     int i=0;
-    // int partidoencontrado;
-
+  
     while (1) {
         getchar();
         printf("\nDigite a sigla do partido do candidato: ");
@@ -978,7 +957,7 @@ int validaPartidoCandidato(TipoCandidato *candidatos, TipoPartido *partidos, int
         if (caracteresVal(aux)) {
             printf("Digite caracteres validos!\n");
         } else {
-            // partidoencontrado = 0;
+      
             for (i = 0; i < nPartidos; i++) {
                 if (strcmp(aux, partidos[i].siglaPartido) == 0) {
                     printf("Partido escolhido com sucesso!\n");
@@ -1080,7 +1059,7 @@ void Registrarvoto(TipoCandidato *candidatos,TipoPartido *partidos,int nPartidos
     while(flag){
         printf("\nDigite o numero do candidato: ");
         if((scanf("%s", auxDigito) > 0)){
-            if((verificanumeros(auxDigito)) == 0){
+            if((verificaNum(auxDigito)) == 0){
                 if((jaExisteCandidato(nCandidatos, auxDigito, candidatos, "digito", &indiceCandidato)) == 1){
                     printf("\nCandidato(a): %s\n", candidatos[indiceCandidato].nomeCandidato);
                     strcpy(voto, "val");
