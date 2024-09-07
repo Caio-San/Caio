@@ -443,6 +443,13 @@ int caracteresVal(char *str) {
     return 0;
 }
 
+int maiximoSigla(char *sigla){
+    if (strlen(sigla) > 5) {
+        return 1;
+    }
+    return 0;
+
+}
 int jaExistePartido(int nPartidos, char aux[], TipoPartido* partidos, char tipo[]){
     /* Função responsável por verificar se o nome/sigla do partido já existe.
     
@@ -512,13 +519,17 @@ int cadastraPartido(TipoPartido* partidos , int* nPartidos, int* tam){
 
     while(1){
         printf("\nDigite a sigla do partido (maximo 5 caracteres): ");
-        if(scanf("%s", siglaAux) > 0){
+        if(scanf("%[^\n]", siglaAux) > 0){
             getchar();
             if (caracteresVal(siglaAux) == 0){
-                if (jaExistePartido(*nPartidos, siglaAux, partidos, "sigla") == 1){
-                    printf("\nSigla ja existente. Tente novamente!");
+                if (maiximoSigla(siglaAux) == 0){
+                    if (jaExistePartido(*nPartidos, siglaAux, partidos, "sigla") == 1){
+                        printf("\nSigla ja existente. Tente novamente!");
+                    }else{
+                        break;
+                    }
                 }else{
-                    break;
+                    printf("\nInsira no maximo 5 caracteres para a sigla");
                 }
             }else{
                 printf("\nCaracteres invalidos. Tente novamente!");
@@ -694,21 +705,27 @@ int registraFederacao(TipoFederacao* federacoes, int* nFederacoes, int* tam){
     //SE A FEDERAÇÃO AINDA NAO EXISTIR:
     while(1){
         printf("\nDigite a sigla da federacao (maximo 5 caracteres): ");
-        if(scanf("%s", siglaAux) > 0){
+        if(scanf("%[^\n]", siglaAux) > 0){
+            getchar();
             if (caracteresVal(siglaAux) == 0){
-                if (jaExisteFederacao(nFederacoes, siglaAux, federacoes, "sigla")){
-                    printf("\nSigla já existente. Tente novamente!\n");
+                if (maiximoSigla(siglaAux) == 0){
+                    if (jaExisteFederacao(nFederacoes, siglaAux, federacoes, "sigla") == 1){
+                        printf("\nSigla ja existente. Tente novamente!");
+                    }else{
+                        break;
+                    }
                 }else{
-                    break;
+                    printf("\nInsira no maximo 5 caracteres para a sigla");
                 }
             }else{
-                printf("\nCaracteres invalidos. Tente novamente!\n");
+                printf("\nCaracteres invalidos. Tente novamente!");
             }
         }else{
-            printf("\nEntrada inálida. Tente novamente!\n");
-        }
-        getchar();                  
+            printf("\nEntrada invalida. Tente novamente!");
+            getchar();
+        }                  
     }
+    
     strcpy(federacoes[*nFederacoes].nomeFederacao, nomeAux);
     strcpy(federacoes[*nFederacoes].siglaFederacao, siglaAux);
     federacoes[*nFederacoes].impresso = 0;
