@@ -40,16 +40,6 @@ typedef struct{
     int votos;
 
 } TipoCandidato;
-// CRIA UM TIPO PARA ARMAZENAR AS INFORMÇOES DE CADA CANDIDATO
-
-// typedef struct{
-//     int nPartidos;
-//     int nCandidatos;
-//     int nFederacoes;
-//     int nEleitos; //PRECISA ZERAR TD
-//     int nSuplentes;
-
-// } TipoBase;
 
 void imprimeMenuCadastro(){
     /* Função responsável por imprimir o menu de cadastros. */
@@ -1432,10 +1422,6 @@ int main(){
     TipoPartido *partidos = NULL;
     TipoFederacao *federacoes = NULL;
     TipoCandidato *candidatos = NULL;
-    // int *eleitos = NULL;
-    // TipoBase *informacoes = NULL;
-    // informacoes = (TipoBase *) malloc(sizeof(TipoBase));
-    // eleitos = (int *) malloc(VagasTotais*sizeof(int));
     candidatos = (TipoCandidato *) malloc(tamc*sizeof(TipoCandidato));
     partidos = (TipoPartido *) malloc(tamp*sizeof(TipoPartido));
     federacoes = (TipoFederacao *) malloc(tamf*sizeof(TipoFederacao));
