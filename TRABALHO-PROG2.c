@@ -444,6 +444,16 @@ int caracteresVal(char *str) {
 }
 
 int maiximoSigla(char *sigla){
+    /*Funçao responsavel por verificar se a entrada inserida para a sigla possui no maixmo 5 caracteres
+    
+        Parametros:
+            char *sigla: Ponteiro para string que recebe a entrada do usuario para a sigla.
+
+        Retorno:
+            Retorna 1 se for inserido mais de 5 caracteres.
+            Caso contrario retorna 0.
+    
+    */
     if (strlen(sigla) > 5) {
         return 1;
     }
@@ -725,7 +735,7 @@ int registraFederacao(TipoFederacao* federacoes, int* nFederacoes, int* tam){
             getchar();
         }                  
     }
-    
+
     strcpy(federacoes[*nFederacoes].nomeFederacao, nomeAux);
     strcpy(federacoes[*nFederacoes].siglaFederacao, siglaAux);
     federacoes[*nFederacoes].impresso = 0;
@@ -851,7 +861,7 @@ int numeromax(char* digitos) {
     }
     return 0;
 }
-//REVER RETORNO ABAIXO
+
 int validaNomeCandidato(TipoCandidato *candidatos, int *nCandidatos, char *nomeaux) {
     /*Função responsável por receber a entrada para o nome do candidato, armazenar em uma variavel char e verificar se ela é válida.
     Sempre que a entrada for inválida, a funçao vai receber uma nova entrada. Se a entrada for válida, vai armazenar o nome no vetor candidato.
