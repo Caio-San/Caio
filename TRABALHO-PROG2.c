@@ -402,7 +402,7 @@ void imprimirSecao6(TipoCandidato* candidatos, TipoPartido* partidos, TipoFedera
 
 void zeraPartidos(TipoPartido* partidos, int nPartidos){
     /* Função responsável por inicializar determinados campos 
-    das structs TipoPartido em partidos.
+    da struct TipoPartido em partidos.
 
     Parâmetros:
         TipoPartido* partidos: ponteiro para vetor que 
@@ -417,7 +417,7 @@ void zeraPartidos(TipoPartido* partidos, int nPartidos){
 }
 
 void zeraFederacoes(TipoFederacao* federacoes, int nFederacoes){
-    /* Função responsável por inicializar determinados campos das structs TipoFederacao em federacoes.
+    /* Função responsável por inicializar determinados campos da struct TipoFederacao em federacoes.
 
     Parâmetros:
         TipoFederacao* federacoes: ponteiro para vetor que armazena os dados das federações cadastradas;
@@ -453,7 +453,7 @@ int maiximoSigla(char *sigla){
     /*Função responsável por verificar se a entrada 
     inserida para a sigla possui no máixmo 5 caracteres
     
-        Parametros:
+        Parâmetros:
             char *sigla: Ponteiro para string que recebe 
                 a entrada do usuário para a sigla.
 
@@ -805,7 +805,7 @@ int verificaNum(char* aux) {
 }
 
 void zeraImpresso(TipoFederacao *federacoes, TipoPartido* partidos, int nPartidos, int nFederacoes){
-    /*Funço responsável por inicializar a variável 'impresso' nos vetores 'federacoes' e 'partidos'
+    /*Função responsável por inicializar a variável 'impresso' nos vetores 'federacoes' e 'partidos'
         Parâmetros:
             TipoFederacao* federacoes: ponteiro para vetor que armazena os dados das federações cadastradas;
             int nFederacoes: ponteiro para inteiro que guarda a quantidade de federações cadastradas;
