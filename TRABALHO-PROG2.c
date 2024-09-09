@@ -908,7 +908,7 @@ int validaNomeCandidato(TipoCandidato *candidatos, int nCandidatos, char *nomeau
         if (caracteresVal(nomeaux)) {
             printf("Digite caracteres validos!\n");
         }else{
-            for (int i = 0; i < nCandidatos; i++) {
+            for (i = 0; i < nCandidatos; i++) {
                 if (strcmp(candidatos[i].nomeCandidato, nomeaux) == 0) {
                     printf("Nome do candidato ja existente!\n");
                     candidatoExistente = 1;
@@ -1221,7 +1221,6 @@ int quocienteEleitoral(int votosValidos, int Vagas){
     double parteFracionaria  = QEleitoral - parteInteira;
 
     if (parteFracionaria <= 0.5){
-        //printf("parte inteira %d", parteInteira);
         return parteInteira;
 
     }else{
@@ -1429,8 +1428,7 @@ int main(){
                         }else{                                                                  
                             printf("\nO procedimento falhou.\n");  
                             printf("ENTER para seguir.\n");
-                            while (getchar() != '\n');
-                            // imprimeMenuCadastro();                                                                                                  
+                            while (getchar() != '\n');                                                                                               
                         }
                     }else{
                         printf("\nCadastre, ao menos, 1 partido para registrar um Candidato.\n");
@@ -1460,6 +1458,7 @@ int main(){
                             }
                         }
                     }else{cadastroIncompleto = 1;}
+
                     if(cadastroIncompleto){
                         printf("\nImpossivel finalizar a etapa de cadastros no momento!\n");
                     }else{
@@ -1472,7 +1471,6 @@ int main(){
             }
         }else{
             printf("\nOpcao invalida. Tente novamente!\n");
-            // getchar(); 
         }getchar();
     }
 
@@ -1491,7 +1489,7 @@ int main(){
                 case 2:
                     getchar();
                     if(votosVal <= 12){
-                        printf("quantidade de votos validos nao alcancada! realize mais votos\n");
+                        printf("Quantidade de votos validos nao alcancada! Realize mais votos.\n");
                         Registrarvoto(candidatos,partidos,nPartidos ,&votosVal, &votosNul, &votosBra, &nCandidatos);
                         break;
                     }
@@ -1513,10 +1511,9 @@ int main(){
         
 // DADOS AUXILIARES PARA O RELATORIO
     QEleitoral = quocienteEleitoral(votosVal , vagasTotais);
-    // printf("\nqEleitoral: %d", QEleitoral);
-    
-    
+
     calculaVotosFederacao(federacoes, partidos, nFederacoes, nCandidatos);
+
 // RELATORIO
 
     imprimeSecao1(votosVal, votosNul, votosBra, QEleitoral);
